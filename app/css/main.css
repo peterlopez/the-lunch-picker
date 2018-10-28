@@ -225,6 +225,11 @@ button {
     position: relative;
     z-index: 1;
 }
+#spinner.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .spinner-content {
     width: 100%;
 }
@@ -265,18 +270,15 @@ button {
 .winner::after {
     content: '<';
 }
-.loading {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .loading-spinner {
-    object-fit: cover;
     z-index: 1;
-    width: 100px;
-    height: 200px;
+    width: 20%;
+    margin-bottom: 20px;
+}
+@media (max-width: 500px) {
+    .loading-spinner {
+        width: 40%;
+    }
 }
 .loading-text {
     font-size: 16pt;

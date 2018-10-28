@@ -93,22 +93,18 @@ $(document).ready(function() {
             Cookies.set('location', location);
         }
 
+        // disable spin button while loading
+        $("#btn-spin").prop('disabled', true);
+
         // Display loading screen
+        $("#spinner").addClass("loading");
         var $loadingScreen = $(".loading-container").clone();
         $("#spinner").html($loadingScreen);
         $loadingScreen.fadeIn();
         $(this).fadeOut();
 
         // Make API request
-        $.ajax({
-            type: "GET",
-            url: './yelp.php',
-            data: $("#filter-form").serialize(),
-            success: function(data) {
-                yelp.updateRestaurants(data);
-                yelp.updateCuisines(data);
-            }
-        });
+        yelp.makeRequest();
     });
 });
 

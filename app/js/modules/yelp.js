@@ -22,9 +22,32 @@ function Yelp()
     /**
      *
      */
+    this.makeRequest = function()
+    {
+        $.ajax({
+            type: "GET",
+            url: './yelp.php',
+            data: $("#filter-form").serialize(),
+            success: function(data) {
+                $("#spinner").removeClass('loading');
+
+                yelp.updateRestaurants(data);
+                yelp.updateCuisines(data);
+            },
+            error: function(req, status, error) {
+
+                $("#spinner .loading-container p").text("Oops! There was a error. Try again later.");
+                $("#spinner .loading-container img").prop('src', 'assets/img/error.svg');
+            }
+        });
+    };
+
+    /**
+     *
+     */
     this.updateRestaurants = function(data)
     {
-        console.log(data);
+        $("#btn-spin").prop('disabled', false);
 
         var output = '';
         var restaurants = data['businesses'];
