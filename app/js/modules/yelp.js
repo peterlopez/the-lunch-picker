@@ -19,7 +19,6 @@ function Yelp()
         "vegan": 'Vegan'
     };
 
-
     /**
      *
      */
@@ -39,7 +38,6 @@ function Yelp()
 
         $("#spinner").html(output);
     };
-
 
     /**
      *
