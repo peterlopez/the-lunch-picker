@@ -1,3 +1,7 @@
+/**
+ * @author akira-kuriyama
+ * @link https://github.com/akira-kuriyama/roulette.js
+ */
 (function($) {
     var Roulette = function(options) {
         var defaultSettings = {
