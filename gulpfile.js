@@ -24,7 +24,7 @@ gulp.task('css', function() {
  * and finally minifies JS
  */
 gulp.task('js', function() {
-    return gulp.src(['./app/js/js.cookie.js', './app/js/roulette.js', './app/js/yelp.js', './app/js/main.js'])
+    return gulp.src(['./app/js/js.cookie.js', './app/js/roulette.js', './app/js/yelp.js', './app/js/geolocation.js', './app/js/main.js'])
         .pipe(concat('production.js'))
         .pipe(gulp.dest('./app/js/'))
     // TODO: minify JS

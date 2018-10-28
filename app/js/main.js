@@ -1,5 +1,10 @@
 window.yelp = new Yelp();
 
+window.geolocation = new Geolocation();
+$(document).ready(function() {
+    geolocation.init();
+});
+
 var rouletteOptions = {
     speed: 8,
     duration: 2, // in seconds
@@ -45,13 +50,15 @@ $(document).ready(function() {
  */
 $(document).ready(function() {
     $('#location input').on('keypress', function (e) {
-        $("#btn-filter-apply").fadeIn();
+        var $filterApplyBtn = $("#btn-filter-apply");
 
-        if (e.which === 13) {
+        $filterApplyBtn.fadeIn();
+
+        if (e.which === 13) { // enter key
             e.preventDefault();
             $("#location.filter").trigger('click');
-            $("#btn-filter-apply").trigger('click');
-            $("#btn-filter-apply").hide();
+            $filterApplyBtn.trigger('click');
+            $filterApplyBtn.hide();
         }
 
         e.stopPropagation();
@@ -61,7 +68,6 @@ $(document).ready(function() {
         $("#btn-filter-apply").fadeIn();
     });
 });
-
 
 /**
  * Apply filters button event handler
@@ -81,7 +87,11 @@ $(document).ready(function() {
         });
         Cookies.set('cuisines', JSON.stringify(selectedCuisines));
         var location = $("#location-content input").val();
-        Cookies.set('location', location);
+
+        // Don't set location cookie if using geolocation
+        if (geolocation.getGeolocationCookie() === false) {
+            Cookies.set('location', location);
+        }
 
         // Display loading screen
         var $loadingScreen = $(".loading-container").clone();
@@ -104,7 +114,7 @@ $(document).ready(function() {
 
 
 /**
- * Use cookies to remember cuisines and location filters
+ * Use cookies to remember cuisines
  */
 $(document).ready(function() {
     var cuisinesCookie = Cookies.get('cuisines');
@@ -123,15 +133,11 @@ $(document).ready(function() {
             }
         });
     }
-
-    var locationCookie = Cookies.get('location');
-    if (typeof locationCookie !== "undefined") {
-        $("#location-content input").val(locationCookie)
-    }
 });
 
 /**
- *
+ * Hide flyouts when clicking outside of them
+ * while they are open
  */
 $(document).ready(function() {
     $(document).click(function() {
@@ -182,22 +188,6 @@ $(document).ready(function() {
     $("#btn-filter-apply").trigger('click');
 });
 
-
-// $(document).ready(function() {
-//     var svg = document.getElementById("logo");
-//
-// // Get the real bounding box of the icon shape
-//     var bbox = svg.getBBox();
-//
-// // Get the viewBox width and height
-//     var viewBox_width = svg.viewBox.baseVal.width;
-//     var viewBox_height = svg.viewBox.baseVal.height;
-//
-// // Recenter the contents
-//     svg.viewBox.baseVal.x = bbox.x - (viewBox_width - bbox.width) / 2;
-//     svg.viewBox.baseVal.y = bbox.y - (viewBox_height - bbox.height) / 2;
-// });
-
 /**
  * Fisher-Yates Shuffle
  * @param array
@@ -222,114 +212,4 @@ function shuffle(array) {
     return array;
 }
 
-
-function geolocationChange() {
-
-}
-
-/**
- *
- * @param linkText
- * @param inputName
- * @param inputValue
- * @param inputHidden
- */
-function locationReset(linkText, inputName, inputValue, inputHidden) {
-    var $locationInput = $("#location-content input");
-
-    $locationInput.val(inputValue);
-    $locationInput.prop('name', inputName);
-
-    // Remove input field
-    if (inputHidden) {
-        $locationInput.hide();
-    } else {
-        $locationInput.show();
-    }
-
-    // Change link to remove geolocation
-    var $locationLink = $("#location-content a");
-    $locationLink.text(linkText);
-}
-
-/**
- *
- */
-$(document).ready(function() {
-    if (!navigator.geolocation){
-        $(".geolocate").remove();
-        return;
-    }
-
-    $(".geolocate").click(function() {
-        // Found cookie
-        var geolocationCookie = Cookies.get('geolocation');
-        console.log("geolocationCookie: "+geolocationCookie);
-        if (typeof geolocationCookie !== "undefined") {
-            console.log("found geolocation cookie");
-
-            // Hide input and set geolocation cookie
-            locationReset('forget me', 'geolocation', geolocationCookie, true);
-            var $locationLink = $("#location-content a");
-            $locationLink.bind('click', removeGeolocation);
-
-            // apply filters
-            $("#btn-filter-apply").trigger('click');
-            return;
-        }
-
-        // Request geolocation
-        console.log("fetching geolocation");
-        navigator.geolocation.getCurrentPosition(success, error);
-        function success(position) {
-            console.log("success fetching geolocation");
-            var latitude  = position.coords.latitude;
-            var longitude = position.coords.longitude;
-
-            var $locationInput = $("#location-content input");
-
-            // Set cookie
-            var geolocation = JSON.stringify({'lat': latitude, 'lng': longitude});
-            Cookies.set('geolocation', geolocation);
-            $locationInput.val(geolocation);
-
-            // Hide input and set geolocation cookie
-            locationReset('forget me', 'geolocation', geolocationCookie, true);
-            var $locationLink = $("#location-content a");
-            $locationLink.bind('click', removeGeolocation);
-
-            // apply filters
-            $("#btn-filter-apply").trigger('click');
-        }
-
-        function error() {
-            return "Unable to retrieve your location";
-        }
-    });
-
-
-    function removeGeolocation() {
-        // remove cookie
-        Cookies.remove('geolocation');
-
-        var locationCookie = Cookies.get('location');
-        locationReset('locate me', 'location', locationCookie, false);
-
-        // change back name of input
-        var $locationInput = $("#location-content input");
-        $locationInput.prop('name', 'location');
-        $locationInput.val("");
-
-        // change back link
-        var $locationLink = $("#location-content a");
-        $locationLink.text("locate me");
-        $locationLink.removeClass("remove-geolocate");
-        $locationLink.addClass("geolocate");
-
-    }
-});
-
-
-// Auto fetch location
-
-// Filter out cuisines which don't apply
+// TODO filter out cuisines which don't apply
