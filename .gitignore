@@ -1,5 +1,5 @@
 node_modules
-yelp-credentials.json
+*-credentials.json
 .idea
 production.js
 production.css
