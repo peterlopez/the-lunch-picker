@@ -1,3 +1,5 @@
 node_modules
 yelp-credentials.json
 .idea
+production.js
+production.css
