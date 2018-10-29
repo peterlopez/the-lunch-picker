@@ -6,6 +6,7 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "gulp": "^4.0.0",
-    "gulp-concat": "~2.6.0"
+    "gulp-concat": "~2.6.0",
+    "gulp-sass": "^4.0.2"
   }
 }
