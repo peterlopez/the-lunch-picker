@@ -20,7 +20,8 @@ button {
     outline: none !important;
 }
 .page {
-    margin: 20px 0;
+    margin: 20px auto;
+    max-width: 1000px;
 }
 .no-padding {
     padding: 0;
@@ -73,7 +74,7 @@ button {
     align-items: flex-end;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: start;
+    justify-content: space-between;
 }
 @media (max-width: 500px) {
     #toolbar {
@@ -91,12 +92,12 @@ button {
     align-items: flex-end;
     position: relative;
     flex-wrap: wrap;
-    margin-right: auto;
 }
 @media (max-width: 500px) {
-    #filter-form {
-        justify-content: center;
-        margin-right: 0;
+    #filter-apply-btn-container {
+        text-align: center;
+        width: 100%;
+        margin: 0 0 20px 0;
     }
 }
 .filter {
