@@ -1,0 +1,88 @@
+/**
+ * Common elements
+ */
+* {
+  font-family: Helvetica, serif;
+  color: #333;
+  box-sizing: border-box;
+}
+html, body {
+  background: $grey;
+}
+p {
+  margin-bottom: 0;
+}
+h1 {
+  margin: 0;
+}
+button {
+  cursor: pointer;
+  outline: none !important;
+}
+.page {
+  margin: 20px auto;
+  max-width: 1000px;
+}
+.no-padding {
+  padding: 0;
+}
+.wrapper {
+  width: 67%;
+  margin: 0 auto;
+}
+@media (max-width: $bp-md) {
+  .wrapper {
+    width: 80%;
+  }
+}
+.line {
+  width: 100%;
+  border-top: 3px solid #333;
+  margin: 25px 0 20px;
+}
+
+/**
+ * Header
+ */
+#header #title {
+  text-align: center;
+  margin: 20px 0;
+}
+#header #logo {
+  height: auto;
+  width: 60%;
+}
+@media(max-width: $bp-md) {
+  #header #logo {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+#toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+@media (max-width: $bp-md) {
+  #toolbar {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/**
+ * Footer
+ */
+#footer {
+  font-size: 10pt;
+  display: flex;
+  justify-content: space-between;
+}
+.yelp-credentials img {
+  height: 14pt;
+  margin-bottom: 5px ;
+}

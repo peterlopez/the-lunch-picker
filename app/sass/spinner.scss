@@ -1,0 +1,86 @@
+/**
+ * Restaurant
+ */
+.restaurant {
+    margin: 20px 0;
+}
+.restaurant-name {
+    display: inline;
+    padding: 20px 40px;
+}
+@media(max-width: $bp-md) {
+    .restaurant-name {
+        padding: 10px;
+    }
+}
+
+
+/**
+ * Spinner
+ */
+#spinner {
+    min-height: 300px;
+    max-height: 300px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+#spinner.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.spinner-content {
+    width: 100%;
+}
+@keyframes flickerAnimation {
+    0%   { opacity:1; }
+    30%  { opacity:0; }
+    100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    30%  { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+    0%   { opacity:1; }
+    30%  { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation {
+    0%   { opacity:1; }
+    30%  { opacity:0; }
+    100% { opacity:1; }
+}
+.winner {
+    -webkit-animation: flickerAnimation 1s infinite;
+    -moz-animation: flickerAnimation 1s infinite;
+    -o-animation: flickerAnimation 1s infinite;
+    animation: flickerAnimation 1s infinite;
+}
+.winner {
+
+    font-size: 16pt;
+    font-weight: bold;
+}
+.winner::before {
+    content: '>';
+}
+.winner::after {
+    content: '<';
+}
+.loading-spinner {
+    z-index: 1;
+    width: 20%;
+    margin-bottom: 20px;
+}
+@media (max-width: $bp-md) {
+    .loading-spinner {
+        width: 40%;
+    }
+}
+.loading-text {
+    font-size: 16pt;
+}
