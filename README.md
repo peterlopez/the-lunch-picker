@@ -8,4 +8,3 @@ Find a bite to eat - [thelunchpicker.com](https://thelunchpicker.com)
 1. Fix spinner/roulette
 1. Add linting and compressing Gulp tasks
 1. Fix styling on filter flyouts
-1. Fix styling of toolbar

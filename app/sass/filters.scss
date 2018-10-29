@@ -8,6 +8,9 @@
   flex-wrap: wrap;
 }
 @media (max-width: $bp-md) {
+  #btn-filter-apply {
+    margin-right: 0 !important;
+  }
   #filter-apply-btn-container {
     text-align: center;
     width: 100%;
@@ -42,6 +45,11 @@
 .filter-title {
   font-size: 16pt;
   margin: 3px 10px 3px 40px;
+}
+@media (max-width: $bp-md-2) {
+  .filter-title {
+    font-size: 14pt;
+  }
 }
 .filter:hover {
   text-decoration: underline;
