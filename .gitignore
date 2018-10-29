@@ -1,11 +1,16 @@
 node_modules
 *-credentials.json
 .idea
+
+# Gulp generated files
 production.js
+production.min.js
+
 production.css
+production.scss
+production.min.css
+
 vendor.js
 vendor.css
-production.min.js
-production.min.css
 vendor.min.js
 vendor.min.css
