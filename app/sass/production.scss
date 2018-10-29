@@ -1,4 +1,9 @@
+// Colors
 $grey: #f8f9fa;
+$light-grey: #E4E4E4;
+$dark-grey: #5E5E5E;
+$blue: #039CE5;
+$bright-green: #2ECC40;
 
 // Max-width of breakpoints
 $bp-md: 1000px;
@@ -26,6 +31,7 @@ $bp-sm: 420px;
   margin-top: 20px;
   padding: 3px 15px;
   border: 3px solid black;
+  background: white;
   border-radius: 13px;
   cursor: pointer;
   position: relative;
@@ -57,11 +63,12 @@ $bp-sm: 420px;
   border: none;
   border-radius: 5px;
   padding: 4px 12px;
-  background: #2ECC40;
+  background: $bright-green;
+  margin-right: 20px;
 }
 #btn-spin {
   align-self: flex-end;
-  background: #039CE5;
+  background: $blue;
   color: #fff;
   border: none;
   padding: 7px 27px;
@@ -69,13 +76,14 @@ $bp-sm: 420px;
   text-shadow: 1px 0 1px #333;
 }
 #btn-spin:disabled {
-  background: #E4E4E4;
-  color: #5E5E5E;
+  background: $light-grey;
+  color: $dark-grey;
   text-shadow: none;
 }
 #btn-spin:active {
   text-shadow: none;
 }
+
 
 /**
  * Location filter
@@ -125,7 +133,7 @@ $bp-sm: 420px;
   display: none;
   position: absolute;
   top: 40px;
-  background: #f8f9fa;
+  background: white;
   width: 103.5%;
   margin-left: -18px;
   padding: 15px;
