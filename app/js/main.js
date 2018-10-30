@@ -17,7 +17,6 @@ $(document).ready(function() {
  * Trigger initial request
  */
 $(document).ready(function() {
-    $("#btn-filter-apply").trigger('click');
 });
 
 /**

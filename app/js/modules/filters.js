@@ -7,16 +7,17 @@ function Filters()
     // filter buttons on toolbar
     this.$cuisines = $("#cuisines");
     this.$location = $("#location");
+    this.$price = $("#price");
 
     // flyouts
     this.$cuisinesFlyout = $("#cuisines-list");
     this.$locationFlyout = $("#location-content");
+    this.$priceFlyout = $("#prices-list");
 
     this.$allCuisinesCheckbox = $("");
     this.$cuisinesInputs = $("#cuisines input");
-    //
     this.$locationInput = $('#location input');
-    //
+    this.$priceInputs = $('#prices-list input');
     this.$filterApplyBtn = $("#btn-filter-apply");
 
     // Cookies
@@ -34,6 +35,9 @@ function Filters()
         this.setLocationBasedOnCookie();
 
         this.bindEventHandlers();
+
+        // Trigger initial fetch
+        Filters.$filterApplyBtn.trigger('click');
     };
 
     /**
@@ -44,24 +48,33 @@ function Filters()
         // Open flyouts
         this.$cuisines.on('click', this.toggleFlyout);
         this.$location.on('click', this.toggleFlyout);
+        this.$price.on('click', this.toggleFlyout);
 
         //  Inputs
         this.$locationInput.on('keypress', this.processLocationInput);
         this.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
-        this.$cuisinesInputs.on('change', function() {
-            Filters.$filterApplyBtn.fadeIn();
-        });
+        this.$cuisinesInputs.on('change', this.showApplyFilterBtn);
+        this.$priceInputs.on('change', this.showApplyFilterBtn)
 
         // Hide flyouts after losing focus
         $document.click(function() {
             Filters.$locationFlyout.hide();
             Filters.$cuisinesFlyout.hide();
+            Filters.$priceFlyout.hide()
         });
-        $("#location.filter, #cuisines.filter, #location-content, #cuisines-list").on('click', function(e) {
-            e.stopPropagation();
-        });
+        // Prevent hiding flyouts when clicking on flyouts
+        this.$location.on('click', this.stopBubbling);
+        this.$locationFlyout.on('click', this.stopBubbling);
+        this.$cuisines.on('click', this.stopBubbling);
+        this.$cuisinesFlyout.on('click', this.stopBubbling);
+        this.$price.on('click', this.stopBubbling);
+        this.$priceFlyout.on('click', this.stopBubbling);
 
         this.$filterApplyBtn.on('click', this.applyFilters);
+    };
+
+    this.stopBubbling = function(event) {
+        event.stopPropagation();
     };
 
     /**
@@ -80,6 +93,11 @@ function Filters()
         });
 
         return JSON.stringify(selectedCuisines);
+    };
+
+    this.showApplyFilterBtn = function()
+    {
+        Filters.$filterApplyBtn.fadeIn();
     };
 
     /**
@@ -149,6 +167,9 @@ function Filters()
         $filter.toggleClass("flyout-open");
     };
 
+    /**
+     *
+     */
     this.setCuisinesBasedOnCookie = function()
     {
         // decode into array
@@ -165,6 +186,10 @@ function Filters()
             }
         });
     };
+
+    /**
+     *
+     */
     this.setLocationBasedOnCookie = function()
     {
         Filters.$locationInput.text(this.locationCookie);

@@ -56,6 +56,11 @@ class Yelp
         if (empty($this->radius)) {
             $this->radius = '';
         }
+
+        $this->price = $getParams['price'];
+        if (empty($this->price)) {
+            $this->price = [1,2];
+        }
     }
 
 

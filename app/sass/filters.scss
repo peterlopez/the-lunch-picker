@@ -46,9 +46,18 @@
   font-size: 16pt;
   margin: 3px 10px 3px 40px;
 }
+.filter-title.blank {
+  display: none;
+}
 @media (max-width: $bp-md-2) {
   .filter-title {
     font-size: 14pt;
+  }
+  .filter-title {
+    display: none;
+  }
+  .filter-title.blank {
+    display: block;
   }
 }
 .filter:hover {
@@ -121,6 +130,43 @@
   margin-right: 5px;
 }
 
+/**
+ * Price filter
+ */
+#price::before {
+  content: ' ';
+  position: absolute;
+  top: 7px;
+  left: 23px;
+  height: 30px;
+  width: 30px;
+  background-image: url("../assets/img/price-icon.svg");
+  background-size: cover;
+}
+#price:hover {
+  text-decoration: none !important;
+}
+#price {
+  font-weight: bold;
+
+  #prices-list {
+
+    img {
+      max-width: 25px;
+    }
+  }
+}
+#price.flyout-open {
+  padding-right: 20px;
+  margin-bottom: -5px;
+
+  .filter-title {
+    padding-bottom: 5px;
+  }
+  #prices-list.flyout {
+    top: 50px;
+  }
+}
 
 /**
  * Filter flyout
