@@ -1,180 +1,16 @@
-window.yelp = new Yelp();
+window.$document = $(document);
+window.$spinBtn = $("#btn-spin");
 
-window.geolocation = new Geolocation();
+window.Yelp = new Yelp();
+window.Filters = new Filters();
+window.Spinner = new Spinner();
+window.Geolocation = new Geolocation();
+
 $(document).ready(function() {
-    geolocation.init();
-});
-
-var rouletteOptions = {
-    speed: 8,
-    duration: 2, // in seconds
-    stopImageNumber: 0, // set this randomly later
-
-    startCallback : function() {
-        console.log('start');
-        $("#btn-spin").prop('disabled', true);
-    },
-    slowDownCallback : function() {
-        console.log('slowDown');
-    },
-    stopCallback : function($stopEl) {
-        console.log('stop');
-        $($stopEl).addClass('winner');
-        $("#btn-spin").prop('disabled', false);
-    }
-};
-
-/**
- * Filter toggle event handlers
- */
-$(document).ready(function() {
-    $("#cuisines").click(function() {
-        $("#cuisines-list").toggle();
-        $(this).toggleClass("flyout-open");
-    });
-    $('#cuisines-list').on('click', function (event) {
-        event.stopPropagation();
-    });
-    $("#location").click(function() {
-        $("#location-content").toggle();
-        $(this).toggleClass("flyout-open");
-    });
-    $('#location-content').on('click', function (event) {
-        event.stopPropagation();
-    });
-});
-
-
-/**
- * Filter change event handlers
- */
-$(document).ready(function() {
-    $('#location input').on('keypress', function (e) {
-        var $filterApplyBtn = $("#btn-filter-apply");
-
-        $filterApplyBtn.fadeIn();
-
-        if (e.which === 13) { // enter key
-            e.preventDefault();
-            $("#location.filter").trigger('click');
-            $filterApplyBtn.trigger('click');
-            $filterApplyBtn.hide();
-        }
-
-        e.stopPropagation();
-    });
-
-    $("#cuisines-list input").change(function() {
-        $("#btn-filter-apply").fadeIn();
-    });
-});
-
-/**
- * Apply filters button event handler
- */
-$(document).ready(function() {
-    $("#btn-filter-apply").click(function() {
-        console.log("updating restaurants");
-
-        // Set cookies
-        var $selectedCuisines = $("#cuisines-list input:checked");
-        var selectedCuisines = [];
-        $selectedCuisines.each(function() {
-            if ($(this).val() === "all") {
-                return;
-            }
-            selectedCuisines.push($(this).val());
-        });
-        Cookies.set('cuisines', JSON.stringify(selectedCuisines));
-        var location = $("#location-content input").val();
-
-        // Don't set location cookie if using geolocation
-        if (geolocation.getGeolocationCookie() === false) {
-            Cookies.set('location', location);
-        }
-
-        // disable spin button while loading
-        $("#btn-spin").prop('disabled', true);
-
-        // Display loading screen
-        $("#spinner").addClass("loading");
-        var $loadingScreen = $(".loading-container").clone();
-        $("#spinner").html($loadingScreen);
-        $loadingScreen.fadeIn();
-        $(this).fadeOut();
-
-        // Make API request
-        yelp.makeRequest();
-    });
-});
-
-
-/**
- * Use cookies to remember cuisines
- */
-$(document).ready(function() {
-    var cuisinesCookie = Cookies.get('cuisines');
-    if (typeof cuisinesCookie !== "undefined") {
-        // decode into array
-        // iterate array and check each box with that value
-        var checkboxes = $("#cuisines-list input");
-        checkboxes.each(function() {
-            var cuisine = $(this).val();
-
-            if (cuisinesCookie.indexOf(cuisine) !== -1) {
-                $(this).prop('checked', true);
-            }
-            else {
-                $(this).prop('checked', false);
-            }
-        });
-    }
-});
-
-/**
- * Hide flyouts when clicking outside of them
- * while they are open
- */
-$(document).ready(function() {
-    $(document).click(function() {
-        $("#location-content").hide();
-        $("#cuisines-list").hide();
-    });
-
-    $("#location.filter, #cuisines.filter, #location-content, #cuisines-list").on('click', function(e) {
-        e.stopPropagation();
-    });
-});
-
-
-/**
- * Spin!
- */
-$(document).ready(function() {
-    $("#btn-spin").click(function() {
-        $("#btn-filter-apply").fadeOut();
-
-        var numItems = $(".restaurant").length;
-        rouletteOptions.stopImageNumber = Math.floor(Math.random() * numItems) + 1;
-
-        var roulette = $('#spinner');
-        roulette.roulette(rouletteOptions);
-        roulette.roulette('start');
-    });
-});
-
-/**
- * Select all cuisines checkbox
- */
-$(document).ready(function() {
-    $("#all-checkbox").change(function() {
-        $(this).prop('checked', !$(this).prop('checked'));
-
-        var $cuisines = $("#cuisines-list input");
-        $cuisines.each(function() {
-            $(this).prop('checked', !$(this).prop('checked'));
-        });
-    })
+    Yelp.init();
+    Filters.init();
+    Spinner.init();
+    Geolocation.init();
 });
 
 /**
@@ -207,5 +43,3 @@ function shuffle(array) {
     }
     return array;
 }
-
-// TODO filter out cuisines which don't apply

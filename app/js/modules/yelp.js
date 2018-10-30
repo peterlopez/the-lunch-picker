@@ -19,6 +19,11 @@ function Yelp()
         "vegan": 'Vegan'
     };
 
+    this.init = function()
+    {
+        // nothing to do
+    };
+
     /**
      *
      */
@@ -31,8 +36,8 @@ function Yelp()
             success: function(data) {
                 $("#spinner").removeClass('loading');
 
-                yelp.updateRestaurants(data);
-                yelp.updateCuisines(data);
+                Yelp.updateRestaurants(data);
+                Yelp.updateCuisines(data);
             },
             error: function(req, status, error) {
 
@@ -47,7 +52,7 @@ function Yelp()
      */
     this.updateRestaurants = function(data)
     {
-        $("#btn-spin").prop('disabled', false);
+        Spinner.$spinBtn.prop('disabled', false);
 
         var output = '';
         var restaurants = data['businesses'];
@@ -59,7 +64,7 @@ function Yelp()
             output += "</a></div>";
         }
 
-        $("#spinner").html(output);
+        Spinner.$spinner.html(output);
     };
 
     /**
