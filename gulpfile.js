@@ -1,8 +1,7 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var sass = require('gulp-sass');
+const gulp = require('gulp');
+const concat = require('gulp-concat');
+const sass = require('gulp-sass');
 const { watch, series, parallel } = require('gulp');
-
 
 /**
  * ------------------------------------
@@ -43,7 +42,7 @@ var config = {
 
 /**
  * ------------------------------------
- * Build functions
+ * Build processes
  * ------------------------------------
  */
 const buildDev = series(
@@ -95,26 +94,31 @@ function watchJs() {
     let paths = config.paths.js;
 
     return watch([
-        config.files.js.src,
-        config.files.js.lib,
-        '!'+config.paths.js.src+'/'+config.files.js.srcOutput,
-        '!'+config.paths.js.lib+'/'+config.files.js.libOutput
-    ], series(lintJs, compileJs));
+        files.src,
+        files.lib,
+        '!'+paths.src+'/'+files.srcOutput,
+        '!'+paths.lib+'/'+files.libOutput
+    ], series(lintJs, compileJs, compileVendorJs));
 }
 function lintJs() {
     // TODO
     return Promise.resolve();
 }
 function compileJs() {
-    gulp.src([config.files.js.src, '!'+config.paths.js.src+'/'+config.files.js.srcOutput])
-        .pipe(concat(config.files.js.srcOutput))
-        .pipe(gulp.dest(config.paths.js.src));
+    let files = config.files.js;
+    let paths = config.paths.js;
 
-    gulp.src([config.files.js.lib, '!'+config.paths.js.src+'/'+config.files.js.libOutput])
-        .pipe(concat(config.files.js.libOutput))
-        .pipe(gulp.dest(config.paths.js.lib));
+    return gulp.src([files.src, '!'+paths.src+'/'+files.srcOutput])
+        .pipe(concat(files.srcOutput))
+        .pipe(gulp.dest(paths.src));
+}
+function compileVendorJs() {
+    let files = config.files.js;
+    let paths = config.paths.js;
 
-    return Promise.resolve();
+    return gulp.src([files.lib, '!'+paths.src+'/'+files.libOutput])
+        .pipe(concat(files.libOutput))
+        .pipe(gulp.dest(config.paths.js.lib))
 }
 function minifyJs() {
     // TODO
@@ -144,14 +148,3 @@ function compileSassToCss() {
  * Utility functions
  * ------------------------------------
  */
-function log(msg) {
-    // if (typeof(msg) === 'object') {
-    //     for (var item in msg) {
-    //         if (msg.hasOwnProperty(item)) {
-    //             $.util.log($.util.colors.green(msg[item]));
-    //         }
-    //     }
-    // } else {
-    //     $.util.log($.util.colors.green(msg));
-    // }
-}
