@@ -45,8 +45,6 @@ function Geolocation()
             return;
         }
 
-        console.log("init page with geolocationCookie: "+this.getGeolocationCookie());
-
         // Change link to remove geolocation
         var $geolocationLink = this.getGeolocationLink();
         if (this.getGeolocationCookie()) {

@@ -27,9 +27,9 @@ function Filters()
 
     this.init = function()
     {
-        this.cuisinesCookie = Cookies.get('cuisines') ? Cookies.get('cuisines') : '';
-        this.locationCookie = Cookies.get('location') ? Cookies.get('location') : '';
-        this.geolocationCookie = Cookies.get('geolocation') ? Cookies.get('geolocation') : '';
+        this.cuisinesCookie = (typeof Cookies.get('cuisines') !== "undefined") ? Cookies.get('cuisines') : '';
+        this.locationCookie = (typeof Cookies.get('location') !== "undefined") ? Cookies.get('location') : '';
+        this.geolocationCookie = (typeof Cookies.get('geolocation') !== "undefined") ? Cookies.get('geolocation') : '';
 
         this.setCuisinesBasedOnCookie();
         this.setLocationBasedOnCookie();
@@ -158,8 +158,6 @@ function Filters()
     this.toggleFlyout = function(event)
     {
         // determine which filter was clicked
-        console.log(event);
-
         var $filter = $(event.target).closest('.filter');
         var $flyout = $filter.find('.flyout');
 
@@ -192,7 +190,11 @@ function Filters()
      */
     this.setLocationBasedOnCookie = function()
     {
-        Filters.$locationInput.text(this.locationCookie);
+        var location = this.geolocationCookie;
+        if (location.length === 0) {
+            location = this.locationCookie
+        }
+        Filters.$locationInput.val(location);
     };
 
     /**
