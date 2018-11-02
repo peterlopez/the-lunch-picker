@@ -122,7 +122,7 @@ function Filters()
         }
 
         // disable spin button while loading
-        $spinBtn.prop('disabled', true);
+        Spinner.$spinBtn.prop('disabled', true);
 
         // Display loading screen
         Spinner.displayLoadingScreen();

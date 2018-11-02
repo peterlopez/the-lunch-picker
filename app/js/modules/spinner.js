@@ -23,7 +23,7 @@ function Spinner()
         stopCallback : function($stopEl) {
             console.log('stop');
             $($stopEl).addClass('winner');
-            $("#btn-spin").prop('disabled', false);
+            Spinner.$spinBtn.prop('disabled', false);
         }
     };
 
@@ -42,6 +42,7 @@ function Spinner()
     this.spin = function()
     {
         Filters.$filterApplyBtn.fadeOut();
+        Spinner.$spinBtn.prop('disabled', true);
 
         // var numItems = $(".restaurant").length;
         // rouletteOptions.stopImageNumber = Math.floor(Math.random() * numItems) + 1;
