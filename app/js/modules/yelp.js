@@ -34,17 +34,31 @@ function Yelp()
             url: './yelp.php',
             data: $("#filter-form").serialize(),
             success: function(data) {
+                // validate data
+                var isNull = (data === null);
+                var hasCorrectData = (!isNull && (typeof data !== 'object' && !data.hasOwnProperty("businesses")));
+                if (isNull || !hasCorrectData) {
+                    Yelp.displayError();
+                    return;
+                }
                 $("#spinner").removeClass('loading');
 
                 Yelp.updateRestaurants(data);
                 Yelp.updateCuisines(data);
             },
             error: function(req, status, error) {
-
-                $("#spinner .loading-container p").text("Oops! There was a error. Try again later.");
-                $("#spinner .loading-container img").prop('src', 'assets/img/error.svg');
+                Yelp.displayError();
             }
         });
+    };
+
+    /**
+     *
+     */
+    this.displayError = function()
+    {
+        $("#spinner .loading-container p").text("Oops! There was a error.");
+        $("#spinner .loading-container img").prop('src', 'assets/img/error.svg');
     };
 
     /**

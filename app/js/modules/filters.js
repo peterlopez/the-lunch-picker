@@ -16,7 +16,8 @@ function Filters()
 
     this.$allCuisinesCheckbox = $("");
     this.$cuisinesInputs = $("#cuisines input");
-    this.$locationInput = $('#location input');
+    this.$locationInput = $("#location input[name='location']");
+    this.$geolocationInput = $("#location input[name='geolocation']");
     this.$priceInputs = $('#prices-list input');
     this.$filterApplyBtn = $("#btn-filter-apply");
 
@@ -32,7 +33,7 @@ function Filters()
         this.geolocationCookie = (typeof Cookies.get('geolocation') !== "undefined") ? Cookies.get('geolocation') : '';
 
         this.setCuisinesBasedOnCookie();
-        this.setLocationBasedOnCookie();
+        this.setLocationInputsBasedOnCookie();
 
         this.bindEventHandlers();
 
@@ -54,7 +55,7 @@ function Filters()
         this.$locationInput.on('keypress', this.processLocationInput);
         this.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
         this.$cuisinesInputs.on('change', this.showApplyFilterBtn);
-        this.$priceInputs.on('change', this.showApplyFilterBtn)
+        this.$priceInputs.on('change', this.showApplyFilterBtn);
 
         // Hide flyouts after losing focus
         $document.click(function() {
@@ -188,13 +189,10 @@ function Filters()
     /**
      *
      */
-    this.setLocationBasedOnCookie = function()
+    this.setLocationInputsBasedOnCookie = function()
     {
-        var location = this.geolocationCookie;
-        if (location.length === 0) {
-            location = this.locationCookie
-        }
-        Filters.$locationInput.val(location);
+        Filters.$locationInput.val(this.locationCookie);
+        Filters.$geolocationInput.val(this.geolocationCookie);
     };
 
     /**

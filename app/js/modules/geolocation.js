@@ -48,7 +48,7 @@ function Geolocation()
         // Change link to remove geolocation
         var $geolocationLink = this.getGeolocationLink();
         if (this.getGeolocationCookie()) {
-            this.locationReset('forget me', 'geolocation', this.getGeolocationCookie(), true);
+            this.locationReset('forget me', this.getGeolocationCookie(), true);
             $geolocationLink.one('click', this.removeGeolocation);
         }
         // Bind event handler to trigger geolocation
@@ -65,12 +65,11 @@ function Geolocation()
      * @param inputValue
      * @param inputHidden
      */
-    this.locationReset = function(linkText, inputName, inputValue, inputHidden)
+    this.locationReset = function(linkText, inputValue, inputHidden)
     {
         var $locationInput = this.getLocationInput();
 
         $locationInput.val(inputValue);
-        $locationInput.prop('name', inputName);
 
         // Remove input field
         if (inputHidden) {
@@ -88,14 +87,12 @@ function Geolocation()
      *
      */
     this.triggerGeolocation = function() {
-        console.log("triggering geolocation");
-
         // Found cookie
         if (geolocation.getGeolocationCookie()) {
             console.log("found geolocation cookie");
 
             // Hide input and set geolocation cookie
-            this.locationReset('forget me', 'geolocation', geolocation.getGeolocationCookie(), true);
+            this.locationReset('forget me', geolocation.getGeolocationCookie(), true);
             var $locationLink = geolocation.getGeolocationLink();
             $locationLink.one('click', geolocation.removeGeolocation);
 
@@ -105,7 +102,6 @@ function Geolocation()
         }
 
         // Request geolocation
-        console.log("fetching geolocation");
         navigator.geolocation.getCurrentPosition(geolocation.geolocationSuccess, geolocation.geolocationError);
     };
 
@@ -114,8 +110,6 @@ function Geolocation()
      * @param position
      */
     this.geolocationSuccess = function(position) {
-        console.log("success fetching geolocation");
-
         var latitude  = position.coords.latitude;
         var longitude = position.coords.longitude;
 
@@ -127,7 +121,7 @@ function Geolocation()
         $locationInput.val(geolocationData);
 
         // Hide input and set geolocation cookie
-        geolocation.locationReset('forget me', 'geolocation', geolocationData, true);
+        geolocation.locationReset('forget me', geolocationData, true);
         var $locationLink = geolocation.getGeolocationLink();
         $locationLink.one('click', geolocation.removeGeolocation);
 
@@ -155,7 +149,7 @@ function Geolocation()
         var locationValue = geolocation.getLocationCookie();
         locationValue = locationValue === false ? '' : locationValue;
 
-        geolocation.locationReset('locate me', 'location', locationValue, false);
+        geolocation.locationReset('locate me', locationValue, false);
 
         geolocation.getGeolocationLink().one('click', geolocation.triggerGeolocation);
     };
