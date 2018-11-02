@@ -90,3 +90,12 @@ button {
   height: 14pt;
   margin-bottom: 5px ;
 }
+@media (max-width: $bp-sm) {
+  #footer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .yelp-credentials {
+    margin-bottom: 10px;
+  }
+}

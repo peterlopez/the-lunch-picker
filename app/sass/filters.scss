@@ -1,17 +1,26 @@
 /**
  * Filters
  */
+#filters {
+  display: flex;
+}
 #filter-form {
   display: inline-flex;
   align-items: flex-end;
   position: relative;
   flex-wrap: wrap;
 }
-@media (max-width: $bp-md) {
+@media (max-width: $bp-lg) {
+  #filter-form {
+    display: block;
+  }
+}
+@media (max-width: $bp-lg) {
   #btn-filter-apply {
     margin-right: 0 !important;
   }
-  #filter-apply-btn-container {
+  #filter-apply-btn-container,
+  .action-buttons {
     text-align: center;
     width: 100%;
     margin: 0 0 20px 0;
@@ -33,13 +42,16 @@
     justify-content: center;
   }
 }
-@media (max-width: $bp-md) {
-  #filters {
-    display: flex;
-    flex-direction: column;
-  }
+@media (max-width: $bp-lg) {
   .filter {
     margin: 0 0 20px;
+  }
+  #filter-form {
+    width: 100%;
+  }
+  .filter-container {
+    flex-basis: 33.333%;
+    text-align: center;
   }
 }
 .filter-title {
@@ -49,10 +61,12 @@
 .filter-title.blank {
   display: none;
 }
-@media (max-width: $bp-md-2) {
+@media (max-width: $bp-lg) {
   .filter-title {
     font-size: 14pt;
   }
+}
+@media (max-width: $bp-sm) {
   .filter-title {
     display: none;
   }
@@ -60,7 +74,7 @@
     display: block;
   }
 }
-.filter:hover {
+#filter:hover {
   text-decoration: underline;
 }
 #btn-filter-apply {
@@ -104,6 +118,14 @@
   width: 32px;
   background-image: url("../assets/img/location-icon.svg");
 }
+@media (max-width: $bp-sm) {
+  #location::before {
+    top: 3px;
+    left: 19px;
+    height: 38px;
+    width: 38px;
+  }
+}
 #location-content.flyout input {
   width: 100%;
   border: 1px solid black;
@@ -122,6 +144,14 @@
   height: 30px;
   width: 30px;
   background-image: url("../assets/img/cuisine-icon.svg");
+}
+@media (max-width: $bp-sm) {
+  #cuisines::before {
+    top: 4px;
+    left: 19px;
+    height: 38px;
+    width: 38px;
+  }
 }
 #cuisines-list.flyout label {
   width: 100%;
@@ -142,6 +172,11 @@
   width: 30px;
   background-image: url("../assets/img/price-icon.svg");
   background-size: cover;
+}
+@media (max-width: $bp-lg) {
+  #price::before {
+    top: 4px;
+  }
 }
 #price:hover {
   text-decoration: none !important;
@@ -184,4 +219,9 @@
   border-left: 3px solid black;
   border-right: 3px solid black;
   border-bottom: 3px solid black;
+}
+@media (max-width: $bp-lg) {
+  .flyout {
+    text-align: left;
+  }
 }
