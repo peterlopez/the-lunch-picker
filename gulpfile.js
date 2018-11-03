@@ -1,35 +1,150 @@
-var gulp = require('gulp');
-var less = require('gulp-less');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var watch = require('gulp-watch');
-
-gulp.task('default', ['less', 'js']);
+const gulp = require('gulp');
+const concat = require('gulp-concat');
+const sass = require('gulp-sass');
+const { watch, series, parallel } = require('gulp');
 
 /**
- * Concatenates all LESS files in css/src then compiles into css/production.css
- * and finally minifies CSS
+ * ------------------------------------
+ * Config
+ * ------------------------------------
  */
-gulp.task('css', function() {
-    return gulp.src('./css/src/*.less')
-        .pipe(concat('production.less'))
-        .pipe(gulp.dest('./css'))
-        .pipe(less('production.css'))
-        .pipe(gulp.dest('./css'))
-});
+var config = {
+    paths: {
+        js: {
+            src: 'app/js',
+            lib: 'app/lib'
+        },
+        css: {
+            src: 'app/css'
+        },
+        sass: {
+            src: 'app/sass'
+        }
+    },
+    files: {
+        js: {
+            src: 'app/js/**/*.js',
+            lib: 'app/lib/**/*.js',
+            srcOutput: 'production.js',
+            libOutput: 'vendor.js'
+        },
+        css: {
+            src: 'production.scss',
+            srcOutput: 'production.css'
+        },
+        sass: {
+            src: 'app/sass/**/*.scss',
+            srcOutput: 'production.scss'
+        }
+    }
+};
+
 
 /**
- * Concatenates all JS files in js/src then sandwiches them between
- * js/intro.js and js/outro.js to make production.js
- * and finally minifies JS
+ * ------------------------------------
+ * Build processes
+ * ------------------------------------
  */
-gulp.task('js', function() {
-    return gulp.src(['./app/js/js.cookie.js', './app/js/roulette.js', './app/js/yelp.js', './app/js/main.js'])
-        .pipe(concat('production.js'))
-        .pipe(gulp.dest('./app/js/'))
-    // TODO: minify JS
-});
+const buildDev = series(
+    lintJs,
+    compileJs,
+    compileSass,
+    compileSassToCss
+);
+const buildProd = series(
+    compileJs,
+    minifyJs
+);
+const watchFiles = parallel(
+    watchSass,
+    watchJs
+);
 
-gulp.task('watch', function() {
-    gulp.watch('./app/js/*.js', ['js']);
-});
+
+/**
+ * ------------------------------------
+ * Export tasks
+ * ------------------------------------
+ */
+if (process.env.NODE_ENV === 'production') {
+    exports.default = buildProd;
+}
+else {
+    exports.default = buildDev;
+    exports.watch = watchFiles;
+}
+
+
+/**
+ * ------------------------------------
+ * Individual build tasks
+ * ------------------------------------
+ */
+function watchSass() {
+    let files = config.files.sass;
+    let paths = config.paths.sass;
+
+    return watch([
+        files.src,
+        '!'+paths.src+'/'+files.srcOutput
+    ], series(compileSass, compileSassToCss));
+}
+function watchJs() {
+    let files = config.files.js;
+    let paths = config.paths.js;
+
+    return watch([
+        files.src,
+        files.lib,
+        '!'+paths.src+'/'+files.srcOutput,
+        '!'+paths.lib+'/'+files.libOutput
+    ], series(lintJs, compileJs, compileVendorJs));
+}
+function lintJs() {
+    // TODO
+    return Promise.resolve();
+}
+function compileJs() {
+    let files = config.files.js;
+    let paths = config.paths.js;
+
+    return gulp.src([files.src, '!'+paths.src+'/'+files.srcOutput])
+        .pipe(concat(files.srcOutput))
+        .pipe(gulp.dest(paths.src));
+}
+function compileVendorJs() {
+    let files = config.files.js;
+    let paths = config.paths.js;
+
+    return gulp.src([files.lib, '!'+paths.src+'/'+files.libOutput])
+        .pipe(concat(files.libOutput))
+        .pipe(gulp.dest(config.paths.js.lib))
+}
+function minifyJs() {
+    // TODO
+    return Promise.resolve();
+}
+function compileSass() {
+    let files = config.files.sass;
+    let paths = config.paths.sass;
+
+    return gulp.src([files.src, '!'+paths.src+'/'+files.srcOutput])
+        .pipe(concat(files.srcOutput))
+        .pipe(gulp.dest(paths.src));
+}
+function compileSassToCss() {
+    let sasspaths = config.paths.sass;
+    // CSS source file = compiled SASS file
+    let cssfiles = config.files.css;
+    let csspaths = config.paths.css;
+
+    return gulp.src(sasspaths.src+'/'+cssfiles.src)
+        .pipe(sass())
+        .pipe(gulp.dest(csspaths.src));
+}
+
+/**
+ * ------------------------------------
+ * Utility functions
+ * ------------------------------------
+ */
