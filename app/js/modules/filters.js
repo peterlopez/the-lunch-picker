@@ -61,7 +61,10 @@ function Filters()
         $document.click(function() {
             Filters.$locationFlyout.hide();
             Filters.$cuisinesFlyout.hide();
-            Filters.$priceFlyout.hide()
+            Filters.$priceFlyout.hide();
+            Filters.$location.removeClass('flyout-open');
+            Filters.$cuisines.removeClass('flyout-open');
+            Filters.$price.removeClass('flyout-open');
         });
         // Prevent hiding flyouts when clicking on flyouts
         this.$location.on('click', this.stopBubbling);
@@ -162,7 +165,6 @@ function Filters()
         var $filter = $(event.target).closest('.filter');
         var $flyout = $filter.find('.flyout');
 
-        $flyout.toggle();
         $filter.toggleClass("flyout-open");
     };
 

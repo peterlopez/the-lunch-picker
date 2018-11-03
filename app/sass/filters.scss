@@ -30,12 +30,36 @@
   margin-right: 20px;
   margin-top: 20px;
   padding: 3px 10px;
-  border: 3px solid black;
-  background: white;
-  border-radius: 13px;
+  //border: 3px solid black;
+  //background: white;
+  border-radius: 10px;
   cursor: pointer;
   position: relative;
   display: inline-flex;
+
+  &.flyout-open {
+    background-color: $grey;
+    color: $light-blue;
+    animation-duration: .4s;
+    animation-name: slideout;
+    animation-fill-mode: forwards;
+
+    .flyout {
+      display: flex !important;
+    }
+  }
+  &:active {
+    background-color: $grey !important;
+    color: $light-blue !important;
+  }
+}
+@keyframes slideout {
+  from {
+    padding-right: 10px;
+  }
+  to {
+    padding-right: 25px;
+  }
 }
 @media (max-width: $bp-md) {
   #filter-form {
@@ -110,13 +134,30 @@
 #location.flyout-open {
   padding-right: 50px;
 }
+#location.flyout-open::before {
+  background-image: url("../assets/img/location-icon-blue.svg");
+}
+#location.flyout-open:hover:before {
+  background-image: url("../assets/img/location-icon-blue.svg");
+}
 #location::before {
   content: ' ';
   position: absolute;
-  top: 6px; left: 14px;
-  height: 28px;
-  width: 32px;
-  background-image: url("../assets/img/location-icon.svg");
+  /* styles for new icon */
+  top: 7px;
+  left: 19px;
+  height: 24px;
+  width: 18px;
+  background-image: url("../assets/img/location-icon-blue.svg");
+  background-size: 17px;
+  /* styles for using old icon */
+  //top: 6px; left: 14px;
+  //height: 28px;
+  //width: 32px;
+  //background-image: url("../assets/img/location-icon.svg");
+}
+#location:hover:before {
+  background-image: url("../assets/img/location-icon-white.svg");
 }
 @media (max-width: $bp-sm) {
   #location::before {
@@ -138,12 +179,18 @@
  * Cuisine filter
  */
 #cuisines::before {
-  content: ' ';
+  /* styles for using HTML entity */
+  content: '\2668';
   position: absolute;
-  top: 8px; left: 12px;
-  height: 30px;
-  width: 30px;
-  background-image: url("../assets/img/cuisine-icon.svg");
+  font-size: 16pt;
+  left: 18px;
+  top: 4px;
+  /* styles for using icon */
+  //top: 8px;
+  //left: 12px;
+  //height: 30px;
+  //width: 30px;
+  //background-image: url("../assets/img/cuisine-icon.svg");
 }
 @media (max-width: $bp-sm) {
   #cuisines::before {
@@ -164,42 +211,36 @@
  * Price filter
  */
 #price::before {
-  content: ' ';
+  content: '\FF04';
   position: absolute;
+  font-size: 16pt;
+  left: 28px;
   top: 7px;
-  left: 23px;
-  height: 30px;
-  width: 30px;
-  background-image: url("../assets/img/price-icon.svg");
-  background-size: cover;
+  //left: 23px;
+  //height: 30px;
+  //width: 30px;
+  //background-image: url("../assets/img/price-icon.svg");
+  //background-size: cover;
 }
 @media (max-width: $bp-lg) {
   #price::before {
-    top: 4px;
+    //top: 4px;
   }
 }
 #price:hover {
   text-decoration: none !important;
 }
 #price {
-  font-weight: bold;
 
-  #prices-list {
-
-    img {
-      max-width: 25px;
-    }
+  &.flyout-open {
+    //padding-right: 20px;
+    //margin-bottom: -5px;
   }
-}
-#price.flyout-open {
-  padding-right: 20px;
-  margin-bottom: -5px;
-
   .filter-title {
     padding-bottom: 5px;
   }
   #prices-list.flyout {
-    top: 50px;
+    top: 45px;
   }
 }
 
@@ -209,16 +250,19 @@
 .flyout {
   display: none;
   position: absolute;
-  top: 40px;
-  background: white;
-  width: calc(100% + 6px);
-  margin-left: -13px;
+  top: 42px;
+  background: $grey;
+  color: $black;
+  width: calc(100% + 2px);
+  flex-direction: column;
+  margin-left: -11px;
   margin-top: -10px;
   padding: 15px;
   z-index: 2;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
+  border-left: 1px solid $light-blue;
+  border-right: 1px solid $light-blue;
+  border-bottom: 1px solid $light-blue;
+
 }
 @media (max-width: $bp-lg) {
   .flyout {
