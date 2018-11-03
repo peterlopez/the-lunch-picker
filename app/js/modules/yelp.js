@@ -29,65 +29,41 @@ function Yelp()
      */
     this.makeRequest = function()
     {
+        Spinner.displayLoadingScreen();
+
         $.ajax({
             type: "GET",
             url: './yelp.php',
             data: $("#filter-form").serialize(),
-            success: function(data) {
-                // debugger;
-                // validate data
-                var isNull = (data === null);
-                var dataIsInvalid = (typeof data !== 'object' && data.businesses === null);
-                if (isNull || dataIsInvalid) {
-                    Yelp.displayError();
-                    return;
-                }
-                $("#spinner").removeClass('loading');
-
-                Yelp.updateRestaurants(data);
-                Yelp.updateCuisines(data);
-            },
-            error: function(req, status, error) {
-                Yelp.displayError();
-            }
+            success: Yelp.successCallback,
+            error: Yelp.errorCallback
         });
     };
 
     /**
-     *
+     * @callback from AJAX request to yelp.php
      */
-    this.displayError = function()
+    this.successCallback = function(data)
+    {
+        // validate data
+        var isNull = (data === null);
+        var dataIsInvalid = (typeof data !== 'object' && data.businesses === null);
+        if (isNull || dataIsInvalid) {
+            Yelp.errorCallback();
+            return;
+        }
+
+        // update spinner
+        Spinner.$spinner.removeClass('loading');
+        Spinner.update(data);
+    };
+
+    /**
+     * @callback from AJAX request to yelp.php
+     */
+    this.errorCallback = function()
     {
         $("#spinner .loading-container p").text("Oops! There was a error.");
         $("#spinner .loading-container img").prop('src', 'assets/img/error.svg');
     };
-
-    /**
-     *
-     */
-    this.updateRestaurants = function(data)
-    {
-        Spinner.$spinBtn.prop('disabled', false);
-
-        var output = "<div class='spinner-content'>";
-        var restaurants = data['businesses'];
-        restaurants = shuffle(restaurants);
-        for(var i=0; i < restaurants.length; i++) {
-            var restaurant = restaurants[i];
-            output += "<div class='restaurant'><a href='" + restaurant['url'] + "' target='_blank'>";
-            output += "<p class='restaurant-name'>" + restaurant['name'] + "</p>";
-            output += "</a></div>";
-        }
-        output += "</div>";
-
-        Spinner.$spinner.html(output);
-    };
-
-    /**
-     *
-     */
-    this.updateCuisines = function(data)
-    {
-
-    }
 }
