@@ -106,25 +106,21 @@
   border: none;
   border-radius: 5px;
   padding: 4px 12px;
-  background: $bright-green;
   margin-right: 20px;
+}
+.btn-success {
+  background: $bright-green;
 }
 #btn-spin {
   align-self: flex-end;
-  background: $blue;
   color: #fff;
   border: none;
   padding: 7px 27px;
   border-radius: 5px;
-  text-shadow: 1px 0 1px #333;
 }
 #btn-spin:disabled {
   background: $light-grey;
   color: $dark-grey;
-  text-shadow: none;
-}
-#btn-spin:active {
-  text-shadow: none;
 }
 
 
