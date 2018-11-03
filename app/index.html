@@ -179,14 +179,14 @@
 
                     <!-- apply button -->
                     <div id="filter-apply-btn-container">
-                        <button id="btn-filter-apply" style="display: none;" type="button">apply</button>
+                        <button id="btn-filter-apply" class="btn btn-success" style="display: none;" type="button">apply</button>
                     </div>
                 </form>
 
                 <div class="action-buttons">
                     <!-- spin button -->
                     <div id="spin-btn-container">
-                        <button type="button" id="btn-spin" disabled>spin!</button>
+                        <button type="button" id="btn-spin" class="btn btn-primary" disabled>spin!</button>
                     </div>
                 </div>
             </div>
@@ -196,9 +196,16 @@
 
         <!-- Spinner -->
         <div id="spinner" class="loading">
+            <!-- Loading screen -->
+            <div class="loading-container">
+                <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" />
+                <p class="loading-text">Loading..</p>
+            </div>
         </div>
 
-        <div class="loading-container" style="display: none;">
+        <!-- Loading screen -->
+        <!-- original copy that gets cloned into spinner -->
+        <div class="loading-container" style="display: none">
             <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" />
             <p class="loading-text">Loading..</p>
         </div>

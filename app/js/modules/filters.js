@@ -129,7 +129,6 @@ function Filters()
         Spinner.$spinBtn.prop('disabled', true);
 
         // Display loading screen
-        Spinner.displayLoadingScreen();
         Filters.$filterApplyBtn.fadeOut();
 
         // Make API request
