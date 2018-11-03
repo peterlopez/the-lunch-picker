@@ -7,8 +7,11 @@ function Geolocation()
     this.getGeolocationLink = function() {
         return $("#location.filter a");
     };
+    this.getGeolocationInput = function() {
+        return $("#location.filter input[name='geolocation']");
+    };
     this.getLocationInput = function() {
-        return $("#location.filter input");
+        return $("#location.filter input[name='location']");
     };
 
     /**
@@ -88,12 +91,12 @@ function Geolocation()
      */
     this.triggerGeolocation = function() {
         // Found cookie
-        if (geolocation.getGeolocationCookie()) {
+        if (Geolocation.getGeolocationCookie()) {
             console.log("found geolocation cookie");
 
             // Hide input and set geolocation cookie
             this.locationReset('forget me', geolocation.getGeolocationCookie(), true);
-            var $locationLink = geolocation.getGeolocationLink();
+            var $locationLink = Geolocation.getGeolocationLink();
             $locationLink.one('click', geolocation.removeGeolocation);
 
             // apply filters
@@ -102,7 +105,7 @@ function Geolocation()
         }
 
         // Request geolocation
-        navigator.geolocation.getCurrentPosition(geolocation.geolocationSuccess, geolocation.geolocationError);
+        navigator.geolocation.getCurrentPosition(Geolocation.geolocationSuccess, Geolocation.geolocationError);
     };
 
     /**
@@ -113,17 +116,17 @@ function Geolocation()
         var latitude  = position.coords.latitude;
         var longitude = position.coords.longitude;
 
-        var $locationInput = geolocation.getLocationInput();
+        var $geolocationInput = Geolocation.getGeolocationInput();
 
         // Set cookie
         var geolocationData = JSON.stringify({'lat': latitude, 'lng': longitude});
         Cookies.set('geolocation', geolocationData);
-        $locationInput.val(geolocationData);
+        $geolocationInput.val(geolocationData);
 
         // Hide input and set geolocation cookie
-        geolocation.locationReset('forget me', geolocationData, true);
-        var $locationLink = geolocation.getGeolocationLink();
-        $locationLink.one('click', geolocation.removeGeolocation);
+        Geolocation.locationReset('forget me', '', true);
+        var $locationLink = Geolocation.getGeolocationLink();
+        $locationLink.one('click', Geolocation.removeGeolocation);
 
         // apply filters
         $("#btn-filter-apply").trigger('click');
@@ -142,15 +145,13 @@ function Geolocation()
      *
      */
     this.removeGeolocation = function() {
-        console.log("removing geolocation");
-
         Cookies.remove('geolocation');
 
-        var locationValue = geolocation.getLocationCookie();
+        var locationValue = Geolocation.getLocationCookie();
         locationValue = locationValue === false ? '' : locationValue;
 
-        geolocation.locationReset('locate me', locationValue, false);
+        Geolocation.locationReset('locate me', locationValue, false);
 
-        geolocation.getGeolocationLink().one('click', geolocation.triggerGeolocation);
+        Geolocation.getGeolocationLink().one('click', Geolocation.triggerGeolocation);
     };
 }
