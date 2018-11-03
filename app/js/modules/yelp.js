@@ -34,10 +34,11 @@ function Yelp()
             url: './yelp.php',
             data: $("#filter-form").serialize(),
             success: function(data) {
+                // debugger;
                 // validate data
                 var isNull = (data === null);
-                var hasCorrectData = (!isNull && (typeof data !== 'object' && !data.hasOwnProperty("businesses")));
-                if (isNull || !hasCorrectData) {
+                var dataIsInvalid = (typeof data !== 'object' && data.businesses === null);
+                if (isNull || dataIsInvalid) {
                     Yelp.displayError();
                     return;
                 }
@@ -68,7 +69,7 @@ function Yelp()
     {
         Spinner.$spinBtn.prop('disabled', false);
 
-        var output = '';
+        var output = "<div class='spinner-content'>";
         var restaurants = data['businesses'];
         restaurants = shuffle(restaurants);
         for(var i=0; i < restaurants.length; i++) {
@@ -77,6 +78,7 @@ function Yelp()
             output += "<p class='restaurant-name'>" + restaurant['name'] + "</p>";
             output += "</a></div>";
         }
+        output += "</div>";
 
         Spinner.$spinner.html(output);
     };
