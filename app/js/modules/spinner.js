@@ -34,7 +34,7 @@ function Spinner()
      *
      * @type {number}
      */
-    this.winning = 0;
+    this.winner = 0;
 
     this.baseSpeed = .5; // in px per ms
     this.speed = 1; // in px per ms
@@ -80,10 +80,9 @@ function Spinner()
         this.distanceTotal = this.getDistanceTotal(true);
         this.numItemsToAdd = this.getNumItemsToAdd(this.distanceTotal);
         this.addExtraItemsToList(this.numItemsToAdd);
-        // debugger;
 
         // pick a winner
-        this.winning = Math.floor(Math.random() * Math.floor(this.originalListLength));
+        this.winner = this.pickWinner();
         // console.log("winning number: "+this.winning);
 
         this.bindEventHandlers();
@@ -113,6 +112,9 @@ function Spinner()
         Spinner.init();
     };
 
+    /**
+     * @callback Spinner.init()
+     */
     this.bindEventHandlers = function()
     {
         this.$spinBtn.on('click', this.spin);
@@ -128,15 +130,22 @@ function Spinner()
         if (exsitingLoadScreen.length > 0) {
             return;
         }
+
         this.$spinner.addClass("loading");
-        var $loadingScreen = this.$loadingScreen.clone();
-        this.$spinner.html($loadingScreen);
-        $loadingScreen.fadeIn();
+        // var $loadingScreen = this.$loadingScreen.clone();
+        this.$spinner.html(this.$loadingScreen);
+        // $loadingScreen.fadeIn();
     };
 
+    /**
+     * @return {number} random index of original list
+     */
+    this.pickWinner = function()
+    {
+        return Math.floor(Math.random() * Math.floor(Spinner.originalListLength));
+    };
 
     /**
-     *
      * @param {boolean} fresh
      * @returns {number}
      */
@@ -161,12 +170,10 @@ function Spinner()
 
         // calculate distance going constant speed (not accelerating or decelerating)
         distanceTotal += (this.baseSpeed * (this.duration - this.slowDownDuration - this.speedUpDuration));
-        // debugger;
         return distanceTotal;
     };
 
     /**
-     *
      * @param distanceTotal
      * @returns {number}
      */
@@ -196,17 +203,42 @@ function Spinner()
     };
 
     /**
+     * - move list back to top
+     * - remove winner class
+     * - pick new winner
+     */
+    this.reset = function()
+    {
+        Spinner.$list().scrollTop(0);
+        Spinner.$list().css('transform', '');
+        Spinner.$list().find(".winner").removeClass('winner');
+        Spinner.winner = Spinner.pickWinner();
+
+        // remove extras
+        // if (listLength > Spinner.originalListLength) {
+        //     for (var i = Spinner.originalListLength; i < listLength; i++) {
+        //         console.log("removing item "+i);
+        //         var item = Spinner.$items()[i];
+        //         // debugger;
+        //         $(item).remove();
+        //     }
+        // }
+    };
+
+    /**
      * @callback from spin button click event
      */
     this.spin = function()
     {
-        // debugger;
+        var listLength = Spinner.$items().length;
+
+        if (Spinner.$spinBtn.text() === "spin again!") {
+            Spinner.reset();
+        }
 
         Filters.$filterApplyBtn.fadeOut();
         Spinner.$spinBtn.prop('disabled', true);
         Spinner.$spinner.addClass('nonscrollable');
-
-        var listLength = Spinner.$items().length;
 
         // calculate stopping point of acceleration
         // var accelFinishPoint = Spinner.speedUpDuration * (Spinner.baseSpeed + (Spinner.baseSpeed * Spinner.accelFactor)); // compound this over duration
@@ -218,11 +250,12 @@ function Spinner()
         // var visibleAreaHeight = Spinner.$list().outerHeight();
         // var heightOfListItemsToWinner = Spinner.itemHeight * (Spinner.numItems - Spinner.winning);
 
-        var winner = listLength - (Spinner.originalListLength - Spinner.winning);
+        var winner = listLength - (Spinner.originalListLength - Spinner.winner);
+        console.log("winning item: "+winner);
 
-        var decelFinishPoint = ((winner * Spinner.itemHeight) - Spinner.containerHeight) + (Math.round(.5 * Spinner.numVisibleItems) * Spinner.itemHeight);
-        // var decelFinishPoint = constantFinishPoint + listHeight - visibleAreaHeight - heightOfListItemsToWinner;
-        // var decelFinishPoint = Spinner.getDistanceTotal(true) - listLength -;
+        var decelFinishPoint = (winner * Spinner.itemHeight) - Spinner.containerHeight;
+        decelFinishPoint += Math.round(.5 * Spinner.numVisibleItems) * Spinner.itemHeight;
+        console.log("spinning down to "+decelFinishPoint+"px");
 
         //
         // setup CSS transitions using $.transit plugin

@@ -29,8 +29,6 @@ function Yelp()
      */
     this.makeRequest = function()
     {
-        Spinner.displayLoadingScreen();
-
         $.ajax({
             type: "GET",
             url: './yelp.php',

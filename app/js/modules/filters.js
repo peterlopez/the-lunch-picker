@@ -105,8 +105,7 @@ function Filters()
     };
 
     /**
-     *
-     * @listens applyfiltersbtn:click
+     * @callback filter apply button click event handler
      */
     this.applyFilters = function(event)
     {
@@ -128,8 +127,12 @@ function Filters()
         // disable spin button while loading
         Spinner.$spinBtn.prop('disabled', true);
 
+        // Reset spin button
+        Spinner.$spinBtn.text('spin!');
+
         // Display loading screen
         Filters.$filterApplyBtn.fadeOut();
+        Spinner.displayLoadingScreen();
 
         // Make API request
         Yelp.makeRequest();
