@@ -177,7 +177,7 @@
  */
 #cuisines::before {
   /* styles for using HTML entity */
-  content: '\2668';
+  content: '\2668\00FE0E';
   position: absolute;
   font-size: 16pt;
   left: 18px;
@@ -250,6 +250,7 @@
   top: 42px;
   background: $grey;
   color: $black;
+  text-align: left;
   width: calc(100% + 2px);
   flex-direction: column;
   margin-left: -11px;
