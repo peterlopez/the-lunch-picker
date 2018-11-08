@@ -102,6 +102,11 @@ function Filters()
     this.showApplyFilterBtn = function()
     {
         Filters.$filterApplyBtn.fadeIn();
+
+        // the animations are a bit startling all at once
+        setTimeout(function() {
+            Spinner.$spinBtn.prop('disabled', true);
+        }, 200);
     };
 
     /**
@@ -109,8 +114,6 @@ function Filters()
      */
     this.applyFilters = function(event)
     {
-        console.log("updating restaurants");
-
         // Set cookies
         // cuisines
         var cuisines = Filters.getSelectedCuisines();
