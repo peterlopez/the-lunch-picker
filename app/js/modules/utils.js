@@ -23,3 +23,28 @@ function shuffle(array) {
     }
     return array;
 }
+
+/**
+ * @param deviceAgent navigator.userAgent
+ */
+function addMobileClassToHtml(deviceAgent) {
+    var $html = $("html");
+
+    if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
+        $html.addClass('ios');
+        $html.addClass('mobile');
+    }
+    if (deviceAgent.match(/android/)) {
+        $html.addClass('android');
+        $html.addClass('mobile');
+    }
+
+    if (deviceAgent.match(/blackberry/)) {
+        $html.addClass('blackberry');
+        $html.addClass('mobile');
+    }
+
+    if (deviceAgent.match(/(symbianos|^sonyericsson|^nokia|^samsung|^lg)/)) {
+        $html.addClass('mobile');
+    }
+}
