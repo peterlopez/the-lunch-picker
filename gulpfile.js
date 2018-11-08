@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
+const log = require('fancy-log');
+
 
 const sass = require('gulp-sass');
 const cleanCSS = require('gulp-clean-css');
@@ -128,7 +130,11 @@ function compileSassToCss() {
 
     return gulp.src(sasspaths.src+'/'+cssfiles.src)
         .pipe(sass())
-        .pipe(gulp.dest(csspaths.src));
+        .pipe(gulp.dest(csspaths.src))
+        .on('finish', function() { setTimeout(function() {
+            log('---- done with CSS ----');
+            log('');
+        }, 200) });
 }
 function minifyCss() {
     let files = config.files.css;
@@ -151,7 +157,7 @@ function watchJs() {
         files.src,
         '!'+paths.src+'/'+files.srcOutput, // compiled
         '!'+paths.src+'/'+files.compressed, // minified
-    ], series(lintJs, compileJs, minifyJs));
+    ], series(lintJs, compileJs));
 }
 function lintJs() {
     return Promise.resolve();
@@ -162,7 +168,11 @@ function compileJs() {
 
     return gulp.src([files.src, '!'+paths.src+'/'+files.srcOutput])
         .pipe(concat(files.srcOutput))
-        .pipe(gulp.dest(paths.src));
+        .pipe(gulp.dest(paths.src))
+        .on('finish', function() { setTimeout(function() {
+            log('---- done with JS ----');
+            log('');
+        }, 200) });
 }
 function minifyJs() {
     let files = config.files.js;

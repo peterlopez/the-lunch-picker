@@ -28,7 +28,7 @@
     <div class="wrapper">
         <!-- Header -->
         <div id="header" class="container no-padding">
-            <div id="title" class="col-sm-12">
+            <div id="logo-container">
                 <svg id="logo" version="1.1" viewBox="0 0 170 35" xmlns="http://www.w3.org/2000/svg">
                     <g fill="none" fill-rule="evenodd">
                         <path d="m111.8 18.5c0-2.4-4.7-4.4-10.6-4.4-0.9 0-1.8 0-2.6 0.1l-7.6-2.4c-1.1-0.4-2.5 0.1-2.5 0.1l-6.4 2.6c-1.8-0.4-3.7-0.6-5.7-0.6-8.2 0-14.8 3.5-14.8 7.8 0 1.1 0.4 2.1 1.1 3v1.3c0.1 1.4 0.2 1.7 0.2 1.7 2 3.5 9.9 2.3 9.9 2.3 1.3 4.4 9.3 4.3 9.3 4.3 10.2 0.1 10.7-3.8 10.7-3.8s13.9-5.2 15.3-5.9 1.6-1.9 1.6-1.9 0-0.6-0.1-1.7c1.5-0.7 2.2-1.6 2.2-2.5z" fill="#221F1F"/>
@@ -73,7 +73,7 @@
                 </svg>
             </div>
 
-            <div id="toolbar" class="col-sm-12 no-padding">
+            <div id="toolbar">
                 <form id="filter-form" action="./yelp.php" method="get">
                     <div id="filters" class="">
                         <!-- cuisines filter -->
