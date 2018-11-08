@@ -5,13 +5,13 @@
 function Geolocation()
 {
     this.getGeolocationLink = function() {
-        return $("#location.filter a");
+        return $(".location-content a");
     };
     this.getGeolocationInput = function() {
-        return $("#location.filter input[name='geolocation']");
+        return $(".location-content input[name='geolocation']");
     };
     this.getLocationInput = function() {
-        return $("#location.filter input[name='location']");
+        return $(".location-content input[name='location']");
     };
 
     /**
@@ -99,6 +99,9 @@ function Geolocation()
             var $locationLink = Geolocation.getGeolocationLink();
             $locationLink.one('click', geolocation.removeGeolocation);
 
+            // close lightbox if exists
+            $.featherlight.current().close();
+
             // apply filters
             $("#btn-filter-apply").trigger('click');
             return;
@@ -128,8 +131,11 @@ function Geolocation()
         var $locationLink = Geolocation.getGeolocationLink();
         $locationLink.one('click', Geolocation.removeGeolocation);
 
+        // close lightbox if exists
+        $.featherlight.current().close();
+
         // apply filters
-        $("#btn-filter-apply").trigger('click');
+        Filters.$filterApplyBtn.trigger('click');
     };
 
     /**
@@ -142,16 +148,21 @@ function Geolocation()
 
 
     /**
-     *
+     * @param {event} event
      */
-    this.removeGeolocation = function() {
+    this.removeGeolocation = function(event) {
         Cookies.remove('geolocation');
 
+        // get (non-geo) location value from cookie if available
         var locationValue = Geolocation.getLocationCookie();
         locationValue = locationValue === false ? '' : locationValue;
 
+        // reset link and location input
         Geolocation.locationReset('locate me', locationValue, false);
 
+        // rebind event handler for geolocation link
         Geolocation.getGeolocationLink().one('click', Geolocation.triggerGeolocation);
+
+        Filters.showApplyFilterBtn();
     };
 }

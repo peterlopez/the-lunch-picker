@@ -81,7 +81,7 @@
                             <div id="cuisines" class="filter btn btn-outline-primary">
                                 <p class="filter-title">Cuisines</p>
                                 <p class="filter-title blank">&nbsp;</p>
-                                <div id="cuisines-list" class="flyout">
+                                <div class="cuisines-list flyout">
                                     <label for="all-checkbox">
                                         <input id="all-checkbox" type="checkbox" name="all-checkbox" value="all" checked />
                                         All
@@ -139,7 +139,7 @@
                             <div id="location" class="filter btn btn-outline-primary">
                                 <p class="filter-title">Location</p>
                                 <p class="filter-title blank">&nbsp;</p>
-                                <div id="location-content" class="flyout">
+                                <div class="location-content flyout">
                                     <a class="geolocate" href="#" title="">locate me</a>
                                     <input type="text" name="location" autocomplete="address" placeholder="San Fransisco, CA" />
                                 </div>
@@ -152,7 +152,7 @@
                             <div id="price" class="filter btn btn-outline-primary">
                                 <p class="filter-title">&nbsp;</p>
                                 <p class="filter-title blank">&nbsp;</p>
-                                <div id="prices-list" class="flyout">
+                                <div class="prices-list flyout">
                                     <label for="price-1">
                                         <input id="price-1" type="radio" name="price" value="1" />
                                         &nbsp;&dollar;
