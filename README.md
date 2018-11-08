@@ -1,4 +1,5 @@
-# The Lunch Picker
+# The Lunch Picker [![GitHub version](https://badge.fury.io/gh/boennemann%2Fbadges.svg)](http://badge.fury.io/gh/boennemann%2Fbadges)
+
 
 Find a bite to eat - [thelunchpicker.com](https://thelunchpicker.com)
 
