@@ -102,7 +102,7 @@ class Yelp
                 'url' => $business['url']
             );
         }
-        echo json_encode($response);
+        echo json_encode($result);
 
         curl_close($ch);
     }
