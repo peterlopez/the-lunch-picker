@@ -212,35 +212,23 @@ function Spinner()
     this.reset = function()
     {
         // Scroll list back to top
-        Spinner.$list().scrollTop(0);
+        Spinner.$spinner.scrollTop(0);
         Spinner.$list().css('transition-duration', '0s');
         Spinner.$list().css('transform', 'translate(0, 0)');
 
         // Find new winner
         Spinner.$list().find(".winner").removeClass('winner');
         Spinner.winner = Spinner.pickWinner();
-
-        // remove extras
-        // if (listLength > Spinner.originalListLength) {
-        //     for (var i = Spinner.originalListLength; i < listLength; i++) {
-        //         console.log("removing item "+i);
-        //         var item = Spinner.$items()[i];
-        //         // debugger;
-        //         $(item).remove();
-        //     }
-        // }
     };
 
     /**
-     * @callback from spin button click event
+     * @param {event} event
      */
-    this.spin = function()
+    this.spin = function(event)
     {
         var listLength = Spinner.$items().length;
 
-        if (Spinner.$spinBtn.text() === "spin again!") {
-            Spinner.reset();
-        }
+        Spinner.reset();
 
         Filters.$filterApplyBtn.fadeOut();
         Spinner.$spinBtn.prop('disabled', true);
@@ -279,38 +267,3 @@ function Spinner()
         }, Spinner.duration);
     };
 }
-
-
-/**
- * OLD roulette plugin options
- */
-// this.spinnerOptions = {
-//
-//     startCallback : function() {
-//         console.log('start');
-//         $("#btn-spin").prop('disabled', true);
-//     },
-//     slowDownCallback : function() {
-//         console.log('slowDown');
-//     },
-//     stopCallback : function($stopEl) {
-//         console.log('stop');
-//         $($stopEl).addClass('winner');
-//         Spinner.$spinBtn.prop('disabled', false);
-//     }
-// };
-/**
- * OLD SPIN BUTTON EVENT HANDLER
- */
-// this.spin = function()
-// {
-//     Filters.$filterApplyBtn.fadeOut();
-//     Spinner.$spinBtn.prop('disabled', true);
-//
-//     // var numItems = $(".restaurant").length;
-//     // rouletteOptions.stopImageNumber = Math.floor(Math.random() * numItems) + 1;
-//
-//     var roulette = $('#spinner');
-//     roulette.roulette(this.rouletteOptions);
-//     roulette.roulette('start');
-// };
