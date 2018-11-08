@@ -166,7 +166,11 @@ function compileJs() {
     let files = config.files.js;
     let paths = config.paths.js;
 
-    return gulp.src([files.src, '!'+paths.src+'/'+files.srcOutput])
+    return gulp.src([
+            files.src,
+            '!'+paths.src+'/'+files.srcOutput,
+            '!'+paths.src+'/'+files.compressed
+        ])
         .pipe(concat(files.srcOutput))
         .pipe(gulp.dest(paths.src))
         .on('finish', function() { setTimeout(function() {
