@@ -97,9 +97,7 @@ class Yelp
      */
     protected function getYelpApiToken()
     {
-        $credentials = file_get_contents('/etc/opt/yelp-credentials.json');
-        $credentials = json_decode($credentials, true);
-        $apiKey = $credentials['api_key'];
+        $apiKey = getenv('YELP_TOKEN');
         if (empty($apiKey)) {
             throw new Exception("ERROR: API credentials not found");
         }

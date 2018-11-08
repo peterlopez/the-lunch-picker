@@ -116,7 +116,7 @@ function compileVendorJs() {
     let files = config.files.js;
     let paths = config.paths.js;
 
-    return gulp.src([files.lib, '!'+paths.src+'/'+files.libOutput])
+    return gulp.src([files.lib, '!'+paths.lib+'/'+files.libOutput])
         .pipe(concat(files.libOutput))
         .pipe(gulp.dest(config.paths.js.lib))
 }

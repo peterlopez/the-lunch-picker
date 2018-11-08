@@ -177,7 +177,7 @@
  */
 #cuisines::before {
   /* styles for using HTML entity */
-  content: '\2668';
+  content: '\2668\00FE0E';
   position: absolute;
   font-size: 16pt;
   left: 18px;
@@ -212,7 +212,7 @@
   position: absolute;
   font-size: 16pt;
   left: 28px;
-  top: 7px;
+  top: 6px;
   //left: 23px;
   //height: 30px;
   //width: 30px;
@@ -230,11 +230,7 @@
 #price {
 
   &.flyout-open {
-    //padding-right: 20px;
-    //margin-bottom: -5px;
-  }
-  .filter-title {
-    padding-bottom: 5px;
+
   }
   #prices-list.flyout {
     top: 45px;
@@ -250,6 +246,7 @@
   top: 42px;
   background: $grey;
   color: $black;
+  text-align: left;
   width: calc(100% + 2px);
   flex-direction: column;
   margin-left: -11px;

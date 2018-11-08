@@ -1,15 +1,17 @@
-node_modules
-*-credentials.json
 .idea
+
+# private config files or scripts
+private
+
+# npm
+node_modules
 
 # Gulp generated files
 production.js
 production.min.js
-
 production.css
 production.scss
 production.min.css
-
 vendor.js
 vendor.css
 vendor.min.js
