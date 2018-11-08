@@ -164,7 +164,7 @@
     background-size: 18px;
   }
 }
-#location-content.flyout input {
+.location-content.flyout input {
   width: 100%;
   border: 1px solid black;
   margin-top: 10px;
@@ -197,10 +197,10 @@
     width: 38px;
   }
 }
-#cuisines-list.flyout label {
+.cuisines-list.flyout label {
   width: 100%;
 }
-#cuisines-list.flyout input {
+.cuisines-list.flyout input {
   margin-right: 5px;
 }
 
@@ -232,7 +232,7 @@
   &.flyout-open {
 
   }
-  #prices-list.flyout {
+  .prices-list.flyout {
     top: 45px;
   }
 }
@@ -261,5 +261,45 @@
 @media (max-width: $bp-lg) {
   .flyout {
     text-align: left;
+  }
+}
+
+.featherlight {
+  .featherlight-content {
+    background: $grey !important;
+    width: 80%;
+
+    .featherlight-close {
+      font-weight: bold;
+      font-size: 24pt;
+      background: none;
+      line-height: 50px;
+      width: 50px;
+      top: 10px;
+      right: 10px;
+    }
+    .flyout {
+      display: block !important;
+      position: relative !important;
+      top: 0;
+      border: none;
+      width: 100%;
+      margin: 0;
+      padding: 5% 10%;
+    }
+
+    .location-content {
+      padding-bottom: 30px;
+
+      input {
+        width: 85%;
+      }
+    }
+    .prices-list {
+
+      label {
+        width: 100%;
+      }
+    }
   }
 }

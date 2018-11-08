@@ -10,15 +10,15 @@ function Filters()
     this.$price = $("#price");
 
     // flyouts
-    this.$cuisinesFlyout = $("#cuisines-list");
-    this.$locationFlyout = $("#location-content");
-    this.$priceFlyout = $("#prices-list");
+    this.$cuisinesFlyout = $(".cuisines-list");
+    this.$locationFlyout = $(".location-content");
+    this.$priceFlyout = $(".prices-list");
 
     this.$allCuisinesCheckbox = $("#all-checkbox");
-    this.$cuisinesInputs = $("#cuisines input");
-    this.$locationInput = $("#location input[name='location']");
-    this.$geolocationInput = $("#location input[name='geolocation']");
-    this.$priceInputs = $('#prices-list input');
+    this.$cuisinesInputs = $(".cuisines-list input");
+    this.$locationInput = $(".location-content input[name='location']");
+    this.$geolocationInput = $(".location-content input[name='geolocation']");
+    this.$priceInputs = $('.prices-list input');
     this.$filterApplyBtn = $("#btn-filter-apply");
 
     // Cookies
@@ -26,6 +26,42 @@ function Filters()
     this.locationCookie = '';
     this.geolocationCookie = '';
 
+    /**
+     * jQuery featherlight plugin
+     */
+    this.featherlightConfig = {
+        namespace:      'featherlight',        /* Name of the events and css class prefix */
+        targetAttr:     'data-featherlight',   /* Attribute of the triggered element that contains the selector to the lightbox content */
+        variant:        null,                  /* Class that will be added to change look of the lightbox */
+        resetCss:       false,                 /* Reset all css */
+        background:     null,                  /* Custom DOM for the background, wrapper and the closebutton */
+        openTrigger:    'click',               /* Event that triggers the lightbox */
+        closeTrigger:   'click',               /* Event that triggers the closing of the lightbox */
+        filter:         null,                  /* Selector to filter events. Think $(...).on('click', filter, eventHandler) */
+        root:           'body',                /* A selector specifying where to append featherlights */
+        openSpeed:      250,                   /* Duration of opening animation */
+        closeSpeed:     250,                   /* Duration of closing animation */
+        closeOnClick:   'background',          /* Close lightbox on click ('background', 'anywhere', or false) */
+        closeOnEsc:     true,                  /* Close lightbox when pressing esc */
+        closeIcon:      '&#10005;',            /* Close icon */
+        loading:        '',                    /* Content to show while initial content is loading */
+        persist:        false,                 /* If set, the content will persist and will be shown again when opened again. 'shared' is a special value when binding multiple elements for them to share the same content */
+        otherClose:     null,                  /* Selector for alternate close buttons (e.g. "a.close") */
+        beforeOpen:     $.noop,                /* Called before open. can return false to prevent opening of lightbox. Gets event as parameter, this contains all data */
+        beforeContent:  $.noop,                /* Called when content is about to be presented. `this` is the featherlight instance. Gets event as parameter */
+        beforeClose:    $.noop,                /* Called before close. can return false to prevent opening of lightbox. `this` is the featherlight instance. Gets event as parameter  */
+        afterOpen:      $.noop,                /* Called after open. `this` is the featherlight instance. Gets event as parameter  */
+        afterContent:   $.noop,                /* Called after content is ready and has been set. Gets event as parameter, this contains all data */
+        afterClose:     $.noop,                /* Called after close. `this` is the featherlight instance. Gets event as parameter  */
+        onKeyUp:        $.noop,                /* Called on key up for the frontmost featherlight */
+        onResize:       $.noop,                /* Called after new content and when a window is resized */
+        type:           null,                  /* Specify content type. If unset, it will check for the targetAttrs value. */
+        contentFilters: ['jquery', 'image', 'html', 'ajax', 'text'] /* List of content filters to use to determine the content */
+    };
+
+    /**
+     * @callback document.ready
+     */
     this.init = function()
     {
         this.cuisinesCookie = (typeof Cookies.get('cuisines') !== "undefined") ? Cookies.get('cuisines') : '';
@@ -46,10 +82,18 @@ function Filters()
      */
     this.bindEventHandlers = function()
     {
-        // Open flyouts
-        this.$cuisines.on('click', this.toggleFlyout);
-        this.$location.on('click', this.toggleFlyout);
-        this.$price.on('click', this.toggleFlyout);
+        var isMobile = $("html").hasClass('mobile');
+        if (isMobile) {
+            this.$cuisines.on('click', this.toggleFilterModal);
+            this.$location.on('click', this.toggleFilterModal);
+            this.$price.on('click', this.toggleFilterModal);
+        }
+        // Open flyouts - only for desktop
+        else {
+            this.$cuisines.on('click', this.toggleFlyout);
+            this.$location.on('click', this.toggleFlyout);
+            this.$price.on('click', this.toggleFlyout);
+        }
 
         //  Inputs
         this.$locationInput.on('keypress', this.processLocationInput);
@@ -86,7 +130,7 @@ function Filters()
      */
     this.getSelectedCuisines = function()
     {
-        var $selectedCuisines = $("#cuisines-list input:checked");
+        var $selectedCuisines = $(".cuisines-list input:checked");
         var selectedCuisines = [];
         $selectedCuisines.each(function() {
             if ($(this).val() === "all") {
@@ -160,6 +204,40 @@ function Filters()
         event.stopPropagation();
     };
 
+    /**
+     * @param {event} event
+     */
+    this.toggleFilterModal = function(event)
+    {
+        // determine which filter was clicked
+        var $filter = $(event.target).closest('.filter');
+
+        // create modal
+        var $flyout = $filter.find('.flyout');
+        Filters.featherlightConfig.beforeClose = Filters.applyFiltersFromModal;
+        $.featherlight($flyout, Filters.featherlightConfig);
+
+        Geolocation.init();
+
+        // rebind event handlers
+        Filters.$locationInput.on('keypress', this.processLocationInput);
+        Filters.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
+        Filters.$cuisinesInputs.on('change', this.showApplyFilterBtn);
+        Filters.$priceInputs.on('change', this.showApplyFilterBtn);
+    };
+
+    /**
+     * @callback beforeClose
+     * @param {event} event
+     */
+    this.applyFiltersFromModal = function(event)
+    {
+        var $content = this.$content[0];
+        var $dest = $(this.target);
+        setTimeout(function () {
+            $dest.replaceWith($content);
+        }, 200);
+    };
 
     /**
      * @param {event} event
@@ -214,7 +292,7 @@ function Filters()
         var newState = $checkbox.prop('checked');
         $checkbox.prop('checked', newState);
 
-        var $cuisines = $("#cuisines-list input");
+        var $cuisines = $(".cuisines-list input");
         $cuisines.each(function() {
             $(this).prop('checked', newState);
         });

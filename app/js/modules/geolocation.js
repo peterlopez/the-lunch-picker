@@ -5,13 +5,13 @@
 function Geolocation()
 {
     this.getGeolocationLink = function() {
-        return $("#location.filter a");
+        return $(".location-content a");
     };
     this.getGeolocationInput = function() {
-        return $("#location.filter input[name='geolocation']");
+        return $(".location-content input[name='geolocation']");
     };
     this.getLocationInput = function() {
-        return $("#location.filter input[name='location']");
+        return $(".location-content input[name='location']");
     };
 
     /**
@@ -99,6 +99,9 @@ function Geolocation()
             var $locationLink = Geolocation.getGeolocationLink();
             $locationLink.one('click', geolocation.removeGeolocation);
 
+            // close lightbox if exists
+            $.featherlight.current().close();
+
             // apply filters
             $("#btn-filter-apply").trigger('click');
             return;
@@ -127,6 +130,9 @@ function Geolocation()
         Geolocation.locationReset('forget me', '', true);
         var $locationLink = Geolocation.getGeolocationLink();
         $locationLink.one('click', Geolocation.removeGeolocation);
+
+        // close lightbox if exists
+        $.featherlight.current().close();
 
         // apply filters
         $("#btn-filter-apply").trigger('click');
