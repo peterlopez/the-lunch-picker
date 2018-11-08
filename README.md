@@ -19,4 +19,4 @@ Steps to setup local development environment:
 
 ## Contributing
 
-If you're interested in making this web app better you can start by checking open [PRs](https://github.com/peterlopez/the-lunch-picker/pulls) on GitHub. There should be a list of TODOs. 
+If you're interested in making this web app better you can start by checking open issues and pull requests on GitHub. 
