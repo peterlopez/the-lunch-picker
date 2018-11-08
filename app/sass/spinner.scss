@@ -57,7 +57,7 @@
 
     .spinner-content {
         width: 100%;
-        //overflow-y: scroll;
+        transform: translate(0, 0);
     }
     a {
         color: $black;

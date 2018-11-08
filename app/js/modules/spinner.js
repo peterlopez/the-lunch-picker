@@ -38,9 +38,9 @@ function Spinner()
 
     this.baseSpeed = .5; // in px per ms
     this.speed = 1; // in px per ms
-    this.duration = 10000; // in ms
-    this.speedUpDuration = 1200; // in ms
-    this.slowDownDuration = 2000; // in ms
+    this.duration = 2000; // in ms
+    this.speedUpDuration = 400; // in ms
+    this.slowDownDuration = 400; // in ms
 
     this.numItems = 0;
     this.numVisibleItems = 0;
@@ -65,6 +65,8 @@ function Spinner()
      */
     this.init = function() {
         Spinner.$spinner.scrollTop(0);
+        Spinner.$list().css('transition-duration', '0s');
+        Spinner.$list().css('transform', 'translate(0, 0)');
 
         // calculate heights
         this.itemHeight = this.$items().outerHeight();
@@ -209,8 +211,12 @@ function Spinner()
      */
     this.reset = function()
     {
+        // Scroll list back to top
         Spinner.$list().scrollTop(0);
-        Spinner.$list().css('transform', '');
+        Spinner.$list().css('transition-duration', '0s');
+        Spinner.$list().css('transform', 'translate(0, 0)');
+
+        // Find new winner
         Spinner.$list().find(".winner").removeClass('winner');
         Spinner.winner = Spinner.pickWinner();
 
@@ -251,21 +257,16 @@ function Spinner()
         // var heightOfListItemsToWinner = Spinner.itemHeight * (Spinner.numItems - Spinner.winning);
 
         var winner = listLength - (Spinner.originalListLength - Spinner.winner);
-        console.log("winning item: "+winner);
 
         var decelFinishPoint = (winner * Spinner.itemHeight) - Spinner.containerHeight;
         decelFinishPoint += Math.round(.5 * Spinner.numVisibleItems) * Spinner.itemHeight;
-        console.log("spinning down to "+decelFinishPoint+"px");
 
-        //
-        // setup CSS transitions using $.transit plugin
-        //
-        // scroll up a little (wind up)
-        // TODO
+        // TODO scroll up a little (wind up)
+        // Spinner.$list().transition({ y: -decelFinishPoint+"px" }, Spinner.slowDownDuration, 'ease');
+
         // scroll to end
-        Spinner.$list().transition({ y: -decelFinishPoint+"px" }, Spinner.slowDownDuration, 'ease');
-        // Spinner.$list().transition({ y: -accelFinishPoint+"px" }, Spinner.speedUpDuration, 'linear');
-        // Spinner.$list().transition({ y: -constantFinishPoint+"px" }, Spinner.totalDuration - Spinner.speedUpDuration - Spinner.slowDownDuration, 'linear');
+        Spinner.$list().css('transition-duration', Spinner.duration+'ms');
+        Spinner.$list().css('transform', 'translate(0, -'+decelFinishPoint+'px)');
 
         // Tag winner
         var winnerItem = Spinner.$items()[winner];
@@ -275,7 +276,7 @@ function Spinner()
         setTimeout(function() {
             Spinner.$spinBtn.prop('disabled', false);
             Spinner.$spinBtn.text("spin again!");
-        }, Spinner.slowDownDuration);
+        }, Spinner.duration);
     };
 }
 
