@@ -14,7 +14,7 @@ function Filters()
     this.$locationFlyout = $("#location-content");
     this.$priceFlyout = $("#prices-list");
 
-    this.$allCuisinesCheckbox = $("");
+    this.$allCuisinesCheckbox = $("#all-checkbox");
     this.$cuisinesInputs = $("#cuisines input");
     this.$locationInput = $("#location input[name='location']");
     this.$geolocationInput = $("#location input[name='geolocation']");
@@ -82,8 +82,7 @@ function Filters()
     };
 
     /**
-     *
-     * @returns {string}
+     * @returns {string} JSON encoded array of selected cuisines
      */
     this.getSelectedCuisines = function()
     {
@@ -99,6 +98,7 @@ function Filters()
         return JSON.stringify(selectedCuisines);
     };
 
+
     this.showApplyFilterBtn = function()
     {
         Filters.$filterApplyBtn.fadeIn();
@@ -110,7 +110,7 @@ function Filters()
     };
 
     /**
-     * @callback filter apply button click event handler
+     * @param {event} event
      */
     this.applyFilters = function(event)
     {
@@ -142,7 +142,7 @@ function Filters()
     };
 
     /**
-     *
+     * @param {event} event
      */
     this.processLocationInput = function(event)
     {
@@ -162,19 +162,18 @@ function Filters()
 
 
     /**
-     * @listens filters:click
+     * @param {event} event
      */
     this.toggleFlyout = function(event)
     {
         // determine which filter was clicked
         var $filter = $(event.target).closest('.filter');
-        var $flyout = $filter.find('.flyout');
-
         $filter.toggleClass("flyout-open");
     };
 
     /**
-     *
+     * Toggles cuisines filters based on
+     * pre-existing cookie
      */
     this.setCuisinesBasedOnCookie = function()
     {
@@ -194,7 +193,8 @@ function Filters()
     };
 
     /**
-     *
+     * Toggles location inputs based on
+     * pre-existing cookie
      */
     this.setLocationInputsBasedOnCookie = function()
     {
@@ -203,16 +203,20 @@ function Filters()
     };
 
     /**
-     *
+     * @param {event} event
      */
     this.toggleAllCuisines = function(event)
     {
-        var $checkbox = filters.$allCuisinesCheckbox;
-        $checkbox.prop('checked', !$checkbox.prop('checked'));
+        event.preventDefault();
+
+        var $checkbox = Filters.$allCuisinesCheckbox;
+        // current state has already changed after click
+        var newState = $checkbox.prop('checked');
+        $checkbox.prop('checked', newState);
 
         var $cuisines = $("#cuisines-list input");
         $cuisines.each(function() {
-            $(this).prop('checked', !$(this).prop('checked'));
+            $(this).prop('checked', newState);
         });
     };
 }
