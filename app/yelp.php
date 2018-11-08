@@ -74,8 +74,10 @@ class Yelp
             throw new Exception('ERROR: request URL is empty');
         }
 
+        // Get Yelp auth token
         $apiKey = $this->getYelpApiToken();
 
+        // Build request to Yelp
         $ch = curl_init($url);
         $headers = array(
             'Content-type: application/json',
@@ -83,10 +85,24 @@ class Yelp
         );
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-        $result = curl_exec($ch);
-        echo $result;
+        // Make request and get response
+        $response = json_decode(curl_exec($ch), true);
+
+        // Build output response
+        //
+        // parse through the response from Yelp
+        // to return only the necessary info
+        //
+        $result = array('businesses');
+        foreach($response['businesses'] as $business)
+        {
+            $result['businesses'][] = array(
+                'name' => $business['name'],
+                'url' => $business['url']
+            );
+        }
+        echo json_encode($response);
 
         curl_close($ch);
     }
