@@ -213,7 +213,11 @@
     </div>
 </div>
 
+<?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
 <link rel="stylesheet" href="css/production.css" type="text/css">
+<?php else: ?>
+<link rel="stylesheet" href="css/production.min.css" type="text/css">
+<?php endif; ?>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 <script src="lib/vendor.js" type="text/javascript"></script>

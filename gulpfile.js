@@ -1,6 +1,10 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+
 const sass = require('gulp-sass');
+const cleanCSS = require('gulp-clean-css');
+
 const { watch, series, parallel } = require('gulp');
 
 /**
@@ -30,7 +34,8 @@ var config = {
         },
         css: {
             src: 'production.scss',
-            srcOutput: 'production.css'
+            srcOutput: 'production.css',
+            compressed: 'production.min.css'
         },
         sass: {
             src: 'app/sass/**/*.scss',
@@ -49,7 +54,8 @@ const buildDev = series(
     lintJs,
     compileJs,
     compileSass,
-    compileSassToCss
+    compileSassToCss,
+    minifyCss
 );
 const buildProd = series(
     compileJs,
@@ -63,7 +69,7 @@ const watchFiles = parallel(
 
 /**
  * ------------------------------------
- * Export tasks
+ * Exported tasks - available with gulp {task}
  * ------------------------------------
  */
 if (process.env.NODE_ENV === 'production') {
@@ -87,7 +93,7 @@ function watchSass() {
     return watch([
         files.src,
         '!'+paths.src+'/'+files.srcOutput
-    ], series(compileSass, compileSassToCss));
+    ], series(compileSass, compileSassToCss, minifyCss));
 }
 function watchJs() {
     let files = config.files.js;
@@ -141,6 +147,15 @@ function compileSassToCss() {
     return gulp.src(sasspaths.src+'/'+cssfiles.src)
         .pipe(sass())
         .pipe(gulp.dest(csspaths.src));
+}
+function minifyCss() {
+    let files = config.files.css;
+    let paths = config.paths.css;
+
+    return gulp.src([paths.src+'/'+files.srcOutput])
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(rename(files.compressed))
+        .pipe(gulp.dest(paths.src));
 }
 
 /**
