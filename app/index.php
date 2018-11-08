@@ -213,14 +213,21 @@
     </div>
 </div>
 
+<!-- jQuery -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
+<!-- library styles and JS -->
+<link rel="stylesheet" href="lib/vendor.css" type="text/css">
+<script src="lib/featherlight/featherlight.min.js" type="text/javascript"></script>
+<script src="lib/js.cookie.min.js" type="text/javascript"></script>
+
+<!-- App styles and JS -->
 <?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
 <link rel="stylesheet" href="css/production.css" type="text/css">
+<script async src="js/production.js" type="text/javascript"></script>
 <?php else: ?>
 <link rel="stylesheet" href="css/production.min.css" type="text/css">
+<script async src="js/production.min.js" type="text/javascript"></script>
 <?php endif; ?>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-<script src="lib/vendor.js" type="text/javascript"></script>
-<script src="js/production.js" type="text/javascript"></script>
 </body>
 </html>
