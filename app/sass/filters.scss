@@ -142,7 +142,7 @@
   /* styles for new icon */
   top: 7px;
   left: 19px;
-  height: 24px;
+  height: 23px;
   width: 18px;
   background-image: url("../assets/img/location-icon-blue.svg");
   background-size: 17px;
@@ -170,6 +170,14 @@
   margin-top: 10px;
   padding: 2px 5px;
   outline: none;
+}
+.location-content .loading-spinner {
+  width: 40%;
+  margin: 0 auto;
+}
+.location-content .geolocation-error {
+  font-size: 10pt;
+  white-space: normal;
 }
 
 /**
@@ -233,7 +241,7 @@
 
   }
   .prices-list.flyout {
-    top: 45px;
+    top: 42px;
   }
 }
 
