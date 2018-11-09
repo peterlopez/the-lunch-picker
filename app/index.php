@@ -82,8 +82,8 @@
                                 <p class="filter-title">Cuisines</p>
                                 <p class="filter-title blank">&nbsp;</p>
                                 <div class="cuisines-list flyout">
-                                    <label for="all-checkbox">
-                                        <input id="all-checkbox" type="checkbox" name="all-checkbox" value="all" checked />
+                                    <label>
+                                        <input class="all-checkbox" type="checkbox" name="all-checkbox" value="all" checked />
                                         All
                                     </label>
                                     <label for="cuisine-tradamerican">

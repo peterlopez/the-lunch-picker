@@ -4,11 +4,8 @@
  */
 function Geolocation()
 {
-    this.$geolocationLink = $(".location-content a");
-    this.$geolocationInput = $(".location-content input[name='geolocation']");
-    this.$locationInput = $(".location-content input[name='location']");
-
     /**
+     * helper method to prevent accessing undefined or null cookies
      *
      * @return {string|boolean}
      */
@@ -21,6 +18,7 @@ function Geolocation()
     };
 
     /**
+     * helper method to prevent accessing undefined or null cookies
      *
      * @return {string|boolean}
      */
@@ -33,23 +31,24 @@ function Geolocation()
     };
 
     /**
-     *
+     * @callback document.ready
      */
     this.init = function()
     {
         if (!navigator.geolocation){
-            $(".geolocate").remove();
+            Filters.$geolocationLink().remove();
             return;
         }
 
-        // Change link to remove geolocation
+        // Bind event handler to remove geolocation
         if (this.getGeolocationCookie()) {
+            // Change link to remove geolocation
             this.locationReset('forget me', this.getGeolocationCookie(), true);
-            this.$geolocationLink.one('click', this.removeGeolocation);
+            Filters.$geolocationLink().one('click', this.removeGeolocation);
         }
         // Bind event handler to trigger geolocation
         else {
-            this.$geolocationLink.one('click', this.triggerGeolocation);
+            Filters.$geolocationLink().one('click', this.triggerGeolocation);
         }
     };
 
@@ -57,13 +56,12 @@ function Geolocation()
     /**
      *
      * @param linkText
-     * @param inputName
      * @param inputValue
      * @param inputHidden
      */
     this.locationReset = function(linkText, inputValue, inputHidden)
     {
-        var $locationInput = this.$locationInput;
+        var $locationInput = Filters.$locationInput();
 
         $locationInput.val(inputValue);
 
@@ -75,26 +73,26 @@ function Geolocation()
         }
 
         // Change link to remove geolocation
-        var $locationLink = this.$geolocationLink;
+        var $locationLink = Filters.$geolocationLink();
         $locationLink.text(linkText);
     };
 
     /**
+     * @callback geolocationLink
      * @param {event} event
      */
     this.triggerGeolocation = function(event) {
         // hide link and input to display loading screen
-        Filters.$locationFlyout.find('a').hide();
-        Filters.$locationFlyout.find('input').hide();
-        Filters.$locationFlyout.find('.loading-spinner').show();
+        Filters.$geolocationLink().hide();
+        Filters.$locationInput().hide();
+        Filters.$geolocationLoading().show();
 
         // Found cookie
         if (Geolocation.getGeolocationCookie()) {
-            console.log("found geolocation cookie");
 
             // Hide input and set geolocation cookie
             this.locationReset('forget me', geolocation.getGeolocationCookie(), true);
-            var $locationLink = Geolocation.$geolocationLink;
+            var $locationLink = Filters.$geolocationLink();
             $locationLink.one('click', geolocation.removeGeolocation);
 
             // close lightbox if exists
@@ -103,7 +101,7 @@ function Geolocation()
             }
 
             // apply filters
-            $("#btn-filter-apply").trigger('click');
+            Filters.$filterApplyBtn.trigger('click');
             return;
         }
 
@@ -119,7 +117,7 @@ function Geolocation()
         var latitude  = position.coords.latitude;
         var longitude = position.coords.longitude;
 
-        var $geolocationInput = Geolocation.$geolocationInput;
+        var $geolocationInput = Filters.$geolocationInput();
 
         // Set cookie
         var geolocationData = JSON.stringify({'lat': latitude, 'lng': longitude});
@@ -128,11 +126,11 @@ function Geolocation()
 
         // Hide input and loading
         Geolocation.locationReset('forget me', '', true);
-        Filters.$locationFlyout.find('a').show();
-        Filters.$locationFlyout.find('.loading-spinner').hide();
+        Filters.$geolocationLink().show();
+        Filters.$geolocationLoading().hide();
 
         // rebind event handler for geolocation link
-        var $locationLink = Geolocation.$geolocationLink;
+        var $locationLink = Filters.$geolocationLink();
         $locationLink.one('click', Geolocation.removeGeolocation);
 
         // close lightbox if exists
@@ -153,7 +151,7 @@ function Geolocation()
         Filters.$locationFlyout.find('.loading-spinner').hide();
         Filters.$locationFlyout.find('.geolocation-error').show();
 
-        Geolocation.$locationInput.show();
+        Geolocation.$locationInput().show();
     };
 
 
@@ -169,10 +167,10 @@ function Geolocation()
 
         // reset link and location inputs
         Geolocation.locationReset('locate me', locationValue, false);
-        Geolocation.$geolocationInput.val("");
+        Filters.$geolocationInput().val("");
 
         // rebind event handler for geolocation link
-        Geolocation.$geolocationLink.one('click', Geolocation.triggerGeolocation);
+        Filters.$geolocationLink().one('click', Geolocation.triggerGeolocation);
 
         Filters.showApplyFilterBtn();
     };

@@ -298,9 +298,14 @@
 
     .location-content {
       padding-bottom: 30px;
+      min-height: 100px; // prevent flicker while hiding/showing content
 
       input {
         width: 85%;
+      }
+      .loading-spinner {
+        width: 50%;
+        margin: 0 25%;
       }
     }
     .prices-list {
