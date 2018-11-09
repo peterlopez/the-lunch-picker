@@ -167,8 +167,9 @@ function Geolocation()
         var locationValue = Geolocation.getLocationCookie();
         locationValue = locationValue === false ? '' : locationValue;
 
-        // reset link and location input
+        // reset link and location inputs
         Geolocation.locationReset('locate me', locationValue, false);
+        Geolocation.$geolocationInput.val("");
 
         // rebind event handler for geolocation link
         Geolocation.$geolocationLink.one('click', Geolocation.triggerGeolocation);
