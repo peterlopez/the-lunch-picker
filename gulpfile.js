@@ -84,7 +84,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 else {
     exports.default = buildDev;
-    exports.watch = watchFiles;
+    exports.watch = series(buildDev, watchFiles);
     exports.minify = buildProd;
 }
 

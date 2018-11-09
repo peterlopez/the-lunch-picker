@@ -141,9 +141,11 @@
                                 <p class="filter-title blank">&nbsp;</p>
                                 <div class="location-content flyout">
                                     <a class="geolocate" href="#" title="">locate me</a>
+                                    <p class="geolocation-error" style="display: none;">error fetching geolocation</p>
                                     <input type="text" name="location" autocomplete="address" placeholder="San Fransisco, CA" />
+                                    <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" style="display: none;" />
+                                    <input type="hidden" name="geolocation" />
                                 </div>
-                                <input type="hidden" name="geolocation" />
                             </div>
                         </div>
 
