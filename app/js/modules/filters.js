@@ -5,9 +5,9 @@
 function Filters()
 {
     // filter buttons on toolbar
-    this.$cuisines = $("#cuisines");
-    this.$location = $("#location");
-    this.$price = $("#price");
+    this.$cuisines = $("#toolbar #cuisines");
+    this.$location = $("#toolbar #location");
+    this.$price = $("#toolbar #price");
 
     // flyouts
     this.$cuisinesFlyout = $(".cuisines-list");
@@ -237,10 +237,15 @@ function Filters()
      */
     this.toggleFilterModal = function(event)
     {
+        // prevent opening multiple
+        if ($.featherlight.current() !== null) {
+            return;
+        }
+        
         // determine which filter was clicked
         var $filter = $(event.target).closest('.filter');
 
-        // create modal and bind events
+        // modal content
         var $flyout = $filter.find('.flyout');
 
         // rebind event handlers for filter inputs contained in lightbox
