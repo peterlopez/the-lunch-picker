@@ -94,7 +94,7 @@ class Yelp
         // parse through the response from Yelp
         // to return only the necessary info
         //
-        $result = array('businesses');
+        $result = array();
         foreach($response['businesses'] as $business)
         {
             $result['businesses'][] = array(
