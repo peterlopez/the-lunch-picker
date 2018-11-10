@@ -25,8 +25,6 @@ function Spinner()
     this.$spinBtn = $("#btn-spin");
     this.$loadingScreen = $(".loading-container");
 
-    // this.position = 0;
-
     /**
      * index of item in original list
      * picked to be winner
@@ -35,6 +33,7 @@ function Spinner()
      * @type {number}
      */
     this.winner = 0;
+    this.prevWinner = 0;
 
     this.baseSpeed = .5; // in px per ms
     this.speed = 1; // in px per ms
@@ -45,17 +44,6 @@ function Spinner()
     this.numItems = 0;
     this.numVisibleItems = 0;
     this.stopItemNumber = 0;
-
-    /**
-     * current = middle of the visible list
-     * next = 1st item outside of visible list
-     *
-     * @type {number}
-     */
-    // this.currentItem = 0;
-    // this.$currentItem = null;
-    // this.nextItem = 0;
-    // this.$nextItem = null;
 
     this.itemHeight = 0;
     this.containerHeight = 0;
@@ -85,7 +73,6 @@ function Spinner()
 
         // pick a winner
         this.winner = this.pickWinner();
-        // console.log("winning number: "+this.winning);
 
         this.bindEventHandlers();
     };
@@ -144,7 +131,15 @@ function Spinner()
      */
     this.pickWinner = function()
     {
-        return Math.floor(Math.random() * Math.floor(Spinner.originalListLength));
+        Spinner.prevWinner = Spinner.winner;
+
+        // generate new random number
+        // that is not previous winner
+        var rand = Math.floor(Math.random() * Math.floor(Spinner.originalListLength));
+        while (rand === Spinner.prevWinner) {
+            rand = Math.floor(Math.random() * Math.floor(Spinner.originalListLength));
+        }
+        return rand;
     };
 
     /**
