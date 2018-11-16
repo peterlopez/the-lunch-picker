@@ -16,38 +16,26 @@ const { watch, series, parallel } = require('gulp');
  * Config
  * ------------------------------------
  */
-var config = {
-    paths: {
-        js: {
-            src: 'app/js',
-            lib: null,           // include each library individually
-        },
-        css: {
-            src: 'app/css',
-            lib: 'app/lib'
-        },
-        sass: {
-            src: 'app/sass'
-        }
+let config = {
+    buildDir: 'app/build',
+
+    js: {
+        src: 'app/js/**/*.js',
+        output: 'production.js',
+        compressed: 'production.min.js'
     },
-    files: {
-        js: {
-            src: 'app/js/**/*.js',
-            srcOutput: 'production.js',         // output of compilation before compression
-            compressed: 'production.min.js'
-        },
-        css: {
-            src: 'production.scss',
-            srcOutput: 'production.css',        // output of trans-compilation of SASS to CSS
-            compressed: 'production.min.css',
-            lib: 'app/lib/**/*.css',
-            libOutput: 'vendor.css'             // expect already compressed library files
-        },
-        sass: {
-            src: 'app/sass/**/*.scss',
-            srcOutput: 'production.scss'        // output of all SASS file compilation
-        }
-    }
+    sass: {
+        src: 'app/sass/**/*.scss',
+        output: 'production.scss'           // output of all SASS file compilation
+    },
+    css: {
+        src: null,                          // source is output of SASS task
+        output: 'production.css',           // output of compilation of SASS to CSS
+        compressed: 'production.min.css',
+
+        lib: 'app/lib/**/*.css',
+        libOutput: 'vendor.css'             // expect already compressed library files
+    },
 };
 
 
@@ -98,90 +86,54 @@ else {
 // SASS / CSS
 //
 function watchSass() {
-    let files = config.files.sass;
-    let paths = config.paths.sass;
-
-    return watch([
-        files.src,
-        '!'+paths.src+'/'+files.srcOutput
-    ], series(compileSass, compileSassToCss, compileVendorCss));
+    return watch(config.sass.src, series(compileSass, compileSassToCss, compileVendorCss));
 }
 function compileVendorCss() {
-    let files = config.files.css;
-    let paths = config.paths.css;
-
-    return gulp.src([files.lib, '!'+paths.lib+'/'+files.libOutput])
-        .pipe(concat(files.libOutput))
-        .pipe(gulp.dest(paths.lib));
+    return gulp.src(config.css.lib)
+        .pipe(concat(config.css.libOutput))
+        .pipe(gulp.dest(config.buildDir));
 }
 function compileSass() {
-    let files = config.files.sass;
-    let paths = config.paths.sass;
-
-    return gulp.src([files.src, '!'+paths.src+'/'+files.srcOutput])
-        .pipe(concat(files.srcOutput))
-        .pipe(gulp.dest(paths.src));
+    return gulp.src(config.sass.src)
+        .pipe(concat(config.sass.output))
+        .pipe(gulp.dest(config.buildDir));
 }
 function compileSassToCss() {
-    let sasspaths = config.paths.sass;
-    // CSS source file = compiled SASS file
-    let cssfiles = config.files.css;
-    let csspaths = config.paths.css;
-
-    return gulp.src(sasspaths.src+'/'+cssfiles.src)
+    return gulp.src(config.buildDir + '/' + config.sass.output)
         .pipe(sass())
-        .pipe(gulp.dest(csspaths.src))
+        .pipe(gulp.dest(config.buildDir))
         .on('finish', function() { setTimeout(function() {
             log('---- done with CSS ----');
             log('');
         }, 200) });
 }
 function minifyCss() {
-    let files = config.files.css;
-    let paths = config.paths.css;
-
-    return gulp.src([paths.src+'/'+files.srcOutput])
+    return gulp.src(config.buildDir + '/' + config.css.output)
         .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(rename(files.compressed))
-        .pipe(gulp.dest(paths.src));
+        .pipe(rename(config.css.compressed))
+        .pipe(gulp.dest(config.buildDir));
 }
 
 //
 // JS
 //
 function watchJs() {
-    let files = config.files.js;
-    let paths = config.paths.js;
-
-    return watch([
-        files.src,
-        '!'+paths.src+'/'+files.srcOutput, // compiled
-        '!'+paths.src+'/'+files.compressed, // minified
-    ], series(lintJs, compileJs));
+    return watch(config.js.src, series(lintJs, compileJs));
 }
 function lintJs() {
     return Promise.resolve();
 }
 function compileJs() {
-    let files = config.files.js;
-    let paths = config.paths.js;
-
-    return gulp.src([
-            files.src,
-            '!'+paths.src+'/'+files.srcOutput,
-            '!'+paths.src+'/'+files.compressed
-        ])
-        .pipe(concat(files.srcOutput))
-        .pipe(gulp.dest(paths.src))
+    return gulp.src(config.js.src)
+        .pipe(concat(config.js.output))
+        .pipe(gulp.dest(config.buildDir))
         .on('finish', function() { setTimeout(function() {
             log('---- done with JS ----');
             log('');
         }, 200) });
 }
 function minifyJs() {
-    let files = config.files.js;
-    let paths = config.paths.js;
-    return gulp.src([paths.src + '/' + files.srcOutput])
+    return gulp.src(config.buildDir + '/' + config.js.output)
         .pipe(minify({
             noSource: true,
             ext: {
@@ -209,7 +161,7 @@ function minifyJs() {
                 // global_defs: {}     // global definitions
             }
         }))
-        .pipe(gulp.dest(paths.src));
+        .pipe(gulp.dest(config.buildDir));
 }
 
 /**
