@@ -10,8 +10,16 @@
     <link rel="shortcut icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
+    <!-- CSS libraries -->
+    <link rel="stylesheet" href="build/vendor.css" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- App CSS -->
+    <?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
+    <link rel="stylesheet" href="build/production.css" type="text/css">
+    <?php else: ?>
+    <link rel="stylesheet" href="build/production.min.css" type="text/css">
+    <?php endif; ?>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109653890-2"></script>
@@ -215,21 +223,16 @@
     </div>
 </div>
 
-<!-- jQuery -->
+<!-- JS libraries -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-<!-- library styles and JS -->
-<link rel="stylesheet" href="lib/vendor.css" type="text/css">
 <script src="lib/featherlight/featherlight.min.js" type="text/javascript"></script>
 <script src="lib/js.cookie.min.js" type="text/javascript"></script>
 
-<!-- App styles and JS -->
+<!-- App JS -->
 <?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
-<link rel="stylesheet" href="css/production.css" type="text/css">
-<script async src="js/production.js" type="text/javascript"></script>
+<script async src="build/production.js" type="text/javascript"></script>
 <?php else: ?>
-<link rel="stylesheet" href="css/production.min.css" type="text/css">
-<script async src="js/production.min.js" type="text/javascript"></script>
+<script async src="build/production.min.js" type="text/javascript"></script>
 <?php endif; ?>
 </body>
 </html>
