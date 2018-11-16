@@ -7,12 +7,15 @@
     <meta name="author" content="Peter Lopez">
     <meta name="description" content="Find a bite to eat">
     <meta name="keywords" content="lunch,picker,lunch picker">
-    <meta property='og:title' content='The Lunch Picker'>
-    <meta property='og:image' content='//thelunchpicker.com/assets/img/advert.png'>
-    <meta property='og:description' content='Find a bite to eat'>
-    <meta property='og:url' content='//thelunchpicker.com'>
+    <meta property="og:site_name" content="The Lunch Picker" />
+    <meta property='og:title' content='The Lunch Picker' />
+    <meta property="og:type" content="website" />
+    <meta property='og:image' content='http://thelunchpicker.com/assets/img/advert.png' />
+    <meta property="og:image:secure_url" content="https://thelunchpicker.com/assets/img/advert.png" />
+    <meta property='og:description' content='Find a bite to eat' />
+    <meta property='og:url' content='https://thelunchpicker.com' />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="assets/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSS libraries -->
     <link rel="stylesheet" href="build/vendor.css" type="text/css">
