@@ -7,6 +7,7 @@ window.Geolocation = new Geolocation();
 
 $(document).ready(function() {
     addMobileClassToHtml(navigator.userAgent.toLowerCase());
+    preventImgDrag();
 
     Yelp.init();
     Filters.init();
