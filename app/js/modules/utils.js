@@ -48,3 +48,9 @@ function addMobileClassToHtml(deviceAgent) {
         $html.addClass('mobile');
     }
 }
+
+function preventImgDrag() {
+    $('img').on('dragstart', function(event) {
+        event.preventDefault();
+    });
+}
