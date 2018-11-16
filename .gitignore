@@ -7,12 +7,4 @@ private
 node_modules
 
 # Gulp generated files
-production.js
-production.min.js
-production.css
-production.scss
-production.min.css
-vendor.js
-vendor.css
-vendor.min.js
-vendor.min.css
+build
