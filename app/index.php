@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>The Lunch Picker</title>
 
@@ -116,7 +116,7 @@
                                 <div class="location-content flyout">
                                     <a class="geolocate" href="#" title="">locate me</a>
                                     <p class="geolocation-error" style="display: none;">error fetching geolocation</p>
-                                    <input type="text" name="location" autocomplete="address" placeholder="San Fransisco, CA" />
+                                    <input type="text" name="location" autocomplete="address-level2" placeholder="San Fransisco, CA" />
                                     <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" style="display: none;" />
                                     <input type="hidden" name="geolocation" />
                                 </div>
@@ -190,15 +190,15 @@
 </div>
 
 <!-- JS libraries -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-<script src="lib/featherlight/featherlight.min.js" type="text/javascript"></script>
-<script src="lib/js.cookie.min.js" type="text/javascript"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="lib/featherlight/featherlight.min.js"></script>
+<script src="lib/js.cookie.min.js"></script>
 
 <!-- App JS -->
 <?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
-<script async src="build/production.js" type="text/javascript"></script>
+<script async src="build/production.js"></script>
 <?php else: ?>
-<script async src="build/production.min.js" type="text/javascript"></script>
+<script async src="build/production.min.js"></script>
 <?php endif; ?>
 </body>
 </html>
