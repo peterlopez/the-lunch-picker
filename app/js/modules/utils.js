@@ -54,3 +54,25 @@ function preventImgDrag() {
         event.preventDefault();
     });
 }
+
+/**
+ * @returns {boolean} true if Google Analytics loaded
+ */
+function gaPresent() {
+    return typeof ga === "function";
+}
+
+/**
+ * @param eventCategory
+ * @param eventAction
+ * @param eventLabel
+ * @param eventValue
+ * @param fieldsObject
+ *
+ * @see https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+ */
+function sendGaEvent(eventCategory, eventAction, eventLabel, eventValue, fieldsObject) {
+    if (gaPresent()) {
+        ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, fieldsObject);
+    }
+}

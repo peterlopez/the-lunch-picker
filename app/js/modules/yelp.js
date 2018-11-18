@@ -80,5 +80,7 @@ function Yelp()
 
         $("#spinner .loading-container p").text("Oops! There was a error.");
         $("#spinner .loading-container img").prop('src', 'assets/img/error.svg');
+
+        sendGaEvent('Spinner', 'error', null, {nonInteraction: true});
     };
 }
