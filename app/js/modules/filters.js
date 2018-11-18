@@ -4,6 +4,8 @@
  */
 function Filters()
 {
+    this.$container = $("#filters");
+
     // filter buttons on toolbar
     this.$cuisines = $("#toolbar #cuisines");
     this.$location = $("#toolbar #location");
@@ -97,8 +99,7 @@ function Filters()
     this.bindEventHandlers = function()
     {
         // Open filters in modals on mobile
-        var isMobile = $("html").hasClass('mobile');
-        if (isMobile) {
+        if (isMobile()) {
             Filters.$cuisines.on('click', this.toggleFilterModal);
             Filters.$location.on('click', this.toggleFilterModal);
             Filters.$price.on('click', this.toggleFilterModal);

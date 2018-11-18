@@ -285,6 +285,19 @@ function Spinner()
         Spinner.$spinBtn.prop('disabled', true);
         Spinner.$spinner.addClass('nonscrollable');
 
+        /**
+         * for tiny mobile scroll down past logo
+         */
+        if (isMobile() && $(window).height() <= 620) {
+            var filterContainerTopOffset = Filters.$container.offset().top; // px
+            var buffer = 10; // px
+            var scrollTo = filterContainerTopOffset - buffer; // px
+
+            $("html, body").animate({
+                scrollTop: scrollTo
+            }, 450);
+        }
+
         //
         // This code is from back when I was thinking of queuing up
         // multiple transform animations:
@@ -312,8 +325,8 @@ function Spinner()
          * @var winner {int}
          **/
         var winner = listLength - Spinner.scrollPastBuffer - (Spinner.originalListLength - Spinner.winner);
-        console.log("winning number: "+Spinner.winner);
-        console.log("scrolling to "+winner+" of "+listLength);
+        // console.log("winning number: "+Spinner.winner);
+        // console.log("scrolling to item "+winner+" of "+listLength);
 
         var winningItem = Spinner.$items()[winner];
         Spinner.$winningItem = $(winningItem);

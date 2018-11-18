@@ -49,6 +49,16 @@ function addMobileClassToHtml(deviceAgent) {
     }
 }
 
+/**
+ * @return boolean
+ */
+function isMobile() {
+    return $("html").hasClass('mobile');
+}
+
+/**
+ *
+ */
 function preventImgDrag() {
     $('img').on('dragstart', function(event) {
         event.preventDefault();
