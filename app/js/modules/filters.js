@@ -225,9 +225,9 @@ function Filters()
         // "submit" after enter key
         if (event.which === 13) {
             event.preventDefault();
-            this.$location.trigger('click');
-            this.$filterApplyBtn.trigger('click');
-            this.$filterApplyBtn.fadeOut('fast');
+            Filters.$location.trigger('click');
+            Filters.$filterApplyBtn.trigger('click');
+            Filters.$filterApplyBtn.fadeOut('fast');
         }
 
         event.stopPropagation();
