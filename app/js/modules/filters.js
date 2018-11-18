@@ -92,7 +92,7 @@ function Filters()
     };
 
     /**
-     *
+     * @callback Filters.init()
      */
     this.bindEventHandlers = function()
     {
@@ -168,7 +168,8 @@ function Filters()
     };
 
     /**
-     *
+     * also disables spin button
+     * @callback input:change
      */
     this.showApplyFilterBtn = function()
     {
@@ -216,6 +217,7 @@ function Filters()
 
     /**
      * @param {event} event
+     * @callback location-input:keypress
      */
     this.processLocationInput = function(event)
     {
@@ -231,6 +233,23 @@ function Filters()
         }
 
         event.stopPropagation();
+    };
+
+    /**
+     * @param {event} event
+     * @callback all-checkbox:change
+     */
+    this.toggleAllCuisines = function(event)
+    {
+        event.preventDefault();
+
+        var newState = event.target.checked;
+
+        // apply newState to all checkboxes
+        var $cuisines = Filters.$cuisinesInputs();
+        $cuisines.each(function() {
+            $(this).prop('checked', newState);
+        });
     };
 
     /**
@@ -310,21 +329,5 @@ function Filters()
     {
         Filters.$locationInput().val(this.locationCookie);
         Filters.$geolocationInput().val(this.geolocationCookie);
-    };
-
-    /**
-     * @param {event} event
-     */
-    this.toggleAllCuisines = function(event)
-    {
-        event.preventDefault();
-
-        var newState = event.target.checked;
-
-        // apply newState to all checkboxes
-        var $cuisines = Filters.$cuisinesInputs();
-        $cuisines.each(function() {
-            $(this).prop('checked', newState);
-        });
     };
 }

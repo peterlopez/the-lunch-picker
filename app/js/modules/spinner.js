@@ -11,54 +11,91 @@
 function Spinner()
 {
     this.$spinner = $("#spinner");
+    this.$spinBtn = $("#btn-spin");
     this.listCSSClass = 'spinner-content';
+
+    /**
+     * Warning!
+     * These DOM element properties are functions:
+     *   this.$items()
+     */
+    /**
+     * @returns {jQuery|HTMLElement}
+     */
     this.$list = function() {
         return $("."+this.listCSSClass);
     };
+    /**
+     * @returns {jQuery|HTMLElement}
+     */
     this.$items = function() {
         return $("#spinner .item");
     };
+    /**
+     * @returns {int}
+     */
     this.numItems = function() {
         return this.$items().length;
     };
 
-    this.$spinBtn = $("#btn-spin");
-    this.$loadingScreen = $(".loading-container");
 
-    // this.position = 0;
+    /**
+     * This element sits outside the spinner and gets copied into spinner
+     *
+     * @type {jQuery|HTMLElement}
+     */
+    this.$loadingScreen = $(".loading-container");
 
     /**
      * index of item in original list
      * picked to be winner
-     * (at center position when spinner stops spinning)
      *
      * @type {number}
      */
     this.winner = 0;
 
-    this.baseSpeed = .5; // in px per ms
+    /**
+     * item in list which will be at center of container
+     * when spinner stops spinning
+     *
+     * @type {null}
+     */
+    this.$winningItem = null;
+
+    this.baseSpeed = .6; // in px per ms
     this.speed = 1; // in px per ms
-    this.duration = 2000; // in ms
+    this.duration = 2400; // in ms
     this.speedUpDuration = 400; // in ms
-    this.slowDownDuration = 400; // in ms
+    this.slowDownDuration = 300; // in ms
 
     this.numItems = 0;
     this.numVisibleItems = 0;
     this.stopItemNumber = 0;
 
     /**
-     * current = middle of the visible list
-     * next = 1st item outside of visible list
+     * Essential for calculating pixels to scroll
      *
      * @type {number}
      */
+    this.itemHeight = 0;
+
+    /**
+     * Fixed height container of visible items
+     *
+     * @type {number}
+     */
+    this.containerHeight = 0;
+
+    // /**
+    //  * current = middle of the visible list
+    //  * next = 1st item outside of visible list
+    //  *
+    //  * @type {number}
+    //  */
     // this.currentItem = 0;
     // this.$currentItem = null;
     // this.nextItem = 0;
     // this.$nextItem = null;
-
-    this.itemHeight = 0;
-    this.containerHeight = 0;
 
     /**
      * @callback from Spinner.update()
@@ -238,22 +275,48 @@ function Spinner()
         Spinner.$spinBtn.prop('disabled', true);
         Spinner.$spinner.addClass('nonscrollable');
 
+        //
+        // This code is from back when I was thinking of queuing up
+        // multiple transform animations:
+        //  - speeding up
+        //  - going constant
+        //  - slowing down
+        //
         // calculate stopping point of acceleration
         // var accelFinishPoint = Spinner.speedUpDuration * (Spinner.baseSpeed + (Spinner.baseSpeed * Spinner.accelFactor)); // compound this over duration
         // var accelFinishPoint = this.speedUpDuration * this.itemHeight;
         // var constantFinishPoint = accelFinishPoint + Spinner.distanceTotal - accelFinishPoint - (Spinner.slowDownDuration * (Spinner.baseSpeed + (Spinner.baseSpeed * Spinner.accelFactor)));
-
+        //
         // 100% - (itemHeight * (list.length - winning))
         // var listHeight = Spinner.$list().height();
         // var visibleAreaHeight = Spinner.$list().outerHeight();
         // var heightOfListItemsToWinner = Spinner.itemHeight * (Spinner.numItems - Spinner.winning);
 
+        /**
+         * Index of winning item in full, repeated list of items
+         * example:
+         * winning item = item 8 of 20
+         * total list length = 37 items
+         * winner = item 25 of 37
+         *
+         * @var winner {int}
+         **/
         var winner = listLength - (Spinner.originalListLength - Spinner.winner);
 
+        var winningItem = Spinner.$items()[winner];
+        Spinner.$winningItem = $(winningItem);
+
+        /**
+         * Calculate final stopping point of the animation
+         * in order to end with winner in center
+         *
+         * @var decelFinishPoint {number}
+         */
         var decelFinishPoint = (winner * Spinner.itemHeight) - Spinner.containerHeight;
         decelFinishPoint += Math.round(.5 * Spinner.numVisibleItems) * Spinner.itemHeight;
 
-        // TODO scroll up a little (wind up)
+        // TODO
+        // scroll up a little (wind up)
         // Spinner.$list().transition({ y: -decelFinishPoint+"px" }, Spinner.slowDownDuration, 'ease');
 
         // scroll to end
