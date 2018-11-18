@@ -68,6 +68,14 @@ function Spinner()
     this.speedUpDuration = 400; // in ms
     this.slowDownDuration = 300; // in ms
 
+    /**
+     * Number of extra items added to end of list
+     * in order to buffer bottom from items at end of list
+     *
+     * @type {number}
+     */
+    this.scrollPastBuffer = 10;
+
     this.numItems = 0;
     this.numVisibleItems = 0;
     this.stopItemNumber = 0;
@@ -122,7 +130,6 @@ function Spinner()
 
         // pick a winner
         this.winner = this.pickWinner();
-        // console.log("winning number: "+this.winning);
 
         this.bindEventHandlers();
     };
@@ -222,8 +229,11 @@ function Spinner()
      */
     this.getNumItemsToAdd = function(distanceTotal)
     {
-        // divide by item height
+        // divide total distance by item height
         var numItemsToAdd = Math.round(distanceTotal / this.itemHeight);
+        // add in buffer
+        numItemsToAdd += Spinner.scrollPastBuffer;
+
         return numItemsToAdd;
     };
 
@@ -301,7 +311,9 @@ function Spinner()
          *
          * @var winner {int}
          **/
-        var winner = listLength - (Spinner.originalListLength - Spinner.winner);
+        var winner = listLength - Spinner.scrollPastBuffer - (Spinner.originalListLength - Spinner.winner);
+        console.log("winning number: "+Spinner.winner);
+        console.log("scrolling to "+winner+" of "+listLength);
 
         var winningItem = Spinner.$items()[winner];
         Spinner.$winningItem = $(winningItem);
