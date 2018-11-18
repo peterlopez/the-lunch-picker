@@ -51,7 +51,7 @@
 
             <div id="toolbar">
                 <form id="filter-form" action="./yelp.php" method="get">
-                    <div id="filters" class="">
+                    <div id="filters">
                         <!-- cuisines filter -->
                         <div class="filter-container">
                             <div id="cuisines" class="filter btn btn-outline-primary">

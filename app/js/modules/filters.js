@@ -4,6 +4,8 @@
  */
 function Filters()
 {
+    this.$container = $("#filters");
+
     // filter buttons on toolbar
     this.$cuisines = $("#toolbar #cuisines");
     this.$location = $("#toolbar #location");
@@ -92,13 +94,12 @@ function Filters()
     };
 
     /**
-     *
+     * @callback Filters.init()
      */
     this.bindEventHandlers = function()
     {
         // Open filters in modals on mobile
-        var isMobile = $("html").hasClass('mobile');
-        if (isMobile) {
+        if (isMobile()) {
             Filters.$cuisines.on('click', this.toggleFilterModal);
             Filters.$location.on('click', this.toggleFilterModal);
             Filters.$price.on('click', this.toggleFilterModal);
@@ -168,7 +169,8 @@ function Filters()
     };
 
     /**
-     *
+     * also disables spin button
+     * @callback input:change
      */
     this.showApplyFilterBtn = function()
     {
@@ -216,6 +218,7 @@ function Filters()
 
     /**
      * @param {event} event
+     * @callback location-input:keypress
      */
     this.processLocationInput = function(event)
     {
@@ -225,12 +228,29 @@ function Filters()
         // "submit" after enter key
         if (event.which === 13) {
             event.preventDefault();
-            this.$location.trigger('click');
-            this.$filterApplyBtn.trigger('click');
-            this.$filterApplyBtn.fadeOut('fast');
+            Filters.$location.trigger('click');
+            Filters.$filterApplyBtn.trigger('click');
+            Filters.$filterApplyBtn.fadeOut('fast');
         }
 
         event.stopPropagation();
+    };
+
+    /**
+     * @param {event} event
+     * @callback all-checkbox:change
+     */
+    this.toggleAllCuisines = function(event)
+    {
+        event.preventDefault();
+
+        var newState = event.target.checked;
+
+        // apply newState to all checkboxes
+        var $cuisines = Filters.$cuisinesInputs();
+        $cuisines.each(function() {
+            $(this).prop('checked', newState);
+        });
     };
 
     /**
@@ -310,21 +330,5 @@ function Filters()
     {
         Filters.$locationInput().val(this.locationCookie);
         Filters.$geolocationInput().val(this.geolocationCookie);
-    };
-
-    /**
-     * @param {event} event
-     */
-    this.toggleAllCuisines = function(event)
-    {
-        event.preventDefault();
-
-        var newState = event.target.checked;
-
-        // apply newState to all checkboxes
-        var $cuisines = Filters.$cuisinesInputs();
-        $cuisines.each(function() {
-            $(this).prop('checked', newState);
-        });
     };
 }
