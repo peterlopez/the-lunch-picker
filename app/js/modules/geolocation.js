@@ -107,6 +107,8 @@ function Geolocation()
 
         // Request geolocation
         navigator.geolocation.getCurrentPosition(Geolocation.geolocationSuccess, Geolocation.geolocationError);
+
+        sendGaEvent('Geolocation', 'fired');
     };
 
     /**

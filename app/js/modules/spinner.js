@@ -104,7 +104,7 @@ function Spinner()
         for(var i=0; i < restaurants.length; i++) {
             var restaurant = restaurants[i];
             output += "<div class='restaurant item'><a href='" + restaurant['url'] + "' target='_blank'>";
-            output += "  <p class='restaurant-name'>" + restaurant['name'] + "</p>";
+            output +=   "<p class='restaurant-name'>" + restaurant['name'] + "</p>";
             output += "</a></div>";
         }
         output += "</div>";
@@ -120,6 +120,12 @@ function Spinner()
     this.bindEventHandlers = function()
     {
         this.$spinBtn.on('click', this.spin);
+
+        $document.on('click', '.restaurant a', function(event) {
+            event.preventDefault();
+            sendGaEvent('Outbound Link', 'click', null, this.href, {transport: 'beacon'});
+            window.open(this.href);
+        });
     };
 
     /**
@@ -134,9 +140,7 @@ function Spinner()
         }
 
         this.$spinner.addClass("loading");
-        // var $loadingScreen = this.$loadingScreen.clone();
         this.$spinner.html(this.$loadingScreen);
-        // $loadingScreen.fadeIn();
     };
 
     /**
@@ -265,5 +269,7 @@ function Spinner()
             Spinner.$spinBtn.prop('disabled', false);
             Spinner.$spinBtn.text("spin again!");
         }, Spinner.duration);
+
+        sendGaEvent('Spinner', 'spin');
     };
 }

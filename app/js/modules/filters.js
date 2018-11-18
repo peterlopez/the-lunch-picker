@@ -210,6 +210,8 @@ function Filters()
 
         // Make API request
         Yelp.makeRequest();
+
+        sendGaEvent('Filters', 'update');
     };
 
     /**
