@@ -16,11 +16,11 @@ function Filters()
     this.$locationFlyout = $(".location-content");
     this.$priceFlyout = $(".prices-list");
 
-    // modal selectors - notice these are not jQuery objects
+    // modal selectors - notice these are only selectors not jQuery objects
     //                   because these elements are ephemeral
-    // this.cuisineModalSelector = '.featherlight-content .cuisines-list';
-    // this.locationModalSelector = '.featherlight-content .location-content';
-    // this.priceModalSelector = '.featherlight-content .prices-list';
+    this.cuisineModalSelector = '.featherlight-content .cuisines-list';
+    this.locationModalSelector = '.featherlight-content .location-content';
+    this.priceModalSelector = '.featherlight-content .prices-list';
 
     // cuisine filter inputs
     this.$allCuisinesCheckbox = function() { return $(".all-checkbox"); };
@@ -228,9 +228,22 @@ function Filters()
         // "submit" after enter key
         if (event.which === 13) {
             event.preventDefault();
-            Filters.$location.trigger('click');
-            Filters.$filterApplyBtn.trigger('click');
-            Filters.$filterApplyBtn.fadeOut('fast');
+
+            if (isMobile()) {
+                // copy modal input value into toolbar input value
+                var $modalInput = $(Filters.locationModalSelector).find("input name=['location']");
+                Filters.$location.val($modalInput.val());
+
+                // close modal
+                $.featherlight.current().close();
+            }
+            else {
+                Filters.$location.trigger('click');
+            }
+            setTimeout(function() {
+                Filters.$filterApplyBtn.trigger('click');
+                Filters.$filterApplyBtn.fadeOut('fast');
+            }, 200);
         }
 
         event.stopPropagation();

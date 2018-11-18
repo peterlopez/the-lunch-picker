@@ -97,7 +97,7 @@ class Yelp
         $result = array();
         foreach($response['businesses'] as $business)
         {
-            $result['businesses'][] = array(
+            $result[] = array(
                 'name' => $business['name'],
                 'url' => $business['url']
             );

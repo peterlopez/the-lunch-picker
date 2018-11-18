@@ -142,9 +142,10 @@ function Spinner()
     {
         Spinner.$spinBtn.prop('disabled', false);
 
-        var output = "<div class='" + Spinner.listCSSClass + "'>";
-        var restaurants = data['businesses'];
+        var restaurants = data;
         restaurants = shuffle(restaurants);
+
+        var output = "<div class='" + Spinner.listCSSClass + "'>";
         for(var i=0; i < restaurants.length; i++) {
             var restaurant = restaurants[i];
             output += "<div class='restaurant item'><a href='" + restaurant['url'] + "' target='_blank'>";

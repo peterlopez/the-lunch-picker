@@ -25,7 +25,7 @@ function Yelp()
     };
 
     /**
-     *
+     * Trigger AJAX call to API given current form data
      */
     this.makeRequest = function()
     {
@@ -46,13 +46,21 @@ function Yelp()
         // validate data
         var isNull = (data === null);
         if (isNull) {
+            // normally this function is callback from AJAX
+            // hence, passing in all the nulls
             Yelp.errorCallback(null, null, null, data);
             return;
         }
 
-        var dataIsInvalid = (typeof data !== 'object' || typeof data.businesses === "undefined");
+        var dataIsInvalid = typeof data !== 'object';
         if (dataIsInvalid) {
             Yelp.errorCallback(null, null, null, data);
+            return;
+        }
+
+        var dataIsEmpty = data.length === 0;
+        if (dataIsEmpty) {
+            Yelp.emptyCallback();
             return;
         }
 
@@ -62,6 +70,20 @@ function Yelp()
     };
 
     /**
+     * Display message to user that there are no
+     * restaurants found given the query parameters
+     */
+    this.emptyCallback = function()
+    {
+        $("#spinner .loading-container p").text("Sorry, no restaurants found in this area");
+        $("#spinner .loading-container img").prop('src', ''); //assets/img/error.svg
+    };
+
+    /**
+     *
+     * Display message to user that there was an
+     * issue with the server response
+     *
      * @param {jqXHR} jqXHR
      * @param {String} textStatus
      * @param {String} errorThrown
