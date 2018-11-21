@@ -6,5 +6,4 @@ services:
       - ./app:/var/www/html
     ports:
     - "80:80"
-    env_file:
-      - private/yelp.env
+    env_file: .env

@@ -1,5 +1,8 @@
 .idea
 
+# Docker environment variables
+.env
+
 # private config files or scripts
 private
 
