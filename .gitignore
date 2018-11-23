@@ -11,3 +11,6 @@ node_modules
 
 # Gulp generated files
 build
+
+# Composer files
+vendor
