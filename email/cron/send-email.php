@@ -8,7 +8,7 @@ require '/usr/local/src/the-lunch-picker/email/EmailTask.php';
 // subscribers will not get more than 1 message per day
 //
 
-const SENDGRID_EMAIL_TEMPLATE_ID = 'd-f46651a0c58047e4a30d9681eb27ce37';
+$templateId = getenv('EMAIL_TEMPLATE_DAILY_RANDOM_LUNCH');
 
 $success = true;
 
@@ -21,7 +21,8 @@ if (empty($argv[1])) {
 }
 
 try {
-    $emailTask->run();
+    $emailTask->setTemplateId($templateId);
+    $emailTask->sendDailyRandomLunchEmail();
 } catch (Exception $e) {
     $success = false;
     echo $e->getMessage(), PHP_EOL, PHP_EOL;

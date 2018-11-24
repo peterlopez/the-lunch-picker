@@ -12,6 +12,11 @@ require($ROOT_DIR . "/vendor/autoload.php");
 class EmailTask
 {
     /**
+     * @var string SendGrid Transactional Template ID
+     */
+    protected $emailTemplateId = '';
+
+    /**
      * @var string name of SQLite3 database file
      */
     const DB_FILENAME = 'subscribers.sqlite3';
@@ -38,19 +43,34 @@ class EmailTask
 
     /**
      * EmailTask constructor.
+     *
+     * @param string $templateId
      */
-    public function __construct()
+    public function __construct($templateId = null)
     {
+        $this->emailTemplateId = $templateId;
+
         $this->getDbConnection();
+    }
+
+    /**
+     * @param string $templateId
+     */
+    public function setTemplateId($templateId)
+    {
+        $this->emailTemplateId = $templateId;
     }
 
     /**
      * @throws Exception
      */
-    public function run()
+    public function sendDailyRandomLunchEmail()
     {
         if (empty(getenv('SENDGRID_API_KEY'))) {
             throw new Exception("no SendGrid API key found");
+        }
+        if (empty($this->emailTemplateId)) {
+            throw new Exception("no SendGrid Transactional Template ID specified");
         }
 
         $recipients = $this->getRecipients();
@@ -240,7 +260,7 @@ class EmailTask
         $email->setFrom($this::FROM_ADDRESS, $this::FROM_NAME);
         $email->addTo($to);
 
-        $email->setTemplateId(SENDGRID_EMAIL_TEMPLATE_ID);
+        $email->setTemplateId($this->emailTemplateId);
 
         $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 
