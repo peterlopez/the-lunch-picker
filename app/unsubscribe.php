@@ -17,6 +17,7 @@ if ($formSubmitted && $formIsValid) {
 
         if($emailTask->validateUnsubscribeToken($_POST['email'], $_POST['unsubscribe_token'])) {
             $emailTask->unsubscribe($_POST['email']);
+            $emailTask->closeDbConnection();
         }
     } catch (Exception $e) {
         $success = false;
@@ -46,18 +47,6 @@ if ($formSubmitted && $formIsValid) {
     <title>The Lunch Picker</title>
 
     <meta charset="UTF-8">
-    <meta name="author" content="Peter Lopez">
-    <meta name="description" content="Find a bite to eat">
-    <meta name="keywords" content="lunch,picker,lunch picker">
-    <meta property="og:site_name" content="The Lunch Picker" />
-    <meta property="og:title" content="The Lunch Picker" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="http://thelunchpicker.com/assets/img/advert.png" />
-    <meta property="og:image:secure_url" content="https://thelunchpicker.com/assets/img/advert.png" />
-    <meta property="og:image:width" content="1267" />
-    <meta property="og:image:height" content="316" />
-    <meta property="og:description" content="Find a bite to eat" />
-    <meta property="og:url" content="https://thelunchpicker.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="assets/favicon.ico">
 
@@ -88,28 +77,31 @@ if ($formSubmitted && $formIsValid) {
         <!-- Header -->
         <div id="header" class="container no-padding">
             <div id="logo-container">
-                <img id="logo" src="assets/img/logo.svg" alt="" title="" />
+                <a href="/"><img id="logo" src="assets/img/logo.svg" alt="" title="" /></a>
             </div>
         </div>
 
         <div id="form-container">
             <h2>Unsubscribe</h2>
-            <?php if ($_SESSION['success']): ?>
-                <p class="success-banner"><?php echo $_POST['email'] ?> successfully removed from the mailing list.</p>
-            <?php endif; ?>
-            <?php if ($_SESSION['error']): ?>
-                <p class="error-banner">
-                    Error processing request. Try again later.<br/>
-                    <span class="mono-font"><?php echo $_SESSION['error_message']; ?></span>
-                </p>
-            <?php endif; ?>
-            <p>Enter your email address to stop receiving daily lunch emails.</p>
+        <?php if ($_SESSION['success']): ?>
+            <p class="success-banner"><?php echo $_POST['email'] ?> successfully removed from the mailing list.</p>
+            <p><a class="btn btn-success" href="/">Find Lunch</a></p>
+        <?php endif; ?>
+        <?php if ($_SESSION['error']): ?>
+            <p class="error-banner">
+                Error processing request. Try again later.<br/>
+                <span class="mono-font"><?php echo $_SESSION['error_message']; ?></span>
+            </p>
+        <?php endif; ?>
+        <?php if (empty($_SESSION['success'])): ?>
+            <p class="description">Enter your email address below to stop receiving daily lunch emails.</p>
             <form action="unsubscribe.php" method="post">
                 <input type="hidden" name="unsubscribe" value="1" />
                 <input type="hidden" name="unsubscribe_token" value="<?php echo $_GET['token']; ?>" />
                 <input type="email" required autocomplete="on" name="email" title="email" value="<?php echo $_GET['email']; ?>" />
                 <input class="btn btn-primary" type="submit" />
             </form>
+        <?php endif; ?>
         </div>
     </div>
 </div>

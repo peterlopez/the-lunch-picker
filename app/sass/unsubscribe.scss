@@ -1,0 +1,26 @@
+#unsubscribe {
+
+  h2 {
+    margin-bottom: 15px;
+  }
+  .success-banner,
+  .error-banner {
+    margin: 15px 0;
+    padding: 10px 10px;
+  }
+  .success-banner {
+    border: 1px solid #28a745;
+    background: #2dcc408f;
+  }
+  .error-banner {
+    border: 1px solid red;
+    background: #ff8787;
+  }
+  .description {
+    margin-bottom: 10px;
+  }
+  input[type='email'] {
+    margin-right: 5px;
+    margin-bottom: 15px;
+  }
+}
