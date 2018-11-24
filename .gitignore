@@ -14,3 +14,6 @@ build
 
 # Composer files
 vendor
+
+# App data (mainly email subscriber database)
+db
