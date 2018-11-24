@@ -3,10 +3,13 @@ use \SendGrid\Mail\To as To;
 
 //
 //
-// sends a specific email to subscribers in database
+// sends a specific email template with data to subscribers in database
 // this script should ideally be run on a cron
 //
+// subscribers will not get more than 1 message per day
 //
+//
+const SENDGRID_EMAIL_TEMPLATE_ID = 'd-f46651a0c58047e4a30d9681eb27ce37';
 
 // Load Composer libraries
 $ROOT_DIR = dirname(dirname(__FILE__));
@@ -18,7 +21,7 @@ echo "Starting..", PHP_EOL, PHP_EOL;
 $emailTask = new EmailTask();
 
 if (empty($argv[1])) {
-    echo 'Sending TEST email', PHP_EOL, PHP_EOL;
+    echo 'Sending test email', PHP_EOL, PHP_EOL;
     $emailTask->isTestRun = true;
 }
 
@@ -121,9 +124,11 @@ class EmailTask
                 throw new Exception('HTTP '.$emailResponseCode.' bad response from SendGrid service');
             }
 
-            // show progress
+            // Update last sent date
             if (!$this->isTestRun) {
-                echo ".";
+                $this->updateLastSent($recipient);
+
+                echo "."; // show progress
             }
         }
 
@@ -165,10 +170,13 @@ class EmailTask
             ]];
         }
         else {
+            $query  = "SELECT * FROM subscribers ";
+            $query .= "WHERE last_sent <= datetime('now','-1 day')";
+
             // prepare and execute query
-            $query = $this->dbh->prepare("SELECT * FROM subscribers");
-            $query->execute();
-            $recipients = $query->fetchAll();
+            $stmt = $this->dbh->prepare($query);
+            $stmt->execute();
+            $recipients = $stmt->fetchAll();
             if (empty($recipients)) {
                 return false;
             }
@@ -254,13 +262,29 @@ class EmailTask
         $email->setFrom("dailymail@thelunchpicker.com", "The Lunch Picker");
         $email->addTo($to);
 
-        $email->setTemplateId("d-f46651a0c58047e4a30d9681eb27ce37");
+        $email->setTemplateId(SENDGRID_EMAIL_TEMPLATE_ID);
 
         $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 
         $response = $sendgrid->send($email);
 
         return $response->statusCode();
+    }
+
+    /**
+     * @param $recipient
+     * @return void
+     */
+    protected function updateLastSent($recipient)
+    {
+        $query  = "UPDATE subscribers ";
+        $query .= "SET last_sent = datetime('now') ";
+        $query .= "WHERE email='".$recipient['email']."' ";
+
+        // prepare and execute query
+        $stmt = $this->dbh->prepare($query);
+        $stmt->execute();
+        return;
     }
 
     /**
