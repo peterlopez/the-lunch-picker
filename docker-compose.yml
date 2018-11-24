@@ -4,6 +4,7 @@ services:
     image: php:7.2-apache
     volumes:
       - ./app:/var/www/html
+      - .:/usr/local/src/the-lunch-picker
     ports:
     - "80:80"
     env_file: .env
