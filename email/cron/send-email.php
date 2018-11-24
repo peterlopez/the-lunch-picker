@@ -54,6 +54,16 @@ class EmailTask
     const DB_FILENAME = 'subscribers.sqlite3';
 
     /**
+     * @var string email 'from'
+     */
+    const FROM_ADDRESS = "mail@thelunchpicker.com";
+
+    /**
+     * @var string email 'from'
+     */
+    const FROM_NAME = "The Lunch Picker";
+
+    /**
      * @var PDO|null
      */
     protected $dbh = null;
@@ -259,7 +269,7 @@ class EmailTask
         );
 
 
-        $email->setFrom("dailymail@thelunchpicker.com", "The Lunch Picker");
+        $email->setFrom($this::FROM_ADDRESS, $this::FROM_NAME);
         $email->addTo($to);
 
         $email->setTemplateId(SENDGRID_EMAIL_TEMPLATE_ID);
