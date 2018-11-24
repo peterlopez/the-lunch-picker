@@ -16,4 +16,4 @@ build
 vendor
 
 # App data (mainly email subscriber database)
-db
+*.sqlite3
