@@ -185,8 +185,95 @@
 
         <!-- footer -->
         <div id="footer">
-            <p class="yelp-credentials">restaurants provided by <img src="assets/img/yelp_logo.png" alt="Yelp" title="Yelp"></p>
-            <p>created by Peter Lopez</p>
+            <div class="footer-left">
+                <p class="email-subscribe-msg"><a href="#" data-featherlight="#email-subscribe-form" data-featherlight-persist="true">Subscribe</a> for email notifications.</p>
+
+                <!-- Email signup form (displayed in modal) -->
+                <form id="email-subscribe-form" action="subscribe" method="post">
+                    <input type="hidden" name="subscribe" value="1" />
+                    <p class="description">Get today's lunch selection delivered right to your inbox everyday at noon!</p>
+
+                    <!-- Step 1 -->
+                    <div class="email-input-step" data-step="1">
+                        <input type="email" name="email" autocomplete="email" placeholder="your@email.com" value="" required />
+                        <br/>
+                        <button class="btn btn-primary" type="button" data-next-step="2" disabled>continue</button>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="location-content hidden" data-step="2">
+                        <input type="text" name="location" required autocomplete="address-level2" placeholder="San Fransisco, CA" />
+                        <br/>
+                        <button class="btn btn-secondary" type="button" data-prev-step="1">back</button>
+                        <button class="btn btn-primary" type="button" data-next-step="3" disabled>continue</button>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="cuisines-list hidden" data-step="3">
+                        <label>
+                            <input class="all-checkbox" type="checkbox" name="all-checkbox" value="all" checked />
+                            All
+                        </label>
+                        <label for="email-cuisine-tradamerican">
+                            <input id="email-cuisine-tradamerican" type="checkbox" name="cuisines[]" value="tradamerican" checked />
+                            American
+                        </label>
+                        <label for="email-cuisine-bbq">
+                            <input id="email-cuisine-bbq" type="checkbox" name="cuisines[]" value="bbq" checked />
+                            BBQ
+                        </label>
+                        <label for="email-cuisine-pizza">
+                            <input id="email-cuisine-pizza" type="checkbox" name="cuisines[]" value="pizza" checked />
+                            Pizza
+                        </label>
+                        <label for="email-cuisine-delis">
+                            <input id="email-cuisine-delis" type="checkbox" name="cuisines[]" value="delis" checked />
+                            Delis
+                        </label>
+                        <label for="email-cuisine-indian">
+                            <input id="email-cuisine-indian" type="checkbox" name="cuisines[]" value="indpak" checked />
+                            Indian
+                        </label>
+                        <label for="email-cuisine-hotdogs">
+                            <input id="email-cuisine-hotdogs" type="checkbox" name="cuisines[]" value="hotdogs" checked />
+                            Fast Food
+                        </label>
+                        <label for="email-cuisine-japanese">
+                            <input id="email-cuisine-japanese" type="checkbox" name="cuisines[]" value="japanese" checked />
+                            Japanese
+                        </label>
+                        <label for="email-cuisine-italian">
+                            <input id="email-cuisine-italian" type="checkbox" name="cuisines[]" value="italian" checked />
+                            Italian
+                        </label>
+                        <label for="email-cuisine-mediterranean">
+                            <input id="email-cuisine-mediterranean" type="checkbox" name="cuisines[]" value="mediterranean" checked />
+                            Mediterranean
+                        </label>
+                        <label for="email-cuisine-mexican">
+                            <input id="email-cuisine-mexican" type="checkbox" name="cuisines[]" value="mexican" checked />
+                            Mexican
+                        </label>
+                        <label for="email-cuisine-vegan">
+                            <input id="email-cuisine-vegan" type="checkbox" name="cuisines[]" value="vegan" checked />
+                            Vegan
+                        </label>
+
+                        <button class="btn btn-secondary" type="button" data-prev-step="2">back</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+
+                    <div class="success-confirmation hidden">
+                        <p class="checkmark">&#10004;</p>
+                        <p>success!</p>
+                        <button type="button" class="btn btn-success">close</button>
+                    </div>
+                </form>
+            </div>
+            <div class="footer-right">
+                <p class="yelp-credentials">restaurants provided by <img src="assets/img/yelp_logo.png" alt="Yelp" title="Yelp"></p>
+                <p>created by Peter Lopez</p>
+            </div>
         </div>
     </div>
 </div>
