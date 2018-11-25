@@ -87,10 +87,14 @@ button {
   font-size: 8pt;
   display: flex;
   justify-content: space-between;
-}
-.yelp-credentials img {
-  height: 14pt;
-  margin-bottom: 5px ;
+
+  .email-subscribe-msg {
+    font-size: 10pt;
+  }
+  .yelp-credentials img {
+    height: 14pt;
+    margin-bottom: 5px ;
+  }
 }
 @media (max-width: $bp-sm) {
   #footer {

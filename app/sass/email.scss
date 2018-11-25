@@ -1,0 +1,54 @@
+#email-subscribe-form {
+  display: none;
+  padding: 20px;
+  min-height: 200px;
+
+  // Hide second and third steps by default
+  .location-content,
+  .cuisines-list {
+    display: none;
+  }
+  .cuisines-list.active {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .description {
+    margin-bottom: 15px;
+  }
+  .btn {
+    margin-top: 10px;
+  }
+}
+.featherlight #email-subscribe-form {
+  display: block;
+}
+
+#unsubscribe {
+
+  h2 {
+    margin-bottom: 15px;
+  }
+  .success-banner,
+  .error-banner {
+    margin: 15px 0;
+    padding: 10px 10px;
+  }
+  .success-banner {
+    border: 1px solid #28a745;
+    background: #2dcc408f;
+  }
+  .error-banner {
+    border: 1px solid red;
+    background: #ff8787;
+  }
+  .description {
+    margin-bottom: 10px;
+  }
+  input[type='email'] {
+    margin-right: 5px;
+    margin-bottom: 15px;
+  }
+}
