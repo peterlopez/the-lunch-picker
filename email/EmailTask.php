@@ -301,6 +301,27 @@ class EmailTask
     }
 
     /**
+     * @param string $email
+     * @param array $cuisines
+     * @param string $location
+     * @return void
+     */
+    public function subscribe($email, $cuisines, $location)
+    {
+        $unsubscribe_token = $this->generateUnsubscribeToken($email);
+
+        $cuisines = implode(',', $cuisines);
+
+        $query  = "INSERT INTO subscribers ";
+        $query .= "(active, email, cuisines, location, unsubscribe_token) ";
+        $query .= "VALUES (?, ?, ?, ?, ?)";
+
+        // prepare and execute query
+        $stmt = $this->dbh->prepare($query);
+        $stmt->execute([1, $email, $cuisines, $location, $unsubscribe_token]);
+    }
+
+    /**
      * Create obfuscated hash
      *
      * @param string $email
