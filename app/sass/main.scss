@@ -91,7 +91,7 @@ button {
   display: flex;
   justify-content: space-between;
 
-  .email-subscribe-msg {
+  .newsletter__link {
     font-size: 10pt;
   }
   .yelp-credentials img {
@@ -103,8 +103,14 @@ button {
   #footer {
     flex-direction: column;
     align-items: center;
-  }
-  .yelp-credentials {
-    margin-bottom: 10px;
+
+    .newsletter__link {
+      margin-bottom: 10px;
+      font-size: 9pt;
+    }
+    .footer-right {
+      width: 100%;
+      text-align: center;
+    }
   }
 }

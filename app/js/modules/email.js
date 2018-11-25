@@ -1,26 +1,34 @@
 /**
+ * This class handles functionality for registering users
+ * for the newsletter
+ *
+ * A multi step form is presented in a 'featherlight' popup
+ * in order for users to input data which makes up
+ * AJAX request to script: subscribe.php
+ *
+ * Stepping forward and backward through the form
+ * is reliant on HTML data- attributes
  *
  * @constructor
  */
 function Email()
 {
     /**
-     * selectors for elements of subscribe form
-     * that appears within featherlight popup
+     * elements of newsletter form
      *
-     * @type {string}
+     * @type {object} jQuery
      */
-    this.descriptionMessage = "#email-subscribe-form .description";
-    this.emailInput = "#email-subscribe-form input[type='email']";
-    this.locationInput = "#email-subscribe-form .location-content input";
-    this.cuisineInputs = "#email-subscribe-form .cuisines-list input";
+    this.$explainText = $(".newsletter__form .newsletter__explaintext");
+    this.$emailInput = $(".newsletter__form input[type='email']");
+    this.$locationInput = $(".newsletter__form .location-content input");
 
-    this.continueBtns = "#email-subscribe-form .btn-primary";
-    this.backBtns = "#email-subscribe-form .btn-secondary";
-    this.submitBtn = "#email-subscribe-form .btn[type='submit']";
-    this.$successBtn = $("#email-subscribe-form .success-confirmation button");
+    // Buttons
+    this.$continueBtns = $(".newsletter__form .btn-primary");
+    this.$backBtns = $(".newsletter__form .btn-secondary");
+    this.$submitBtn = $(".newsletter__form .btn[type='submit']");
+    this.$successBtn = $(".newsletter__form .newsletter__confirm button");
 
-    this.$successDialog = $("#email-subscribe-form .success-confirmation");
+    this.$successDialog = $(".newsletter__form .newsletter__confirm");
 
     /**
      * @callback document.ready
@@ -34,22 +42,25 @@ function Email()
      */
     this.bindEventHandlers = function()
     {
-        // prevent submitting form when hitting "enter" key in inputs
+        // prevent submitting form when hitting "enter" key when focused on inputs
         $document.on('keypress', ':input:not(textarea)', function(event) {
             if (event.which === 13) {
                 event.preventDefault();
             }
         });
 
-        $document.on('keypress change', this.emailInput, this.validateEmail);
-        $document.on('keypress change', this.locationInput, this.validateLocation);
-        $document.on('change', this.cuisineInputs, this.validateCuisines);
+        // enable / disable forward progress buttons until fields are valid
+        this.$emailInput.on('keypress change', this.validateEmail);
+        this.$locationInput.on('keypress change', this.validateLocation);
 
-        $document.on('click', this.continueBtns, this.stepForward);
-        $document.on('click', this.backBtns, this.stepBackward);
+        // Forward / backward buttons
+        this.$continueBtns.on('click', this.stepForward);
+        this.$backBtns.on('click', this.stepBackward);
 
-        $document.on('click', this.submitBtn, this.submitForm);
+        // Send AJAX request instead of default
+        this.$submitBtn.on('click', this.submitForm);
 
+        // Button on final page for closing featherlight
         this.$successBtn.on('click', function() {
             if ($.featherlight.current() !== null) {
                 $.featherlight.current().close();
@@ -89,27 +100,6 @@ function Email()
         // continue if enter key pressed and email is valid
         if (event.which === 13 && inputIsValid) {
             event.preventDefault();
-            $continueBtn.trigger('click');
-        }
-
-        if (inputIsValid) {
-            $continueBtn.prop('disabled', false);
-        } else {
-            $continueBtn.prop('disabled', true);
-        }
-    };
-
-    /**
-     * @param {event} event
-     */
-    this.validateCuisines = function(event)
-    {
-        var $continueBtn = $(this).siblings(".btn-primary");
-
-        var cuisineSelected = $(this).val().length > 0;
-
-        // continue if enter key pressed and email is valid
-        if (event.which === 13 && inputIsValid) {
             $continueBtn.trigger('click');
         }
 
@@ -175,7 +165,7 @@ function Email()
         $.ajax({
             type: "POST",
             url: './subscribe',
-            data: $("#email-subscribe-form").serialize(),
+            data: $(".newsletter__form").serialize(),
             success: Email.successCallback,
             error: Email.errorCallback
         });
@@ -186,11 +176,11 @@ function Email()
      */
     this.successCallback = function(data)
     {
-        // hide description message
-        $(Email.descriptionMessage).hide();
+        // hide explain text
+        Email.$explainText.hide();
 
         // hide active content
-        var $activeStep = $("#email-subscribe-form .active");
+        var $activeStep = $(".newsletter__form .active");
         $activeStep.hide();
 
         // show success dialog

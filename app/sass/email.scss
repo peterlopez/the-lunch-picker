@@ -1,47 +1,75 @@
-#email-subscribe-form {
-  display: none;
-  padding: 20px;
-  min-height: 200px;
+//
+// Newsletter signup form on page
+//
+.newsletter
+{
+  // Modal tweaks
+  .featherlight-content {
+    max-width: 400px;
 
-  .cuisines-list.active {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-
-  .success-confirmation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-    .checkmark {
-      font-size: 32pt;
-      color: #37ad37;
-      font-weight: bold;
-      margin-bottom: 10px;
+    .newsletter__form {
+      display: block;
     }
   }
-  input[type='text'],
-  input[type='email'] {
-    padding: 5px 0 5px 8px;
+
+  // Form elements
+  .newsletter__form
+  {
+    display: none;
+    padding: 20px;
+    min-height: 200px;
+
+    // Common elements
+    .newsletter__explaintext {
+      margin-bottom: 15px;
+      width: 85%;
+    }
+    .btn {
+      margin-top: 20px;
+    }
+    input[type='text'],
+    input[type='email'] {
+      padding: 5px 0 5px 8px;
+    }
+
+    // Stage 3
+    .cuisines-list {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding-left: 20px;
+
+      label {
+        width: 50%;
+      }
+    }
+
+    // Final stage
+    .newsletter__confirm {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .checkmark {
+        font-size: 32pt;
+        color: #37ad37;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    }
   }
-  .description {
-    margin-bottom: 15px;
-  }
-  .btn {
-    margin-top: 10px;
-  }
-}
-.featherlight #email-subscribe-form {
-  display: block;
 }
 
+//
+// Unsubscribe page
+//
 #unsubscribe {
 
   h2 {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   .success-banner,
   .error-banner {
@@ -56,7 +84,7 @@
     border: 1px solid red;
     background: #ff8787;
   }
-  .description {
+  .newsletter__explaintext {
     margin-bottom: 10px;
   }
   input[type='email'] {
