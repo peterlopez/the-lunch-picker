@@ -4,7 +4,7 @@
 CREATE TABLE "subscribers" (
 "id" INTEGER PRIMARY KEY,
 "active" INTEGER DEFAULT 1 NOT NULL,
-"email" VARCHAR(100) UNIQUE,
+"email" VARCHAR(100) UNIQUE ON CONFLICT REPLACE,
 "cuisines" VARCHAR(255),
 "location" VARCHAR(255),
 "unsubscribe_token" VARCHAR(255),
