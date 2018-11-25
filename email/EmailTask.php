@@ -75,7 +75,7 @@ class EmailTask
 
         $recipients = $this->getRecipients();
         if (empty($recipients)) {
-            echo "no subscribers found", PHP_EOL, PHP_EOL;
+            echo "no subscribers to send emails to", PHP_EOL, PHP_EOL;
             return;
         }
         if (!$this->isTestRun) {
@@ -113,10 +113,18 @@ class EmailTask
             $unsubscribeToken = $this->getUnsubscribeToken($recipient['email']);
 
             // Assemble template variables
+            if ($this->isTestRun) {
+                $unsubscribeLink = 'http://localhost/unsubscribe?';
+            } else {
+                $unsubscribeLink = 'https://thelunchpicker.com/unsubscribe?';
+            }
+            $unsubscribeLink = urlencode($unsubscribeLink.'email='.$recipient['email'].'&token='.$unsubscribeToken);
+
             $templateVars = [
                 'restaurant' => $restaurantDetails,
                 'date' => date('n/j'),
-                'unsubscribeToken' => $unsubscribeToken
+                'recipient_email' => $recipient['email'],
+                'unsubscribe_link' => $unsubscribeLink
             ];
 
             // Send email
@@ -163,6 +171,9 @@ class EmailTask
     }
 
     /**
+     * Get active subscribers who have not been
+     * sent an email within the past day
+     *
      * @return bool|array
      */
     protected function getRecipients()

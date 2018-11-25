@@ -248,12 +248,10 @@ class Yelp
      */
     protected function jsonOutput($isBusiness, $responseData)
     {
-
         if ($isBusiness) {
             echo json_encode($responseData);
             return;
         }
-
 
         // parse through the response from Yelp
         // to return only necessary information
