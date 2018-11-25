@@ -12,9 +12,9 @@ function Filters()
     this.$price = $("#toolbar #price");
 
     // flyouts
-    this.$cuisinesFlyout = $(".cuisines-list");
-    this.$locationFlyout = $(".location-content");
-    this.$priceFlyout = $(".prices-list");
+    this.$cuisinesFlyout = $(".cuisines-list.flyout");
+    this.$locationFlyout = $(".location-content.flyout");
+    this.$priceFlyout = $(".prices-list.flyout");
 
     // modal selectors - notice these are only selectors not jQuery objects
     //                   because these elements are ephemeral
@@ -24,16 +24,16 @@ function Filters()
 
     // cuisine filter inputs
     this.$allCuisinesCheckbox = function() { return $(".all-checkbox"); };
-    this.$cuisinesInputs = function() { return $(".cuisines-list input"); };
+    this.$cuisinesInputs = function() { return $(".cuisines-list.flyout input"); };
 
     // location filter inputs
-    this.$locationInput = function() { return $(".location-content input[name='location']"); };
-    this.$geolocationInput = function() { return $(".location-content input[name='geolocation']"); };
-    this.$geolocationLink = function() { return $(".location-content a"); };
-    this.$geolocationLoading = function() { return $(".location-content .loading-spinner"); };
+    this.$locationInput = function() { return $(".location-content.flyout input[name='location']"); };
+    this.$geolocationInput = function() { return $(".location-content.flyout input[name='geolocation']"); };
+    this.$geolocationLink = function() { return $(".location-content.flyout a"); };
+    this.$geolocationLoading = function() { return $(".location-content.flyout .loading-spinner"); };
 
     // price filter inputs
-    this.$priceInputs = function() { return $('.prices-list input'); };
+    this.$priceInputs = function() { return $('.prices-list.flyout input'); };
 
     this.$filterApplyBtn = $("#btn-filter-apply");
 
