@@ -199,7 +199,7 @@ class EmailTask
     protected function findRestaurants($cuisines, $location)
     {
         // Build URL with GET params
-        $url  = 'http://localhost/yelp.php?';
+        $url  = 'http://localhost/yelp?';
         $url .= http_build_query(array(
             'cuisines' => $cuisines,
             'location' => $location
@@ -224,7 +224,7 @@ class EmailTask
     protected function getRestaurantDetails($restaurant)
     {
         // Build URL with GET params
-        $url  = 'http://localhost/yelp.php?';
+        $url  = 'http://localhost/yelp?';
         $url .= http_build_query(array(
             'business' => $restaurant['id']
         ));

@@ -31,7 +31,7 @@ function Yelp()
     {
         $.ajax({
             type: "GET",
-            url: './yelp.php',
+            url: './yelp',
             data: $("#filter-form").serialize(),
             success: Yelp.successCallback,
             error: Yelp.errorCallback
