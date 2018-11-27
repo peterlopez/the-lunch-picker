@@ -116,7 +116,7 @@
                                 <p class="filter-title">Location</p>
                                 <p class="filter-title blank">&nbsp;</p>
                                 <div class="location-content flyout">
-                                    <a class="geolocate" href="#" title="">locate me</a>
+                                    <button type="button" class="geolocate btn btn-link">locate me</button>
                                     <p class="geolocation-error" style="display: none;">error fetching geolocation</p>
                                     <input type="text" name="location" autocomplete="address-level2" placeholder="San Fransisco, CA" />
                                     <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" style="display: none;" />
@@ -187,10 +187,10 @@
         <div id="footer">
             <div class="footer-left">
                 <p class="newsletter__link">
-                    <a href="#"
+                    <button class="btn btn-link"
                        data-featherlight=".newsletter__form"
                        data-featherlight-persist="true"
-                       data-featherlight-variant="newsletter">subscribe</a>
+                       data-featherlight-variant="newsletter">subscribe</button>
                     for email notifications
                 </p>
 

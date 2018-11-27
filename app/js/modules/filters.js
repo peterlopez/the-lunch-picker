@@ -23,17 +23,17 @@ function Filters()
     this.priceModalSelector = '.featherlight-content .prices-list';
 
     // cuisine filter inputs
-    this.$allCuisinesCheckbox = function() { return $(".all-checkbox"); };
-    this.$cuisinesInputs = function() { return $(".cuisines-list.flyout input"); };
+    this.$allCuisinesCheckbox = $(".all-checkbox");
+    this.$cuisinesInputs = $(".cuisines-list.flyout input");
 
     // location filter inputs
-    this.$locationInput = function() { return $(".location-content.flyout input[name='location']"); };
-    this.$geolocationInput = function() { return $(".location-content.flyout input[name='geolocation']"); };
-    this.$geolocationLink = function() { return $(".location-content.flyout a"); };
-    this.$geolocationLoading = function() { return $(".location-content.flyout .loading-spinner"); };
+    this.$locationInput = $(".location-content.flyout input[name='location']");
+    this.$geolocationInput = $(".location-content.flyout input[name='geolocation']");
+    this.$geolocationToggleBtn = $(".location-content.flyout button");
+    this.$geolocationLoading = $(".location-content.flyout .loading-spinner");
 
     // price filter inputs
-    this.$priceInputs = function() { return $('.prices-list.flyout input'); };
+    this.$priceInputs = $('.prices-list.flyout input');
 
     this.$filterApplyBtn = $("#btn-filter-apply");
 
@@ -100,48 +100,51 @@ function Filters()
     {
         // Open filters in modals on mobile
         if (isMobile()) {
-            Filters.$cuisines.on('click', this.toggleFilterModal);
-            Filters.$location.on('click', this.toggleFilterModal);
-            Filters.$price.on('click', this.toggleFilterModal);
+            this.$cuisines.on('click', this.toggleFilterModal);
+            this.$location.on('click', this.toggleFilterModal);
+            this.$price.on('click', this.toggleFilterModal);
         }
         // Open filters in flyouts on desktop
         else {
-            Filters.$cuisines.on('click', this.toggleFlyout);
-            Filters.$location.on('click', this.toggleFlyout);
-            Filters.$price.on('click', this.toggleFlyout);
+            this.bindFlyoutEventHandlers();
 
-            // Hide flyouts after losing focus
-            $document.click(function() {
-                Filters.$locationFlyout.hide();
-                Filters.$cuisinesFlyout.hide();
-                Filters.$priceFlyout.hide();
-                Filters.$location.removeClass('flyout-open');
-                Filters.$cuisines.removeClass('flyout-open');
-                Filters.$price.removeClass('flyout-open');
-            });
-            // Prevent hiding flyouts when clicking on flyouts themselves
-            Filters.$location.on('click', this.stopBubbling);
-            Filters.$locationFlyout.on('click', this.stopBubbling);
-            Filters.$cuisines.on('click', this.stopBubbling);
-            Filters.$cuisinesFlyout.on('click', this.stopBubbling);
-            Filters.$price.on('click', this.stopBubbling);
-            Filters.$priceFlyout.on('click', this.stopBubbling);
-
-            Filters.bindInputEventHandlers();
+            // Event handlers for various filter inputs
+            this.$locationInput.on('keypress', this.processLocationInput);
+            this.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
+            this.$cuisinesInputs.on('change', this.showApplyFilterBtn);
+            this.$priceInputs.on('change', this.showApplyFilterBtn);
         }
 
-        Filters.$filterApplyBtn.on('click', this.applyFilters);
+        this.$filterApplyBtn.on('click', this.applyFilters);
     };
 
     /**
-     * @callback $.featherlight:afterContent
+     * @callback this.bindEventHandlers
      */
-    this.bindInputEventHandlers = function()
+    this.bindFlyoutEventHandlers = function()
     {
-        Filters.$locationInput().on('keypress', Filters.processLocationInput);
-        Filters.$allCuisinesCheckbox().on('change', Filters.toggleAllCuisines);
-        Filters.$cuisinesInputs().on('change', Filters.showApplyFilterBtn);
-        Filters.$priceInputs().on('change', Filters.showApplyFilterBtn);
+        // Open flyouts
+        Filters.$cuisines.on('click', this.toggleFlyout);
+        Filters.$location.on('click', this.toggleFlyout);
+        Filters.$price.on('click', this.toggleFlyout);
+
+        // Hide flyouts after losing focus
+        $document.click(function() {
+            Filters.$locationFlyout.hide();
+            Filters.$cuisinesFlyout.hide();
+            Filters.$priceFlyout.hide();
+            Filters.$location.removeClass('flyout-open');
+            Filters.$cuisines.removeClass('flyout-open');
+            Filters.$price.removeClass('flyout-open');
+        });
+
+        // Prevent hiding flyouts when clicking on flyouts themselves
+        Filters.$location.on('click', this.stopBubbling);
+        Filters.$locationFlyout.on('click', this.stopBubbling);
+        Filters.$cuisines.on('click', this.stopBubbling);
+        Filters.$cuisinesFlyout.on('click', this.stopBubbling);
+        Filters.$price.on('click', this.stopBubbling);
+        Filters.$priceFlyout.on('click', this.stopBubbling);
     };
 
     /**
@@ -195,7 +198,7 @@ function Filters()
         // location
         // * geolocation also gets put into location input
         // * only set location cookie if not using geolocation
-        var location = Filters.$locationInput().val();
+        var location = Filters.$locationInput.val();
         if (Geolocation.getGeolocationCookie() === false) {
             Cookies.set('location', location);
         }
@@ -260,7 +263,7 @@ function Filters()
         var newState = event.target.checked;
 
         // apply newState to all checkboxes
-        var $cuisines = Filters.$cuisinesInputs();
+        var $cuisines = Filters.$cuisinesInputs;
         $cuisines.each(function() {
             $(this).prop('checked', newState);
         });
@@ -276,16 +279,13 @@ function Filters()
         if ($.featherlight.current() !== null) {
             return;
         }
-        
+
         // determine which filter was clicked
         var $filter = $(event.target).closest('.filter');
 
         // modal content
         var $flyout = $filter.find('.flyout');
 
-        // rebind event handlers for filter inputs contained in lightbox
-        Filters.featherlightConfig.afterContent = Filters.bindInputEventHandlers;
-        Filters.featherlightConfig.beforeClose = Filters.applyFiltersFromModal;
         $.featherlight($flyout, Filters.featherlightConfig);
     };
 
@@ -322,7 +322,7 @@ function Filters()
     {
         // decode into array
         // iterate array and check each box with that value
-        Filters.$cuisinesInputs().each(function() {
+        this.$cuisinesInputs.each(function() {
             var $this = $(this);
             var cuisine = $this.val();
 
@@ -336,12 +336,12 @@ function Filters()
     };
 
     /**
-     * Toggles location inputs based on
+     * Sets location input based on
      * pre-existing cookie
      */
     this.setLocationInputsBasedOnCookie = function()
     {
-        Filters.$locationInput().val(this.locationCookie);
-        Filters.$geolocationInput().val(this.geolocationCookie);
+        this.$locationInput.val(this.locationCookie);
+        this.$geolocationInput.val(this.geolocationCookie);
     };
 }
