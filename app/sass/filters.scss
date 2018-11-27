@@ -3,12 +3,13 @@
  */
 #filters {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #filter-form {
   display: inline-flex;
   align-items: flex-end;
   position: relative;
-  flex-wrap: wrap;
 }
 @media (max-width: $bp-lg) {
   #filter-form {
@@ -30,8 +31,6 @@
   margin-right: 20px;
   margin-top: 20px;
   padding: 3px 10px;
-  //border: 3px solid black;
-  //background: white;
   border-radius: 10px;
   cursor: pointer;
   position: relative;
@@ -76,6 +75,12 @@
   .filter-container {
     flex-basis: 33.333%;
     text-align: center;
+  }
+  .filter-container:nth-child(1) {
+    text-align: right;
+  }
+  .filter-container:nth-child(3) {
+    text-align: left;
   }
 }
 .filter-title {
@@ -146,11 +151,6 @@
   width: 18px;
   background-image: url("../assets/img/location-icon-blue.svg");
   background-size: 17px;
-  /* styles for using old icon */
-  //top: 6px; left: 14px;
-  //height: 28px;
-  //width: 32px;
-  //background-image: url("../assets/img/location-icon.svg");
 }
 #location:hover:before {
   background-image: url("../assets/img/location-icon-white.svg");
@@ -184,18 +184,11 @@
  * Cuisine filter
  */
 #cuisines::before {
-  /* styles for using HTML entity */
   content: '\2668\00FE0E';
   position: absolute;
   font-size: 16pt;
   left: 18px;
   top: 4px;
-  /* styles for using icon */
-  //top: 8px;
-  //left: 12px;
-  //height: 30px;
-  //width: 30px;
-  //background-image: url("../assets/img/cuisine-icon.svg");
 }
 @media (max-width: $bp-sm) {
   #cuisines::before {
@@ -221,11 +214,6 @@
   font-size: 16pt;
   left: 28px;
   top: 6px;
-  //left: 23px;
-  //height: 30px;
-  //width: 30px;
-  //background-image: url("../assets/img/price-icon.svg");
-  //background-size: cover;
 }
 @media (max-width: $bp-lg) {
   #price::before {
@@ -264,7 +252,8 @@
   border-left: 1px solid $light-blue;
   border-right: 1px solid $light-blue;
   border-bottom: 1px solid $light-blue;
-
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 @media (max-width: $bp-lg) {
   .flyout {

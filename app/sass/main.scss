@@ -93,6 +93,14 @@ button {
 
   .newsletter__link {
     font-size: 10pt;
+
+    // over-ride Bootstrap link button
+    button {
+      padding: 0;
+      margin: 0;
+      border: none;
+      font-size: 11pt;
+    }
   }
   .yelp-credentials img {
     height: 14pt;
