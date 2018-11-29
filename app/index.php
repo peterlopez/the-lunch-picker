@@ -288,8 +288,8 @@
 
 <!-- JS libraries -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="lib/featherlight/featherlight.min.js"></script>
-<script src="lib/js.cookie.min.js"></script>
+<script src="vendor/featherlight/featherlight.min.js"></script>
+<script src="vendor/js.cookie.min.js"></script>
 
 <!-- App JS -->
 <?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
