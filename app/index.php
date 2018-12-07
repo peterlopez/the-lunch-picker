@@ -50,7 +50,7 @@
             </div>
 
             <div id="toolbar">
-                <form id="filter-form" action="./yelp.php" method="get">
+                <form id="filter-form" action="./yelp" method="get">
                     <div id="filters">
                         <!-- cuisines filter -->
                         <div class="filter-container">

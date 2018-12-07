@@ -11,3 +11,9 @@ node_modules
 
 # Gulp generated files
 build
+
+# Composer files
+vendor
+
+# App data (mainly email subscriber database)
+*.sqlite3

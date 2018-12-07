@@ -5,15 +5,61 @@ ini_set('display_errors', 'Off');
 $yelp = new Yelp();
 $yelp->run();
 
+/**
+ * Class Yelp
+ * Shim for Yelp Business and Search API
+ *
+ * @see https://www.yelp.com/developers/documentation/v3/business_search
+ */
 class Yelp
 {
-    const BASE_URL = 'https://api.yelp.com/v3/businesses/search';
+    const YELP_SEARCH_URL = 'https://api.yelp.com/v3/businesses/search';
+    const YELP_BUSINESS_URL = 'https://api.yelp.com/v3/businesses/';
 
-    // Filters
+    /**
+     * @var bool determines if request is made to Yelp business details API
+     */
+    protected $isBusinessRequest = false;
+
+    //
+    // Yelp Business API filter
+    //
+
+    protected $businessId = '';
+
+
+    //
+    // YELP Search API filters
+    //
+
+    /**
+     * @var array $cuisines use specific Yelp terms for cuisines (categories)
+     */
     private $cuisines = [];
+
+    /**
+     * @var string includes city, state, or anything really
+     */
     private $location = '';
+
+    /**
+     * @var string $geolocation JSON encoded lat and lng figures
+     */
     private $geolocation = '';
+
+    /**
+     * @var int $radius
+     */
     private $radius = '';
+
+    /**
+     * @var array of amounts selected:
+     *      1 = $  2 = $$  3 = $$$
+     *      v
+     *      ($, $$)
+     *      v
+     *      (1, 2)
+     */
     private $price = [];
 
     /**
@@ -22,9 +68,26 @@ class Yelp
     public function run()
     {
         try {
-            $this->setFilters($_GET);
-            $requestUrl = $this->buildRequestUrl();
-            $this->makeRequest($requestUrl);
+            // 1
+            $this->parseGetParams($_GET);
+
+//            var_dump($_GET); die;
+            // 2
+            if ($this->isBusinessRequest) {
+                $requestUrl = $this->buildBusinessRequestUrl();
+            }
+            else {
+                $requestUrl = $this->buildSearchRequestUrl();
+            }
+
+            // 3
+//            var_dump($requestUrl);
+//            die;
+            $responseData = $this->makeRequest($requestUrl);
+
+            // 4
+            $this->jsonOutput($this->isBusinessRequest, $responseData);
+
         } catch(Exception $e) {
             http_response_code(500);
             die(json_encode(array('message' => $e->getMessage(), 'code' => 500)));
@@ -32,33 +95,52 @@ class Yelp
     }
 
     /**
-     * Set filters from GET parameters with default values
+     * Set Yelp Business and Search API filters
+     * from GET parameters
      *
      * @param array $getParams
      * @return void
      */
-    protected function setFilters($getParams)
+    protected function parseGetParams($getParams)
     {
+        //
+        // Yelp Business details API business ID
+        //
+        $this->businessId = $getParams['business'];
+        if (!empty($this->businessId)) {
+            $this->isBusinessRequest = true;
+        }
+
+        //
+        // Yelp Search API parameters
+        //
         $this->cuisines = $getParams['cuisines'];
         if (empty($this->cuisines)) {
+            // default
             $this->cuisines = ['restaurants'];
         }
 
         $this->location = $getParams['location'];
         if (empty($this->location)) {
+            // default
             $this->location = "San+Fransisco";
         }
 
         // Don't set default value
         $this->geolocation = $getParams['geolocation'];
 
+        /**
+         *
+         */
         $this->radius = $getParams['radius'];
         if (empty($this->radius)) {
+            // default
             $this->radius = '';
         }
 
         $this->price = $getParams['price'];
         if (empty($this->price)) {
+            // default
             $this->price = [1,2];
         }
     }
@@ -66,6 +148,7 @@ class Yelp
 
     /**
      * @param string|bool $url
+     * @return array response data
      * @throws Exception
      */
     protected function makeRequest($url = false)
@@ -89,22 +172,9 @@ class Yelp
         // Make request and get response
         $response = json_decode(curl_exec($ch), true);
 
-        // Build output response
-        //
-        // parse through the response from Yelp
-        // to return only the necessary info
-        //
-        $result = array();
-        foreach($response['businesses'] as $business)
-        {
-            $result[] = array(
-                'name' => $business['name'],
-                'url' => $business['url']
-            );
-        }
-        echo json_encode($result);
-
         curl_close($ch);
+
+        return $response;
     }
 
     /**
@@ -124,15 +194,17 @@ class Yelp
     /**
      * @return string
      */
-    protected function buildRequestUrl()
+    protected function buildSearchRequestUrl()
     {
-        $url = self::BASE_URL;
+        $url = self::YELP_SEARCH_URL;
 
         // Term (hardcoded)
         $url .= '?term=lunch';
 
         // Cuisines
-        $url .= '&categories='.implode(",", $this->cuisines);
+        if (is_array($this->cuisines)) {
+            $url .= '&categories=' . implode(",", $this->cuisines);
+        }
 
         // Geolocation OR Location
         // prioritize geolocation over location
@@ -155,5 +227,44 @@ class Yelp
         }
 
         return $url;
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildBusinessRequestUrl()
+    {
+        $url = self::YELP_BUSINESS_URL . $this->businessId;
+
+        return $url;
+    }
+
+    /**
+     * Build and echo output from response data
+     *
+     * @param bool $isBusiness
+     * @param array $responseData
+     * @return void
+     */
+    protected function jsonOutput($isBusiness, $responseData)
+    {
+        if ($isBusiness) {
+            echo json_encode($responseData);
+            return;
+        }
+
+        // parse through the response from Yelp
+        // to return only necessary information
+        $result = array();
+        foreach($responseData['businesses'] as $business)
+        {
+            $result[] = array(
+                'id'    => $business['id'],
+                'name'  => $business['name'],
+                'url'   => $business['url'],
+                'image' => $business['image_url']
+            );
+        }
+        echo json_encode($result);
     }
 }
