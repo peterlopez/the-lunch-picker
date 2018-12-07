@@ -4,7 +4,7 @@
  */
 function Filters()
 {
-    this.$container = $("#filters");
+    this.$container = $(".filters");
 
     // filter buttons on toolbar
     this.$cuisines = $(".toolbar .cuisines");

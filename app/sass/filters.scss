@@ -1,7 +1,34 @@
+.toolbar .filters {
+
+  .cuisines {
+    &:before {
+      content: '\2668\00FE0E';
+      position: absolute;
+      font-size: 16pt;
+      left: 18px;
+      top: 4px;
+    }
+    @media (max-width: $bp-sm) {
+      &:before {
+        top: 4px;
+        left: 19px;
+        height: 38px;
+        width: 38px;
+      }
+    }
+
+  }
+}
+
+
+
+
+
+
 /**
  * Filters
  */
-#filters {
+.filters {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -183,21 +210,6 @@
 /**
  * Cuisine filter
  */
-#cuisines::before {
-  content: '\2668\00FE0E';
-  position: absolute;
-  font-size: 16pt;
-  left: 18px;
-  top: 4px;
-}
-@media (max-width: $bp-sm) {
-  #cuisines::before {
-    top: 4px;
-    left: 19px;
-    height: 38px;
-    width: 38px;
-  }
-}
 .cuisines-list.flyout label {
   width: 100%;
 }

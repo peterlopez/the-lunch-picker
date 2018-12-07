@@ -1,65 +1,94 @@
 //
-// Newsletter signup form on page
+// Newsletter signup form contained in popup
 //
 .newsletter
 {
   // Modal tweaks
   .featherlight-content {
     max-width: 400px;
+  }
+}
 
-    .newsletter__form {
-      display: block;
+.newsletter.featherlight .newsletter__form{
+  display: block;
+}
+
+// Common form elements (inputs, buttons)
+.newsletter .newsletter__form {
+  display: none;
+  padding: 20px;
+  min-height: 200px;
+
+  // Common elements
+  .newsletter__explaintext {
+    margin-bottom: 15px;
+    width: 85%;
+  }
+  .btn {
+    margin-top: 20px;
+  }
+  input[type='text'],
+  input[type='email'] {
+    max-width: 250px;
+    padding: 5px 0 5px 8px;
+  }
+}
+
+.newsletter__step .email-input-step label,
+.newsletter__step .location-content label {
+  width: 100%;
+}
+
+
+// Styles for step headers
+.step__header {
+  color: $light-blue;
+  margin: 10px 0 5px;
+  padding: 5px 0;
+  font-weight: bold;
+}
+
+
+//
+// Stage 2
+//
+.featherlight .featherlight-content .location-content
+.newsletter .location-content {
+  padding-bottom: 0;
+  min-height: 0;
+}
+
+//
+// Stage 3
+//
+.newsletter .cuisines {
+
+  .cuisines__list {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 20px;
+
+    label {
+      width: 50%;
     }
   }
+}
 
-  // Form elements
-  .newsletter__form
-  {
-    display: none;
-    padding: 20px;
-    min-height: 200px;
+// Final stage
+.newsletter .newsletter__confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
-    // Common elements
-    .newsletter__explaintext {
-      margin-bottom: 15px;
-      width: 85%;
-    }
-    .btn {
-      margin-top: 20px;
-    }
-    input[type='text'],
-    input[type='email'] {
-      padding: 5px 0 5px 8px;
-    }
-
-    // Stage 3
-    .cuisines-list {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding-left: 20px;
-
-      label {
-        width: 50%;
-      }
-    }
-
-    // Final stage
-    .newsletter__confirm {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-
-      .checkmark {
-        font-size: 32pt;
-        color: #37ad37;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-    }
+  .checkmark {
+    font-size: 32pt;
+    color: #37ad37;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
 }
 

@@ -63,7 +63,7 @@ button {
     max-width: 300px;
   }
 }
-#toolbar {
+.toolbar {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -72,12 +72,12 @@ button {
   justify-content: space-between;
 }
 @media (max-width: $bp-md) {
-  #toolbar {
+  .toolbar {
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  #toolbar .action-buttons {
+  .toolbar .action-buttons {
     width: 100%;
     text-align: center;
   }
