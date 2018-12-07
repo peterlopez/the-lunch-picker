@@ -191,10 +191,13 @@
     </div>
 </div>
 
-<!-- JS libraries -->
+<!-- required on load JS libraries -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="lib/featherlight/featherlight.min.js"></script>
 <script src="lib/js.cookie.min.js"></script>
+
+<!-- non-required on load JS libraries -->
+<!--<script async src='https://www.google.com/recaptcha/api.js?render=6LcDbn0UAAAAAI8iroE0gINI9qs92Z_nVZMHLZzR'></script>-->
 
 <!-- App JS -->
 <?php if($_SERVER['SERVER_NAME'] === "localhost"): ?>
