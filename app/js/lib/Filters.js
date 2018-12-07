@@ -7,23 +7,17 @@ function Filters()
     this.$container = $("#filters");
 
     // filter buttons on toolbar
-    this.$cuisines = $("#toolbar #cuisines");
-    this.$location = $("#toolbar #location");
-    this.$price = $("#toolbar #price");
+    this.$cuisines = $(".toolbar .cuisines");
+    this.$location = $(".toolbar #location");
+    this.$price = $(".toolbar #price");
 
     // flyouts
     this.$cuisinesFlyout = $(".cuisines-list.flyout");
     this.$locationFlyout = $(".location-content.flyout");
     this.$priceFlyout = $(".prices-list.flyout");
 
-    // modal selectors - notice these are only selectors not jQuery objects
-    //                   because these elements are ephemeral
-    this.cuisineModalSelector = '.featherlight-content .cuisines-list';
-    this.locationModalSelector = '.featherlight-content .location-content';
-    this.priceModalSelector = '.featherlight-content .prices-list';
-
     // cuisine filter inputs
-    this.$allCuisinesCheckbox = $(".all-checkbox");
+    this.$allCuisinesCheckbox = $(".all-cuisines");
     this.$cuisinesInputs = $(".cuisines-list.flyout input");
 
     // location filter inputs
@@ -254,7 +248,7 @@ function Filters()
 
     /**
      * @param {event} event
-     * @callback all-checkbox:change
+     * @callback all-cuisines:change
      */
     this.toggleAllCuisines = function(event)
     {

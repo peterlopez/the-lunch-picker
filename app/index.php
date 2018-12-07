@@ -49,17 +49,17 @@
                 <img id="logo" src="assets/img/logo.svg" alt="" title="" />
             </div>
 
-            <div id="toolbar">
+            <div class="toolbar">
                 <form id="filter-form" action="./yelp" method="get">
                     <div id="filters">
                         <!-- cuisines filter -->
                         <div class="filter-container">
-                            <div id="cuisines" class="filter btn btn-outline-primary">
+                            <div class="cuisines filter btn btn-outline-primary">
                                 <p class="filter-title">Cuisines</p>
                                 <p class="filter-title blank">&nbsp;</p>
                                 <div class="cuisines-list flyout">
-                                    <label>
-                                        <input class="all-checkbox" type="checkbox" name="all-checkbox" value="all" checked />
+                                    <label for="id_1_cuisines__allcheckbox">
+                                        <input id="id_1_cuisines__allcheckbox" class="all-checkbox" type="checkbox" name="all-cuisines" value="all" checked />
                                         All
                                     </label>
                                     <label for="cuisine-tradamerican">
@@ -118,7 +118,7 @@
                                 <div class="location-content flyout">
                                     <button type="button" class="geolocate btn btn-link">locate me</button>
                                     <p class="geolocation-error" style="display: none;">error fetching geolocation</p>
-                                    <input type="text" name="location" autocomplete="address-level2" placeholder="San Fransisco, CA" />
+                                    <input class="newsletter__locationinput" type="text" name="location" autocomplete="address-level2" placeholder="San Fransisco, CA" />
                                     <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" style="display: none;" />
                                     <input type="hidden" name="geolocation" />
                                 </div>
@@ -201,74 +201,88 @@
                         <p class="newsletter__explaintext">Have a random lunch selection emailed to you every day at noon!</p>
 
                         <!-- Step 1 -->
-                        <div class="email-input-step" data-step="1">
-                            <input type="email" name="email" autocomplete="email" placeholder="your@email.com" value="" required />
-                            <br/>
-                            <button class="btn btn-primary" type="button" data-next-step="2" disabled>continue</button>
+                        <div class="newsletter__step" data-step="1">
+                            <div class="email-input-step">
+                                <p class="step__header">1. your email</p>
+
+                                <!-- HONEYPOT should stay empty -->
+                                <input type="email" name="email" value="" style="display: none;" title="" tabindex="-1" />
+
+                                <!-- REAL EMAIL FIELD -->
+                                <input class="newsletter__emailinput form-control" type="email" name="realemailaddress" autocomplete="email" placeholder="your@email.com" value="" required />
+                                <button class="btn btn-primary" type="button" data-next-step="2" disabled>continue</button>
+                            </div>
                         </div>
 
                         <!-- Step 2 -->
-                        <div class="location-content hidden" data-step="2">
-                            <input type="text" name="location" required autocomplete="address-level2" placeholder="San Fransisco, CA" />
-                            <br/>
-                            <button class="btn btn-secondary" type="button" data-prev-step="1">back</button>
-                            <button class="btn btn-primary" type="button" data-next-step="3" disabled>continue</button>
+                        <div class="newsletter__step hidden" data-step="2">
+                            <div class="location-content">
+                                <p class="step__header">2. your city</p>
+                                <label for="id_newsletter__locationinput">
+                                    <input type="text" class="newsletter__locationinput form-control" name="location" required autocomplete="address-level2" placeholder="San Fransisco, CA" id="id_newsletter__locationinput" tabindex="0" />
+                                </label>
+                                <button class="btn btn-secondary" type="button" data-prev-step="1">back</button>
+                                <button class="btn btn-primary" type="button" data-next-step="3" disabled>continue</button>
+                            </div>
                         </div>
 
                         <!-- Step 3 -->
-                        <div class="hidden" data-step="3">
-                            <div class="cuisines-list">
-                                <label for="email-all-checkbox">
-                                    <input id="email-all-checkbox" class="all-checkbox" type="checkbox" name="all-checkbox" value="all" checked />
-                                    All
-                                </label>
-                                <label for="email-cuisine-tradamerican">
-                                    <input id="email-cuisine-tradamerican" type="checkbox" name="cuisines[]" value="tradamerican" checked />
-                                    American
-                                </label>
-                                <label for="email-cuisine-bbq">
-                                    <input id="email-cuisine-bbq" type="checkbox" name="cuisines[]" value="bbq" checked />
-                                    BBQ
-                                </label>
-                                <label for="email-cuisine-pizza">
-                                    <input id="email-cuisine-pizza" type="checkbox" name="cuisines[]" value="pizza" checked />
-                                    Pizza
-                                </label>
-                                <label for="email-cuisine-delis">
-                                    <input id="email-cuisine-delis" type="checkbox" name="cuisines[]" value="delis" checked />
-                                    Delis
-                                </label>
-                                <label for="email-cuisine-indian">
-                                    <input id="email-cuisine-indian" type="checkbox" name="cuisines[]" value="indpak" checked />
-                                    Indian
-                                </label>
-                                <label for="email-cuisine-hotdogs">
-                                    <input id="email-cuisine-hotdogs" type="checkbox" name="cuisines[]" value="hotdogs" checked />
-                                    Fast Food
-                                </label>
-                                <label for="email-cuisine-japanese">
-                                    <input id="email-cuisine-japanese" type="checkbox" name="cuisines[]" value="japanese" checked />
-                                    Japanese
-                                </label>
-                                <label for="email-cuisine-italian">
-                                    <input id="email-cuisine-italian" type="checkbox" name="cuisines[]" value="italian" checked />
-                                    Italian
-                                </label>
-                                <label for="email-cuisine-mediterranean">
-                                    <input id="email-cuisine-mediterranean" type="checkbox" name="cuisines[]" value="mediterranean" checked />
-                                    Mediterranean
-                                </label>
-                                <label for="email-cuisine-mexican">
-                                    <input id="email-cuisine-mexican" type="checkbox" name="cuisines[]" value="mexican" checked />
-                                    Mexican
-                                </label>
-                                <label for="email-cuisine-vegan">
-                                    <input id="email-cuisine-vegan" type="checkbox" name="cuisines[]" value="vegan" checked />
-                                    Vegan
-                                </label>
+                        <div class="newsletter__step hidden" data-step="3">
+                            <div class="cuisines">
+                                <p class="step__header">3. what do you like to eat?</p>
+                                <div class="cuisines__list">
+                                    <label for="id_2_cuisines__allcheckbox">
+                                        <input id="id_2_cuisines__allcheckbox" class="cuisines__allcheckbox" type="checkbox" name="all-cuisines" value="all" checked />
+                                        All
+                                    </label>
+                                    <label for="email-cuisine-tradamerican">
+                                        <input id="email-cuisine-tradamerican" type="checkbox" name="cuisines[]" value="tradamerican" checked />
+                                        American
+                                    </label>
+                                    <label for="email-cuisine-bbq">
+                                        <input id="email-cuisine-bbq" type="checkbox" name="cuisines[]" value="bbq" checked />
+                                        BBQ
+                                    </label>
+                                    <label for="email-cuisine-pizza">
+                                        <input id="email-cuisine-pizza" type="checkbox" name="cuisines[]" value="pizza" checked />
+                                        Pizza
+                                    </label>
+                                    <label for="email-cuisine-delis">
+                                        <input id="email-cuisine-delis" type="checkbox" name="cuisines[]" value="delis" checked />
+                                        Delis
+                                    </label>
+                                    <label for="email-cuisine-indian">
+                                        <input id="email-cuisine-indian" type="checkbox" name="cuisines[]" value="indpak" checked />
+                                        Indian
+                                    </label>
+                                    <label for="email-cuisine-hotdogs">
+                                        <input id="email-cuisine-hotdogs" type="checkbox" name="cuisines[]" value="hotdogs" checked />
+                                        Fast Food
+                                    </label>
+                                    <label for="email-cuisine-japanese">
+                                        <input id="email-cuisine-japanese" type="checkbox" name="cuisines[]" value="japanese" checked />
+                                        Japanese
+                                    </label>
+                                    <label for="email-cuisine-italian">
+                                        <input id="email-cuisine-italian" type="checkbox" name="cuisines[]" value="italian" checked />
+                                        Italian
+                                    </label>
+                                    <label for="email-cuisine-mediterranean">
+                                        <input id="email-cuisine-mediterranean" type="checkbox" name="cuisines[]" value="mediterranean" checked />
+                                        Mediterranean
+                                    </label>
+                                    <label for="email-cuisine-mexican">
+                                        <input id="email-cuisine-mexican" type="checkbox" name="cuisines[]" value="mexican" checked />
+                                        Mexican
+                                    </label>
+                                    <label for="email-cuisine-vegan">
+                                        <input id="email-cuisine-vegan" type="checkbox" name="cuisines[]" value="vegan" checked />
+                                        Vegan
+                                    </label>
+                                </div>
+                                <button class="btn btn-secondary" type="button" data-prev-step="2">back</button>
+                                <button class="btn btn-primary" type="submit">Submit</button>
                             </div>
-                            <button class="btn btn-secondary" type="button" data-prev-step="2">back</button>
-                            <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
 
                         <div class="newsletter__confirm hidden">

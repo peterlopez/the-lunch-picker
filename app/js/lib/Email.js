@@ -19,8 +19,8 @@ function Email()
      * @type {object} jQuery
      */
     this.$explainText = $(".newsletter__form .newsletter__explaintext");
-    this.$emailInput = $(".newsletter__form input[type='email']");
-    this.$locationInput = $(".newsletter__form .location-content input");
+    this.$emailInput = $(".newsletter__form .newsletter__emailinput");
+    this.$locationInput = $(".newsletter__form .newsletter__locationinput");
 
     // Buttons
     this.$continueBtns = $(".newsletter__form .btn-primary");
@@ -93,7 +93,8 @@ function Email()
      */
     this.validateLocation = function(event)
     {
-        var $continueBtn = $(this).siblings(".btn-primary");
+        var $labelEl = $(this).parent(); // input is contained in label
+        var $continueBtn = $labelEl.siblings(".btn-primary");
 
         var inputIsValid = $(this).val().length > 0;
 
@@ -124,12 +125,12 @@ function Email()
         }
 
         // hide current step
-        var $currentStep = $this.parent();
+        var $currentStep = $this.parents('.newsletter__step');
         $currentStep.addClass('hidden');
         $currentStep.removeClass('active');
 
         // show next step
-        var $nextStep = $this.parent().siblings("div[data-step='"+nextStepNum+"']");
+        var $nextStep = $this.parents('.newsletter__step').siblings("div[data-step='"+nextStepNum+"']");
         $nextStep.removeClass('hidden'); //fadeIn('fast');
         $nextStep.addClass('active');
         $nextStep.find("input").focus();
@@ -143,13 +144,13 @@ function Email()
         var $this = $(this);
 
         // hide current step
-        var $currentStep = $this.parent();
+        var $currentStep = $this.parents('.newsletter__step');
         $currentStep.addClass('hidden');
         $currentStep.removeClass('active');
 
         // show next step
         var prevStepNum = $this.data('prev-step');
-        var $prevStep = $this.parent().siblings("div[data-step='"+prevStepNum+"']");
+        var $prevStep = $this.parents('.newsletter__step').siblings("div[data-step='"+prevStepNum+"']");
         $prevStep.removeClass('hidden'); //fadeIn('fast');
         $prevStep.addClass('active');
         $prevStep.find("input").focus();
