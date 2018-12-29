@@ -13,7 +13,7 @@ node_modules
 build
 
 # Composer files
-vendor
+email/vendor
 
 # App data (mainly email subscriber database)
 *.sqlite3
