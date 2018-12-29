@@ -4,8 +4,10 @@ require '/usr/local/src/the-lunch-picker/email/EmailTask.php';
 header('Content-Type: application/json');
 ini_set('display_errors', 'Off');
 
+// validate POST data
 $formSubmitted = !empty($_POST['subscribe']);
-$formIsValid = !empty($_POST['email']) && !empty($_POST['cuisines']) && !empty($_POST['location']);
+$honeypotEmpty = empty($_POST['email']); // honeypot field should always be blank
+$formIsInvalid = empty($_POST['realemailaddress']) || empty($_POST['cuisines']) || empty($_POST['location']);
 
 // shouldn't be here
 if ($formSubmitted === false) {
@@ -14,20 +16,29 @@ if ($formSubmitted === false) {
 }
 
 // error in POST submission
-if ($formSubmitted && $formIsValid === false) {
-    echo json_encode(['error' => 'Did not receive proper POST data']);
+if ($formIsInvalid || !$honeypotEmpty) {
+    $response = [
+        'status' => 'error',
+        'message' => 'Did not receive valid POST data'
+    ];
+
+    echo json_encode($response);
     return;
 }
 
+// we have a valid request
 // save subscriber to DB
-if ($formSubmitted && $formIsValid) {
-    try {
-        $emailTask = new EmailTask();
-        $emailTask->subscribe($_POST['email'], $_POST['cuisines'], $_POST['location']);
-        $emailTask->closeDbConnection();
-        echo json_encode(['status' => 'success']);
-    } catch (Exception $e) {
-        echo json_encode(['error' => $e->getMessage()]);
-        return;
-    }
+$response = [];
+try {
+    $emailTask = new EmailTask();
+    $emailTask->subscribe($_POST['email'], $_POST['cuisines'], $_POST['location']);
+    $emailTask->closeDbConnection();
+    $response['status'] = 'success';
+} catch (Exception $e) {
+    $response['status'] = 'error';
+    $response['message'] = $e->getMessage();
+    return;
 }
+echo json_encode($response);
+
+return;
