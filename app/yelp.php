@@ -68,26 +68,17 @@ class Yelp
     public function run()
     {
         try {
-            // 1
             $this->parseGetParams($_GET);
 
-//            var_dump($_GET); die;
-            // 2
             if ($this->isBusinessRequest) {
                 $requestUrl = $this->buildBusinessRequestUrl();
             }
             else {
                 $requestUrl = $this->buildSearchRequestUrl();
             }
-
-            // 3
-//            var_dump($requestUrl);
-//            die;
             $responseData = $this->makeRequest($requestUrl);
 
-            // 4
             $this->jsonOutput($this->isBusinessRequest, $responseData);
-
         } catch(Exception $e) {
             http_response_code(500);
             die(json_encode(array('message' => $e->getMessage(), 'code' => 500)));
