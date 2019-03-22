@@ -186,6 +186,10 @@
         <!-- footer -->
         <div id="footer">
             <div class="footer-left">
+                <!--
+                    INTENTIONALLY DISABLED
+                    NOT READY FOR PRODUCTION
+
                 <p class="newsletter__link">
                     <button class="btn btn-link"
                        data-featherlight=".newsletter__form"
@@ -193,6 +197,7 @@
                        data-featherlight-variant="newsletter">subscribe</button>
                     for email notifications
                 </p>
+                <-->
 
                 <!-- Newsletter signup form (displayed in modal) -->
                 <div class="newsletter">
