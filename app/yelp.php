@@ -104,9 +104,9 @@ class Yelp
     protected function parseGetParams($getParams)
     {
         //
-        // Yelp Business details API business ID
+        // Yelp Business details API
         //
-        $this->businessId = $getParams['business'];
+        $this->businessId = (isset($getParams['business']) && !empty($getParams['business'])) ? $getParams['business'] : "";
         if (!empty($this->businessId)) {
             $this->isBusinessRequest = true;
         }
@@ -114,35 +114,12 @@ class Yelp
         //
         // Yelp Search API parameters
         //
-        $this->cuisines = $getParams['cuisines'];
-        if (empty($this->cuisines)) {
-            // default
-            $this->cuisines = ['restaurants'];
-        }
-
-        $this->location = $getParams['location'];
-        if (empty($this->location)) {
-            // default
-            $this->location = "San+Fransisco";
-        }
-
-        // Don't set default value
-        $this->geolocation = $getParams['geolocation'];
-
-        /**
-         *
-         */
-        $this->radius = $getParams['radius'];
-        if (empty($this->radius)) {
-            // default
-            $this->radius = '';
-        }
-
-        $this->price = $getParams['price'];
-        if (empty($this->price)) {
-            // default
-            $this->price = [1,2];
-        }
+        $this->cuisines = (isset($getParams['cuisines']) && !empty($getParams['cuisines'])) ? $getParams['cuisines'] : ['restaurants'];
+        $this->location = (isset($getParams['location']) && !empty($getParams['location'])) ? $getParams['location'] : "San+Fransisco";
+        $this->price = (isset($getParams['price']) && !empty($getParams['price'])) ? array($getParams['price']) : [1,2];
+        // No default value
+        $this->radius = (isset($getParams['radius']) && !empty($getParams['radius'])) ? $getParams['radius'] : "";
+        $this->geolocation = (isset($getParams['geolocation']) && !empty($getParams['geolocation'])) ? $getParams['geolocation'] : "";
     }
 
 
@@ -197,11 +174,8 @@ class Yelp
     protected function buildSearchRequestUrl()
     {
         $url = self::YELP_SEARCH_URL;
-
-        // Term (hardcoded)
         $url .= '?term=lunch';
 
-        // Cuisines
         if (is_array($this->cuisines)) {
             $url .= '&categories=' . implode(",", $this->cuisines);
         }
@@ -216,12 +190,9 @@ class Yelp
             $url .= "&location=".urlencode($this->location);
         }
 
-        // Radius
         if (!empty($this->radius)) {
             $url .= "&radius=$this->radius";
         }
-
-        // Price
         if (!empty($this->price)) {
             $url .= "&price=".implode(",", $this->price);
         }
