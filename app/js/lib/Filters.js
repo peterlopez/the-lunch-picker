@@ -59,7 +59,9 @@ function Filters()
         otherClose:     null,                  /* Selector for alternate close buttons (e.g. "a.close") */
         beforeOpen:     $.noop,                /* Called before open. can return false to prevent opening of lightbox. Gets event as parameter, this contains all data */
         beforeContent:  $.noop,                /* Called when content is about to be presented. `this` is the featherlight instance. Gets event as parameter */
-        beforeClose:    $.noop,                /* Called before close. can return false to prevent opening of lightbox. `this` is the featherlight instance. Gets event as parameter  */
+        beforeClose: function(event) {         /* Called before close. can return false to prevent opening of lightbox. `this` is the featherlight instance. Gets event as parameter  */
+            Filters.applyFiltersFromModal(this, event);
+        },
         afterOpen:      $.noop,                /* Called after open. `this` is the featherlight instance. Gets event as parameter  */
         afterContent:   $.noop,                /* Called after content is ready and has been set. Gets event as parameter, this contains all data */
         afterClose:     $.noop,                /* Called after close. `this` is the featherlight instance. Gets event as parameter  */
@@ -101,13 +103,13 @@ function Filters()
         // Open filters in flyouts on desktop
         else {
             this.bindFlyoutEventHandlers();
-
-            // Event handlers for various filter inputs
-            this.$locationInput.on('keypress', this.processLocationInput);
-            this.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
-            this.$cuisinesInputs.on('change', this.showApplyFilterBtn);
-            this.$priceInputs.on('change', this.showApplyFilterBtn);
         }
+
+        // Event handlers for various filter inputs
+        this.$locationInput.on('keypress', this.processLocationInput);
+        this.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
+        this.$cuisinesInputs.on('change', this.showApplyFilterBtn);
+        this.$priceInputs.on('change', this.showApplyFilterBtn);
 
         this.$filterApplyBtn.on('click', this.applyFilters);
     };
@@ -257,7 +259,7 @@ function Filters()
         var newState = event.target.checked;
 
         // apply newState to all checkboxes
-        var $cuisines = Filters.$cuisinesInputs;
+        var $cuisines = $(Filters.$cuisinesInputs.selector);
         $cuisines.each(function() {
             $(this).prop('checked', newState);
         });
@@ -287,12 +289,13 @@ function Filters()
      * replace original filter content with lightbox filter content
      * to overwrite any status changes
      * @callback beforeClose
+     * @param {featherlight} featherlight
      * @param {event} event
      */
-    this.applyFiltersFromModal = function(event)
+    this.applyFiltersFromModal = function(featherlight, event)
     {
-        var $content = this.$content[0];
-        var $dest = $(this.target);
+        var $content = featherlight.$content[0];
+        var $dest = $(featherlight.target);
         setTimeout(function () {
             $dest.replaceWith($content);
         }, 200);
