@@ -4,6 +4,7 @@ window.Yelp = new Yelp();
 window.Filters = new Filters();
 window.Spinner = new Spinner();
 window.Geolocation = new Geolocation();
+window.Email = new Email();
 
 $(document).ready(function() {
     addMobileClassToHtml(navigator.userAgent.toLowerCase());
@@ -12,4 +13,5 @@ $(document).ready(function() {
     Yelp.init();
     Filters.init();
     Geolocation.init();
+    Email.init();
 });

@@ -25,6 +25,9 @@ button {
 .no-padding {
   padding: 0;
 }
+.hidden {
+  display: none !important;
+}
 .wrapper {
   width: 67%;
   margin: 0 auto;
@@ -60,7 +63,7 @@ button {
     max-width: 300px;
   }
 }
-#toolbar {
+.toolbar {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -69,12 +72,12 @@ button {
   justify-content: space-between;
 }
 @media (max-width: $bp-md) {
-  #toolbar {
+  .toolbar {
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  #toolbar .action-buttons {
+  .toolbar .action-buttons {
     width: 100%;
     text-align: center;
   }
@@ -87,17 +90,35 @@ button {
   font-size: 8pt;
   display: flex;
   justify-content: space-between;
-}
-.yelp-credentials img {
-  height: 14pt;
-  margin-bottom: 5px ;
+
+  .newsletter__link {
+    font-size: 10pt;
+
+    // over-ride Bootstrap link button
+    button {
+      padding: 0;
+      margin: 0;
+      border: none;
+      font-size: 11pt;
+    }
+  }
+  .yelp-credentials img {
+    height: 14pt;
+    margin-bottom: 5px ;
+  }
 }
 @media (max-width: $bp-sm) {
   #footer {
     flex-direction: column;
     align-items: center;
-  }
-  .yelp-credentials {
-    margin-bottom: 10px;
+
+    .newsletter__link {
+      margin-bottom: 10px;
+      font-size: 9pt;
+    }
+    .footer-right {
+      width: 100%;
+      text-align: center;
+    }
   }
 }
