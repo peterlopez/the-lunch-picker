@@ -182,7 +182,9 @@ class Yelp
         }
 
         if (!empty($this->radius)) {
-            $url .= "&radius=$this->radius";
+            // Convert from miles to meters
+            $radiusInMeters = floor($this->radius * 1609.34);
+            $url .= "&radius=$radiusInMeters";
         }
         if (!empty($this->price)) {
             $url .= "&price=".implode(",", $this->price);
