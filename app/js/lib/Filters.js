@@ -26,6 +26,9 @@ function Filters()
     this.$geolocationToggleBtn = $(".location-content.flyout button");
     this.$geolocationLoading = $(".location-content.flyout .loading-spinner");
 
+    // radius filter input
+    this.$radiusInput = $(".location-content.flyout  input[name='radius']");
+
     // price filter inputs
     this.$priceInputs = $('.prices-list.flyout input');
 
@@ -107,6 +110,7 @@ function Filters()
             this.$allCuisinesCheckbox.on('change', this.toggleAllCuisines);
             this.$cuisinesInputs.on('change', this.showApplyFilterBtn);
             this.$priceInputs.on('change', this.showApplyFilterBtn);
+            this.$radiusInput.on('change', this.showApplyFilterBtn);
         }
 
         this.$filterApplyBtn.on('click', this.applyFilters);
