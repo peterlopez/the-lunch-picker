@@ -188,6 +188,9 @@ class Yelp
             $url .= "&price=".implode(",", $this->price);
         }
 
+        // Filter by open now
+        $url .= "&open_now=1";
+
         return $url;
     }
 
