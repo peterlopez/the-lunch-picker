@@ -116,11 +116,19 @@
                                 <p class="filter-title">Location</p>
                                 <p class="filter-title blank">&nbsp;</p>
                                 <div class="location-content flyout">
+                                    <!-- Geolocation -->
                                     <button type="button" class="geolocate btn btn-link">locate me</button>
                                     <p class="geolocation-error" style="display: none;">error fetching geolocation</p>
+                                    <input type="hidden" name="geolocation" />
+
+                                    <!-- User input location -->
                                     <input class="newsletter__locationinput" type="text" name="location" autocomplete="address-level2" placeholder="San Fransisco, CA" />
                                     <img class="loading-spinner" src="assets/img/loading.svg" alt="" title="" style="display: none;" />
-                                    <input type="hidden" name="geolocation" />
+
+                                    <!-- Radius -->
+                                    <label id="radiusinputlabel" for="radius-input">
+                                        <input type="number" id="radius-input" class="radiusinput" name="radius" value="5" max="30" min="5" step="5" /> miles
+                                    </label>
                                 </div>
                             </div>
                         </div>

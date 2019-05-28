@@ -148,7 +148,7 @@ function Spinner()
         var output = "<div class='" + Spinner.listCSSClass + "'>";
         for(var i=0; i < restaurants.length; i++) {
             var restaurant = restaurants[i];
-            output += "<div class='restaurant item'><a href='" + restaurant['url'] + "' target='_blank'>";
+            output += "<div class='restaurant item'><a href='" + restaurant['url'] + "'>";
             output +=   "<p class='restaurant-name'>" + restaurant['name'] + "</p>";
             output += "</a></div>";
         }

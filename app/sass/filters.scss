@@ -191,16 +191,26 @@
     background-size: 18px;
   }
 }
-.location-content.flyout input {
-  width: 100%;
-  border: 1px solid black;
+.location-content.flyout .newsletter__locationinput,
+.location-content.flyout .radiusinput {
+  border: 1px solid $dark-grey;
   margin-top: 10px;
   padding: 2px 5px;
   outline: none;
 }
+.location-content.flyout .newsletter__locationinput {
+  width: 100%;
+}
+.location-content.flyout .radiusinput {
+  width: 40px;
+  margin-right: 5px;
+}
 .location-content .loading-spinner {
   width: 40%;
   margin: 0 auto;
+}
+.location-content .btn.geolocate {
+  margin-left: -.75rem;
 }
 .location-content .geolocation-error {
   font-size: 10pt;
@@ -301,8 +311,14 @@
       padding-bottom: 30px;
       min-height: 100px; // prevent flicker while hiding/showing content
 
-      input {
+      .newsletter__locationinput {
         width: 85%;
+      }
+      .radiusinput {
+        width: 40px;
+      }
+      #radiusinputlabel {
+        width: 100%;
       }
       .loading-spinner {
         width: 50%;
