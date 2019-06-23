@@ -17,7 +17,7 @@
     <meta property="og:description" content="Find a bite to eat" />
     <meta property="og:url" content="https://thelunchpicker.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
 
     <!-- CSS libraries -->
     <link rel="stylesheet" href="build/vendor.css" type="text/css">

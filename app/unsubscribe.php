@@ -48,7 +48,7 @@ if ($formSubmitted && $formIsValid) {
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
 
     <!-- CSS libraries -->
     <link rel="stylesheet" href="build/vendor.css" type="text/css">
