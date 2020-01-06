@@ -21,10 +21,10 @@ Steps to setup local development environment:
 
 1. `git clone`
 1. `npm install`
+1. Get API key from Yelp and put it into `.env` file with name `YELP_TOKEN`
 1. `docker-compose up -d`
 1. `php composer.phar install` *optional for newsletter
 1. `gulp watch`
-1. develop away!
 
 ## Contributing
 
